@@ -93,8 +93,9 @@ icon_potions = Icon(image="Potions_table_icon.jpg", type="potions")
 
 
 class Item:
-    def __init__(self, image, type_of_item, parametres, price=0):
+    def __init__(self, image, type_of_item, parametres, price=0, name="unnamed"):
         self.image = load_image(image, colorkey=-1)
+        self.name = name
         self.image_name = image
         self.sprite = pygame.sprite.Sprite()
         self.sprite.image = self.image
@@ -170,6 +171,9 @@ class Inventory(Board):
                     ex.clear()
                 ex = ExtraMenu(self.inv_collection[cell[1]][cell[0]])
                 ex.render(screen)
+            elif self.inv_collection[cell[1]][cell[0]] is not None:
+                print(f"Вы удалили {self.inv_collection[cell[1]][cell[0]].name}")
+                self.destroy_item(cell)
 
 
 player_balance = 0
@@ -275,6 +279,8 @@ while running:
             if event.button == 1:
                 inventory.get_click(event.pos)
                 Ludovik.get_click(event.pos)
+            else:
+                inventory.get_click(event.pos)
 
     inventory.render(screen)
     Ludovik.inventory.render(screen)
