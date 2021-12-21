@@ -259,7 +259,11 @@ screen.blit(text, (text_x, text_y))
 p = Item("Potion_healthy.jpg", "potions", {'duration': 60, 'power': 1})
 inventory.take_item(p)
 
-is_alone = True
+is_alone = False
+Ludovik = Merchantry(inventory, 1000, "Ludovik")
+Ludovik.inventory.current_image = Ludovik.inventory.icons[1]
+Ludovik.inventory.take_item(p)
+Ludovik.inventory.render(screen)
 
 all_sprites.draw(screen)
 running = True
@@ -270,8 +274,10 @@ while running:
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 inventory.get_click(event.pos)
+                Ludovik.get_click(event.pos)
 
     inventory.render(screen)
+    Ludovik.inventory.render(screen)
     pygame.display.flip()
 
 pygame.quit()
