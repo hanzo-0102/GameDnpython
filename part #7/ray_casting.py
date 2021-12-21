@@ -15,10 +15,8 @@ def ray_casting(player_pos, player_angle, world_map):
     xm, ym = mapping(ox, oy)
     cur_angle = player_angle - HALF_FOV
     for ray in range(NUM_RAYS):
-        sin_a = math.sin(cur_angle)
-        sin_a = sin_a if sin_a else 0.000001
-        cos_a = math.cos(cur_angle)
-        cos_a = cos_a if cos_a else 0.000001
+        sin_a = math.sin(cur_angle) if math.sin(cur_angle) else 0.000001
+        cos_a = math.cos(cur_angle) if math.cos(cur_angle) else 0.000001
 
         # verticals
         x, dx = (xm + TILE, 1) if cos_a >= 0 else (xm, -1)
