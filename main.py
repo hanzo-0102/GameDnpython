@@ -165,7 +165,6 @@ class Inventory(Board):
     def on_click(self, cell):
         if cell is not None:
             if is_alone and self.inv_collection[cell[1]][cell[0]] is not None:
-                # self.destroy_item(cell)
                 global ex
                 if ex is not None:
                     ex.clear()
@@ -204,8 +203,7 @@ class Merchantry:
     def on_click(self, cell):
         if cell is not None:
             t = copy.copy(self.inventory.inv_collection[cell[1]][cell[0]])
-            if t is not None and '''t.price <= player_balance''':
-                # player_balance -= t.price
+            if t is not None:
                 self.inventory.destroy_item(cell)
                 self.player_inventory.take_item(t)
                 print(f"Обмен осуществлён между {self.name} и Player")
