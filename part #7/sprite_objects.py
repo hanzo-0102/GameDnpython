@@ -8,33 +8,17 @@ from ray_casting import mapping
 class Sprites:
     def __init__(self):
         self.sprite_parameters = {
-            'sprite_barrel': {
-                'sprite': pygame.image.load('sprites/barrel/base/0.png').convert_alpha(),
+            'sprite_vase': {
+                'sprite': pygame.image.load('sprites/vase/base/0.png').convert_alpha(),
                 'viewing_angles': None,
                 'shift': 0.6,
                 'scale': (0.8, 0.8),
                 'side': 30,
                 'animation': deque(
-                    [pygame.image.load(f'sprites/barrel/anim/{i}.png').convert_alpha() for i in range(1)]),
+                    [pygame.image.load(f'sprites/vase/anim/{i}.png').convert_alpha() for i in range(1)]),
                 'death_animation': [],
                 'is_dead': 'immortal',
                 'dead_shift': 2.6,
-                'animation_dist': 800,
-                'animation_speed': 10,
-                'blocked': True,
-                'flag': 'decor',
-                'obj_action': []
-            },
-            'sprite_pin': {
-                'sprite': pygame.image.load('sprites/pin/base/0.png').convert_alpha(),
-                'viewing_angles': None,
-                'shift': 0.6,
-                'scale': (0.6, 0.6),
-                'side': 30,
-                'animation': deque([pygame.image.load(f'sprites/pin/anim/{i}.png').convert_alpha() for i in range(8)]),
-                'death_animation': [],
-                'is_dead': 'immortal',
-                'dead_shift': None,
                 'animation_dist': 800,
                 'animation_speed': 10,
                 'blocked': True,
@@ -76,38 +60,6 @@ class Sprites:
                 'obj_action': deque(
                     [pygame.image.load(f'sprites/orc/anim/{i}.png').convert_alpha() for i in range(3)]),
             },
-            'sprite_door_v': {
-                'sprite': [pygame.image.load(f'sprites/doors/door_v/{i}.png').convert_alpha() for i in range(16)],
-                'viewing_angles': True,
-                'shift': 0.1,
-                'scale': (2.6, 1.2),
-                'side': 100,
-                'animation': [],
-                'death_animation': [],
-                'is_dead': 'immortal',
-                'dead_shift': 0,
-                'animation_dist': 0,
-                'animation_speed': 0,
-                'blocked': True,
-                'flag': 'door_h',
-                'obj_action': []
-            },
-            'sprite_door_h': {
-                'sprite': [pygame.image.load(f'sprites/doors/door_h/{i}.png').convert_alpha() for i in range(16)],
-                'viewing_angles': True,
-                'shift': 0.1,
-                'scale': (2.6, 1.2),
-                'side': 100,
-                'animation': [],
-                'death_animation': [],
-                'is_dead': 'immortal',
-                'dead_shift': 0,
-                'animation_dist': 0,
-                'animation_speed': 0,
-                'blocked': True,
-                'flag': 'door_v',
-                'obj_action': []
-            },
             'npc_skeleton': {
                 'sprite': [pygame.image.load(f'sprites/skeleton/base/{i // 2}.png').convert_alpha() for i in range(8)],
                 'viewing_angles': True,
@@ -129,9 +81,8 @@ class Sprites:
         }
 
         self.list_of_objects = [
-            SpriteObject(self.sprite_parameters['sprite_barrel'], (7.1, 2.1)),
-            SpriteObject(self.sprite_parameters['sprite_barrel'], (5.9, 2.1)),
-            SpriteObject(self.sprite_parameters['sprite_pin'], (8.7, 2.5)),
+            SpriteObject(self.sprite_parameters['sprite_vase'], (7.1, 2.1)),
+            SpriteObject(self.sprite_parameters['sprite_vase'], (5.9, 2.1)),
             SpriteObject(self.sprite_parameters['npc_orc'], (7, 4), 0.01, 10),
             SpriteObject(self.sprite_parameters['sprite_flame'], (8.6, 5.6), 0.005, 2),
             SpriteObject(self.sprite_parameters['npc_skeleton'], (2.5, 1.5), 0.005, 2),
