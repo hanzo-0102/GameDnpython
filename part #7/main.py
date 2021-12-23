@@ -19,6 +19,7 @@ pygame.mouse.set_visible(False)
 interaction.play_music()
 
 while True:
+    pygame.mixer.music.set_volume(VOLUME / 100)
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_1]:
@@ -34,7 +35,7 @@ while True:
     walls, wall_shot = ray_casting_walls(player, drawing.textures)
     drawing.world(walls + [obj.object_locate(player) for obj in sprites.list_of_objects])
     drawing.fps(clock)
-    drawing.mini_map(player)
+    drawing.mini_map(player, sprites)
     drawing.gui(player)
     drawing.player_weapon([wall_shot, sprites.sprite_shot])
 
@@ -43,10 +44,10 @@ while True:
             if (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) < 170):
                 player.dmg(i.damag)
 
+    sprites.clearing(player)
     interaction.interaction_objects()
     interaction.npc_action()
     interaction.clear_world()
-    interaction.check_win()
 
     pygame.display.flip()
     clock.tick()

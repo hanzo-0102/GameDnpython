@@ -10,6 +10,7 @@ DOUBLE_HEIGHT = 2 * HEIGHT
 FPS = 120
 TILE = 100
 FPS_POS = (WIDTH - 65, 5)
+VOLUME = 1
 
 # minimap settings
 MINIMAP_SCALE = 5

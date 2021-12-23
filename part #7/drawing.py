@@ -61,7 +61,7 @@ class Drawing:
         render = self.font.render(display_fps, 0, DARKORANGE)
         self.sc.blit(render, FPS_POS)
 
-    def mini_map(self, player):
+    def mini_map(self, player, sprites):
         self.sc_map.fill(BLACK)
         map_x, map_y = player.x // MAP_SCALE, player.y // MAP_SCALE
         pygame.draw.line(self.sc_map, YELLOW, (map_x, map_y), (map_x + 12 * math.cos(player.angle),
@@ -69,6 +69,10 @@ class Drawing:
         pygame.draw.circle(self.sc_map, RED, (int(map_x), int(map_y)), 5)
         for x, y in mini_map:
             pygame.draw.rect(self.sc_map, DARKBROWN, (x, y, MAP_TILE, MAP_TILE))
+        for i in sprites.list_of_objects:
+            if i.is_dead != 'immortal':
+                x, y = i.pos
+                pygame.draw.circle(self.sc_map, WHITE, (x // MAP_SCALE, y // MAP_SCALE), 3)
         self.sc.blit(self.sc_map, MAP_POS)
 
     def gui(self, player):

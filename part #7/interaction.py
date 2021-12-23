@@ -76,7 +76,7 @@ class Interaction:
                     obj.npc_action_trigger = False
 
     def npc_move(self, obj):
-        if abs(obj.distance_to_sprite) > TILE:
+        if (abs(obj.distance_to_sprite) > TILE):
             dx = obj.x - self.player.pos[0]
             dy = obj.y - self.player.pos[1]
             obj.x = obj.x + 1 if dx < 0 else obj.x - 1
@@ -91,14 +91,3 @@ class Interaction:
         pygame.mixer.init()
         pygame.mixer.music.load('sound/theme.mp3')
         pygame.mixer.music.play(10)
-
-    def check_win(self):
-        if not len([obj for obj in self.sprites.list_of_objects if obj.flag == 'npc' and not obj.is_dead]):
-            pygame.mixer.music.stop()
-            pygame.mixer.music.load('sound/win.mp3')
-            pygame.mixer.music.play()
-            while True:
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        exit()
-                self.drawing.win()
