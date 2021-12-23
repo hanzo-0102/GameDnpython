@@ -175,21 +175,15 @@ class SpriteObject:
             shift = half_sprite_height * self.shift
 
             # logic for doors, npc, decor
-            if self.flag in {'door_h', 'door_v'}:
-                if self.door_open_trigger:
-                    self.open_door()
+            if self.is_dead and self.is_dead != 'immortal':
+                sprite_object = self.dead_animation()
+                shift = half_sprite_height * self.dead_shift
+                sprite_height = int(sprite_height / 1.3)
+            elif self.npc_action_trigger:
+                sprite_object = self.npc_in_action()
+            else:
                 self.object = self.visible_sprite()
                 sprite_object = self.sprite_animation()
-            else:
-                if self.is_dead and self.is_dead != 'immortal':
-                    sprite_object = self.dead_animation()
-                    shift = half_sprite_height * self.dead_shift
-                    sprite_height = int(sprite_height / 1.3)
-                elif self.npc_action_trigger:
-                    sprite_object = self.npc_in_action()
-                else:
-                    self.object = self.visible_sprite()
-                    sprite_object = self.sprite_animation()
 
 
             # sprite scale and pos
