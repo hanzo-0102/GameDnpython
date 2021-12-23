@@ -63,10 +63,6 @@ class Interaction:
                                     obj.is_dead = True
                                     obj.blocked = None
                                     self.drawing.shot_animation_trigger = False
-                        if obj.flag in {'door_h', 'door_v'} and obj.distance_to_sprite < TILE:
-                            obj.door_open_trigger = True
-                            obj.blocked = None
-                        break
 
     def npc_action(self):
         for obj in self.sprites.list_of_objects:
