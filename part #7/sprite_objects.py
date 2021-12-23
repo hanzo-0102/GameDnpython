@@ -98,15 +98,6 @@ class Sprites:
     def sprite_shot(self):
         return min([obj.is_on_fire for obj in self.list_of_objects], default=(float('inf'), 0))
 
-    @property
-    def blocked_doors(self):
-        blocked_doors = {}
-        for obj in self.list_of_objects:
-            if obj.flag in {'door_h', 'door_v'} and obj.blocked:
-                i, j = mapping(obj.x, obj.y)
-                blocked_doors[(i, j)] = 0
-        return blocked_doors
-
 
 class SpriteObject:
     def __init__(self, parameters, pos, damag=0, health=0):

@@ -56,7 +56,7 @@ class Interaction:
                             obj.health -= self.player.weapon.damage
                             if obj.health <= 0:
                                 if ray_casting_npc_player(obj.x, obj.y,
-                                                          self.sprites.blocked_doors,
+                                                          [],
                                                           world_map, self.player.pos):
                                     if obj.flag == 'npc':
                                         self.pain_sound.play()
@@ -68,7 +68,7 @@ class Interaction:
         for obj in self.sprites.list_of_objects:
             if obj.flag == 'npc' and not obj.is_dead:
                 if ray_casting_npc_player(obj.x, obj.y,
-                                          self.sprites.blocked_doors,
+                                          [],
                                           world_map, self.player.pos):
                     obj.npc_action_trigger = True
                     self.npc_move(obj)
