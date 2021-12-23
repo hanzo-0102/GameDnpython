@@ -236,13 +236,3 @@ class SpriteObject:
             self.obj_action.rotate()
             self.animation_count = 0
         return sprite_object
-
-    def open_door(self):
-        if self.flag == 'door_h':
-            self.y -= 3
-            if abs(self.y - self.door_prev_pos) > TILE:
-                self.delete = True
-        elif self.flag == 'door_v':
-            self.x -= 3
-            if abs(self.x - self.door_prev_pos) > TILE:
-                self.delete = True
