@@ -3,6 +3,7 @@ from sprite_objects import *
 from ray_casting import ray_casting_walls
 from drawing import Drawing
 from interaction import Interaction
+from map import world_map
 
 pygame.init()
 sc = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -44,7 +45,7 @@ while True:
             if (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) < 170):
                 player.dmg(i.damag)
 
-    sprites.clearing(player)
+    sprites.clearing(player, world_map)
     interaction.interaction_objects()
     interaction.npc_action()
     interaction.clear_world()

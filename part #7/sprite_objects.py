@@ -101,13 +101,15 @@ class Sprites:
         return min([obj.is_on_fire for obj in self.list_of_objects], default=(float('inf'), 0))
 
 
-    def clearing(self, player):
-        places_to_spawn = [(1.26, 8.29), (8.75, 3.65), (7.68, 1.47), (14, 2), (10, 17), (8.6, 5.6)]
+    def clearing(self, player, world_map):
         if len(self.list_of_objects) > 10:
             for i in self.list_of_objects:
                 if i.is_dead and i.is_dead != 'immortal' and i.time_dead >= 100:
                     del self.list_of_objects[self.list_of_objects.index(i)]
-                    self.spawn('npc_skeleton', places_to_spawn[random.randint(0, len(places_to_spawn) - 1)], 0.005, 2)
+                    x, y = random.randint(1, 21), random.randint(1, 13)
+                    while (x, y) in world_map.keys():
+                        x, y = random.randint(1, 21), random.randint(1, 13)
+                    self.spawn('npc_skeleton', (x, y), 0.005, 2)
                     self.list_of_objects[-1].object_locate(player)
                 elif i.is_dead != 'immortal' and i.is_dead:
                     i.time_dead += 1
