@@ -127,6 +127,7 @@ class Drawing:
         exit = button_font.render('EXIT', 1, pygame.Color('black'))
         button_exit = pygame.Rect(0, 0, 400, 150)
         button_exit.center = HALF_WIDTH, HALF_HEIGHT + 200
+        step = 1
 
         while self.menu_trigger:
             for event in pygame.event.get():
@@ -134,8 +135,12 @@ class Drawing:
                     pygame.quit()
                     sys.exit()
 
-            self.sc.blit(self.menu_picture, (0, 0), (x % WIDTH, HALF_HEIGHT, WIDTH, HEIGHT))
-            x += 1
+            self.sc.blit(self.menu_picture, (0, 0), (x, HALF_HEIGHT, WIDTH, HEIGHT))
+            x += step
+            if x == 0:
+                step = 1
+            elif x == WIDTH:
+                step = -1
 
             pygame.draw.rect(self.sc, BLACK, button_start, border_radius=25, width=10)
             self.sc.blit(start, (button_start.centerx - 130, button_start.centery - 70))
