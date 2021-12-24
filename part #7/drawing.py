@@ -112,15 +112,6 @@ class Drawing:
             self.sfx_length_count += 1
             self.sfx.rotate(-1)
 
-    def win(self):
-        render = self.font_win.render('YOU WIN!!!', 1, (randrange(40, 120), 0, 0))
-        rect = pygame.Rect(0, 0, 1000, 300)
-        rect.center = HALF_WIDTH, HALF_HEIGHT
-        pygame.draw.rect(self.sc, BLACK, rect, border_radius=50)
-        self.sc.blit(render, (rect.centerx - 430, rect.centery - 140))
-        pygame.display.flip()
-        self.clock.tick(15)
-
     def menu(self):
         x = 0
         button_font = pygame.font.Font('font/font.ttf', 72)
