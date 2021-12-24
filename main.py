@@ -104,6 +104,9 @@ class Item:
         self.type_item = type_of_item
         self.price = price
 
+    def upgrade_something(self, paremeter, new_level):
+        self.parametres[paremeter] = new_level
+
 
 ex = None
 
@@ -215,16 +218,29 @@ class Merchantry:
                 print("Недостаточно денег для покупки данного товара")
 
 
-class UpgradeButton:
-    def __init__(self):
-        pass
+class UpgradeButton(pygame.sprite.Sprite):
+    def __init__(self, name, parameter, item):
+        super().__init__(all_sprites)
+        self.parameter = parameter
+        self.item = item
+        self.image = load_image(name)
+        self.mask = pygame.mask.from_surface(self.image)
+        self.rect = self.image.get_rect()
+
+    def upg(self, event):
+        item = self.item
+
+        if self.rect.collidepoint(event.pos):
+            item.upgrade_something(self.parameter, item.parametres[self.parameter] + 1)
 
 
 class ExtraMenu:
     def __init__(self, item):
         self.parametres = item.parametres
+        self.item = item
         self.top, self.left = 100, 650
         self.all_texts = []
+        self.up_buttons = []
 
     def render(self, screen):
         self.clear()
@@ -242,12 +258,22 @@ class ExtraMenu:
             text_ws, text_hs = texts.get_width(), texts.get_height()
             screen.blit(texts, (text_xs, text_ys))
             self.all_texts.append((texts, text_xs, text_ys))
+
+            current_button = UpgradeButton("up_btn_icon.jpg", str(i), self.item)
+            all_sprites.add(current_button)
+            current_button.rect.x = 700
+            current_button.rect.y = 300
+            self.up_buttons.append(current_button)
+
+            all_sprites.draw(screen)
             k += 1
 
     def clear(self):
         for i in self.all_texts:
             i[0].fill((0, 0, 0))
             screen.blit(i[0], (i[1], i[2]))
+        for i in self.up_buttons:
+            all_sprites.remove(i)
 
 
 inventory = Inventory(19, 19, [icon_swords, icon_potions])
@@ -267,11 +293,7 @@ screen.blit(text, (text_x, text_y))
 p = Item("Potion_healthy.jpg", "potions", {'duration': 60, 'power': 1}, price=10)
 inventory.take_item(p)
 
-is_alone = False
-Ludovik = Merchantry(inventory, 1000, "Ludovik")
-Ludovik.inventory.current_image = Ludovik.inventory.icons[1]
-Ludovik.inventory.take_item(p)
-Ludovik.inventory.render(screen)
+is_alone = True
 
 all_sprites.draw(screen)
 running = True
@@ -280,11 +302,10 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1:
-                inventory.get_click(event.pos)
-                Ludovik.get_click(event.pos)
-            else:
-                inventory.get_click(event.pos)
+            inventory.get_click(event.pos)
+            if ex is not None:
+                for i in ex.up_buttons:
+                    i.upg(event)
 
     text.fill((0, 0, 0))
     screen.blit(text, (text_x, text_y))
@@ -292,7 +313,6 @@ while running:
     screen.blit(text, (text_x, text_y))
 
     inventory.render(screen)
-    Ludovik.inventory.render(screen)
     pygame.display.flip()
 
 pygame.quit()
