@@ -1,3 +1,5 @@
+import pygame
+
 from player import Player
 from sprite_objects import *
 from ray_casting import ray_casting_walls
@@ -51,4 +53,5 @@ while True:
     interaction.clear_world()
 
     pygame.display.flip()
-    clock.tick()
+    clock.tick(FPS)
+pygame.quit()

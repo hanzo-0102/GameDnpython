@@ -8,7 +8,7 @@ balance = 0
 
 
 def load_image(name, colorkey=None):
-    fullname = os.path.join('part #7/Icons', name)
+    fullname = os.path.join('Icons', name)
     if not os.path.isfile(fullname):
         print(f"Файл с изображением '{fullname}' не найден")
         sys.exit()
@@ -29,9 +29,9 @@ class Board:
         self.height = height
         self.board = [[0 for i in range(width)] for j in range(height)]
 
-        self.left = 40
-        self.top = 40
-        self.cell_size = 30
+        self.left = 30
+        self.top = 30
+        self.cell_size = 33
 
     def view(self, left, top, cell_size):
         self.left = left
@@ -41,14 +41,8 @@ class Board:
     def render(self, screen):
         for y in range(self.height):
             for x in range(self.width):
-                pygame.draw.rect(screen, (0, 0, 0),
-                                 (self.cell_size * x + self.left,
-                                 self.cell_size * y + self.top,
-                                 self.cell_size, self.cell_size))
-                pygame.draw.rect(screen, (255, 255, 255),
-                                 (self.cell_size * x + self.left,
-                                  self.cell_size * y + self.top,
-                                  self.cell_size, self.cell_size), 1)
+                screen.blit(load_image('emptyslot.png'),
+                            (x * self.cell_size + self.left, y * self.cell_size + self.top))
 
     def get_cell(self, mouse_pos):
         x, y = mouse_pos
@@ -166,7 +160,7 @@ class Inventory(Board):
 
 class Merchantry:
     def __init__(self, player_inventory, balance_m, name):
-        self.inventory = Inventory(19, 19, copy.copy([icon_swords, icon_potions]))
+        self.inventory = Inventory(10, 10, copy.copy([icon_swords, icon_potions]))
         self.inventory.left = 650
         self.name = name
         self.player_inventory = player_inventory
@@ -196,7 +190,7 @@ class Merchantry:
                 print(f"Обмен осуществлён между {self.name} и Player")
 
 
-inventory = Inventory(19, 19, [icon_swords, icon_potions])
+inventory = Inventory(10, 10, [icon_swords, icon_potions])
 
 temp = Item("knife.jpg", "swords")
 
