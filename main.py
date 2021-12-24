@@ -40,8 +40,8 @@ class Board:
             for x in range(self.width):
                 pygame.draw.rect(screen, (0, 0, 0),
                                  (self.cell_size * x + self.left,
-                                 self.cell_size * y + self.top,
-                                 self.cell_size, self.cell_size))
+                                  self.cell_size * y + self.top,
+                                  self.cell_size, self.cell_size))
                 pygame.draw.rect(screen, (255, 255, 255),
                                  (self.cell_size * x + self.left,
                                   self.cell_size * y + self.top,
@@ -49,8 +49,8 @@ class Board:
 
     def get_cell(self, mouse_pos):
         x, y = mouse_pos
-        if not(self.left <= x <= self.left + self.width * self.cell_size) or \
-                not(self.top <= y <= self.top + self.height * self.cell_size):
+        if not (self.left <= x <= self.left + self.width * self.cell_size) or \
+                not (self.top <= y <= self.top + self.height * self.cell_size):
             return None
         x -= self.left
         y -= self.top
@@ -131,7 +131,8 @@ class Inventory(Board):
                 if self.inv_collection[i][j] is None:
                     self.inv_collection[i][j] = Item(image=item.image_name,
                                                      type_of_item=item.type_item,
-                                                     price=item.price, parametres=item.parametres, costs_of_upds=item.costs_of_upds)
+                                                     price=item.price, parametres=item.parametres,
+                                                     costs_of_upds=item.costs_of_upds)
                     self.render(screen)
                     return
 
@@ -236,11 +237,11 @@ class UpgradeButton(pygame.sprite.Sprite):
 
         global player_balance
 
-        if player_balance >= self.item.costs_of_upds[self.parameter]:
-            player_balance -= self.item.costs_of_upds[self.parameter]
-            self.item.costs_of_upds[self.parameter] **= 2
+        if self.rect.collidepoint(event.pos):
+            if player_balance >= self.item.costs_of_upds[self.parameter]:
+                player_balance -= self.item.costs_of_upds[self.parameter]
+                self.item.costs_of_upds[self.parameter] **= 2
 
-            if self.rect.collidepoint(event.pos):
                 item.upgrade_something(self.parameter, item.parametres[self.parameter] + 1)
         else:
             print(f"Недостаточно денег для того, чтобы улучшить {item.name}")
