@@ -79,8 +79,17 @@ class Interaction:
         if (abs(obj.distance_to_sprite) > TILE):
             dx = obj.x - self.player.pos[0]
             dy = obj.y - self.player.pos[1]
-            obj.x = obj.x + 1 if dx < 0 else obj.x - 1
-            obj.y = obj.y + 1 if dy < 0 else obj.y - 1
+            obj.x = obj.x + obj.speed if dx < 0 else obj.x - obj.speed
+            obj.y = obj.y + obj.speed if dy < 0 else obj.y - obj.speed
+            if (obj.x, obj.y) in world_map.keys():
+                for a in range(-1, 1):
+                    for b in range(-1, 1):
+                        if (obj.x + a, obj.y + b) not in world_map.keys():
+                            obj.x += a
+                            obj.y += b
+                            break
+            if obj.x < 0 or obj.x > 24 or obj.y < 0 or obj.y > 15:
+                del obj
 
     def clear_world(self):
         deleted_objects = self.sprites.list_of_objects[:]

@@ -85,15 +85,15 @@ class Sprites:
         self.list_of_objects = [
             SpriteObject(self.sprite_parameters['sprite_vase'], (7.1, 2.1)),
             SpriteObject(self.sprite_parameters['sprite_vase'], (5.9, 2.1)),
-            SpriteObject(self.sprite_parameters['npc_orc'], (7, 4), 0.01, 10),
+            SpriteObject(self.sprite_parameters['npc_orc'], (7, 4), 0.01, 10, 1),
             SpriteObject(self.sprite_parameters['sprite_flame'], (8.6, 5.6), 0.005, 2),
-            SpriteObject(self.sprite_parameters['npc_skeleton'], (2.5, 1.5), 0.005, 2),
-            SpriteObject(self.sprite_parameters['npc_skeleton'], (5.51, 1.5), 0.005, 2),
-            SpriteObject(self.sprite_parameters['npc_skeleton'], (6.61, 2.92), 0.005, 2),
-            SpriteObject(self.sprite_parameters['npc_skeleton'], (7.68, 1.47), 0.005, 2),
-            SpriteObject(self.sprite_parameters['npc_skeleton'], (8.75, 3.65), 0.005, 2),
-            SpriteObject(self.sprite_parameters['npc_skeleton'], (1.27, 11.5), 0.005, 2),
-            SpriteObject(self.sprite_parameters['npc_skeleton'], (1.26, 8.29), 0.005, 2),
+            SpriteObject(self.sprite_parameters['npc_skeleton'], (2.5, 1.5), 0.005, 2, 2),
+            SpriteObject(self.sprite_parameters['npc_skeleton'], (5.51, 1.5), 0.005, 2, 2),
+            SpriteObject(self.sprite_parameters['npc_skeleton'], (6.61, 2.92), 0.005, 2, 2),
+            SpriteObject(self.sprite_parameters['npc_skeleton'], (7.68, 1.47), 0.005, 2, 2),
+            SpriteObject(self.sprite_parameters['npc_skeleton'], (8.75, 3.65), 0.005, 2, 2),
+            SpriteObject(self.sprite_parameters['npc_skeleton'], (1.27, 11.5), 0.005, 2, 2),
+            SpriteObject(self.sprite_parameters['npc_skeleton'], (1.26, 8.29), 0.005, 2, 2),
         ]
 
     @property
@@ -121,7 +121,8 @@ class Sprites:
 
 
 class SpriteObject:
-    def __init__(self, parameters, pos, damag=0, health=0):
+    def __init__(self, parameters, pos, damag=0, health=0, speed=0):
+        self.speed = speed
         self.damag = damag
         self.health = health
         self.object = parameters['sprite'].copy()
