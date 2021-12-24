@@ -93,7 +93,7 @@ icon_potions = Icon(image="Potions_table_icon.jpg", type="potions")
 
 
 class Item:
-    def __init__(self, image, type_of_item, parametres, price=0, name="unnamed"):
+    def __init__(self, image, type_of_item, parametres, costs_of_upds, price=0, name="unnamed"):
         self.image = load_image(image, colorkey=-1)
         self.name = name
         self.image_name = image
@@ -103,6 +103,7 @@ class Item:
         self.parametres = parametres
         self.type_item = type_of_item
         self.price = price
+        self.costs_of_upds = costs_of_upds
 
     def upgrade_something(self, paremeter, new_level):
         self.parametres[paremeter] = new_level
@@ -130,7 +131,7 @@ class Inventory(Board):
                 if self.inv_collection[i][j] is None:
                     self.inv_collection[i][j] = Item(image=item.image_name,
                                                      type_of_item=item.type_item,
-                                                     price=item.price, parametres=item.parametres)
+                                                     price=item.price, parametres=item.parametres, costs_of_upds=item.costs_of_upds)
                     self.render(screen)
                     return
 
@@ -233,8 +234,16 @@ class UpgradeButton(pygame.sprite.Sprite):
     def update(self, event):
         item = self.item
 
-        if self.rect.collidepoint(event.pos):
-            item.upgrade_something(self.parameter, item.parametres[self.parameter] + 1)
+        global player_balance
+
+        if player_balance >= self.item.costs_of_upds[self.parameter]:
+            player_balance -= self.item.costs_of_upds[self.parameter]
+            self.item.costs_of_upds[self.parameter] **= 2
+
+            if self.rect.collidepoint(event.pos):
+                item.upgrade_something(self.parameter, item.parametres[self.parameter] + 1)
+        else:
+            print(f"Недостаточно денег для того, чтобы улучшить {item.name}")
 
 
 class ExtraMenu:
@@ -284,7 +293,7 @@ class ExtraMenu:
 
 inventory = Inventory(19, 19, [icon_swords, icon_potions])
 
-temp = Item("knife.jpg", "swords", {'damage': 100})
+temp = Item("knife.jpg", "swords", {'damage': 100}, {'damage': 10})
 
 inventory.take_item(temp)
 
@@ -296,7 +305,7 @@ text_x, text_y = 500, 10
 text_w, text_h = text.get_width(), text.get_height()
 screen.blit(text, (text_x, text_y))
 
-p = Item("Potion_healthy.jpg", "potions", {'duration': 60, 'power': 1}, price=10)
+p = Item("Potion_healthy.jpg", "potions", {'duration': 60, 'power': 1}, {'duration': 10, 'power': 10}, price=10)
 inventory.take_item(p)
 
 is_alone = True
@@ -317,6 +326,8 @@ while running:
     text = font.render(str(player_balance), True, (255, 255, 255))
     screen.blit(text, (text_x, text_y))
 
+    if ex is not None:
+        ex.render(screen)
     inventory.render(screen)
     pygame.display.flip()
 
