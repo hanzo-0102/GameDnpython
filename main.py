@@ -264,8 +264,8 @@ class ExtraMenu:
 
             current_button = UpgradeButton("up_btn_icon.jpg", str(i), self.item)
             all_sprites.add(current_button)
-            current_button.rect.x = 700
-            current_button.rect.y = 300
+            current_button.rect.x = text_xs + 100
+            current_button.rect.y = text_ys
             self.up_buttons.append(current_button)
 
             Up_Btns.add(current_button)
