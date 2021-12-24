@@ -218,6 +218,9 @@ class Merchantry:
                 print("Недостаточно денег для покупки данного товара")
 
 
+Up_Btns = pygame.sprite.Group()
+
+
 class UpgradeButton(pygame.sprite.Sprite):
     def __init__(self, name, parameter, item):
         super().__init__(all_sprites)
@@ -227,7 +230,7 @@ class UpgradeButton(pygame.sprite.Sprite):
         self.mask = pygame.mask.from_surface(self.image)
         self.rect = self.image.get_rect()
 
-    def upg(self, event):
+    def update(self, event):
         item = self.item
 
         if self.rect.collidepoint(event.pos):
@@ -265,6 +268,8 @@ class ExtraMenu:
             current_button.rect.y = 300
             self.up_buttons.append(current_button)
 
+            Up_Btns.add(current_button)
+
             all_sprites.draw(screen)
             k += 1
 
@@ -274,6 +279,7 @@ class ExtraMenu:
             screen.blit(i[0], (i[1], i[2]))
         for i in self.up_buttons:
             all_sprites.remove(i)
+            Up_Btns.remove(i)
 
 
 inventory = Inventory(19, 19, [icon_swords, icon_potions])
@@ -304,8 +310,7 @@ while running:
         if event.type == pygame.MOUSEBUTTONDOWN:
             inventory.get_click(event.pos)
             if ex is not None:
-                for i in ex.up_buttons:
-                    i.upg(event)
+                Up_Btns.update(event)
 
     text.fill((0, 0, 0))
     screen.blit(text, (text_x, text_y))
