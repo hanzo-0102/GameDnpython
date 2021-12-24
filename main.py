@@ -176,9 +176,6 @@ class Inventory(Board):
                 self.destroy_item(cell)
 
 
-player_balance = 0
-
-
 class Merchantry:
     def __init__(self, player_inventory, balance_m, name):
         self.inventory = Inventory(19, 19, copy.copy([icon_swords, icon_potions]))
@@ -207,10 +204,15 @@ class Merchantry:
     def on_click(self, cell):
         if cell is not None:
             t = copy.copy(self.inventory.inv_collection[cell[1]][cell[0]])
-            if t is not None:
+            global player_balance
+            if t is not None and t.price <= player_balance:
+                player_balance -= t.price
+                self.balance += t.price
                 self.inventory.destroy_item(cell)
                 self.player_inventory.take_item(t)
                 print(f"Обмен осуществлён между {self.name} и Player")
+            elif t is not None:
+                print("Недостаточно денег для покупки данного товара")
 
 
 class UpgradeButton:
@@ -254,13 +256,15 @@ temp = Item("knife.jpg", "swords", {'damage': 100})
 
 inventory.take_item(temp)
 
+player_balance = 100
+
 font = pygame.font.Font(None, 50)
 text = font.render(str(player_balance), True, (255, 255, 255))
 text_x, text_y = 500, 10
 text_w, text_h = text.get_width(), text.get_height()
 screen.blit(text, (text_x, text_y))
 
-p = Item("Potion_healthy.jpg", "potions", {'duration': 60, 'power': 1})
+p = Item("Potion_healthy.jpg", "potions", {'duration': 60, 'power': 1}, price=10)
 inventory.take_item(p)
 
 is_alone = False
@@ -281,6 +285,11 @@ while running:
                 Ludovik.get_click(event.pos)
             else:
                 inventory.get_click(event.pos)
+
+    text.fill((0, 0, 0))
+    screen.blit(text, (text_x, text_y))
+    text = font.render(str(player_balance), True, (255, 255, 255))
+    screen.blit(text, (text_x, text_y))
 
     inventory.render(screen)
     Ludovik.inventory.render(screen)
