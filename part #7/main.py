@@ -1,3 +1,5 @@
+import timeit
+
 import pygame
 
 from player import Player
@@ -7,23 +9,30 @@ from drawing import Drawing
 from interaction import Interaction
 from map import world_map
 from inventory_test import Inventory
+from pygame.event import Event
+from threading import Timer
+
+IsIt = True
+
+def allow():
+    IsIt = True
+
 
 pygame.init()
 sc = pygame.display.set_mode((WIDTH, HEIGHT))
 sc_map = pygame.Surface(MINIMAP_RES)
 sc_gui = pygame.Surface((410, 30))
-
 sprites = Sprites()
 clock = pygame.time.Clock()
 player = Player(sprites)
 drawing = Drawing(sc, sc_map, player, clock, sc_gui)
 interaction = Interaction(player, sprites, drawing)
-inventory = Inventory(10, 10, 10, 300, 36, player, sprites)
+inventory = Inventory(10, 10, 200, 450, 36, player, sprites)
 mode = 'game'
 drawing.menu()
 pygame.mouse.set_visible(False)
 interaction.play_music()
-waiting = 0
+inventory_timer = Timer(1.00, allow)
 while True:
     pygame.mixer.music.set_volume(VOLUME / 100)
 
@@ -36,13 +45,10 @@ while True:
         drawing.curwep = 1
         player.curwep = 1
         player.weapon = player.weapons[player.curwep]
-    if keys[pygame.K_e] and waiting == 0:
+    elif keys[pygame.K_e] and IsIt:
         mode = 'inventory' if mode == 'game' else 'game'
-        waiting = 100
-    elif waiting > 1:
-        waiting -= 1
-    elif keys[pygame.K_e] and waiting == 1:
-        waiting -= 1
+        IsIt = False
+        inventory_timer = Timer(1.00, allow)
     if mode == 'game':
         pygame.mouse.set_visible(False)
         player.movement()
@@ -66,6 +72,7 @@ while True:
     elif mode == 'inventory':
         pygame.mouse.set_visible(True)
         sc.blit(pygame.image.load('img/inventory.jpg'), (0, 0))
+        drawing.fps(clock)
         inventory.render(sc)
         inventory.draw(sc)
         sprites.list_of_objects = inventory.sprites.list_of_objects

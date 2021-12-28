@@ -115,7 +115,7 @@ class Sprites:
                     i.time_dead += 1
 
     def spawn(self, type, pos, dmg, health):
-        self.list_of_objects.append(SpriteObject(self.sprite_parameters[type], pos, dmg, health))
+        self.list_of_objects.append(SpriteObject(self.sprite_parameters[type], pos, dmg, health, 2))
 
 
 
