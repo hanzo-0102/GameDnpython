@@ -19,6 +19,8 @@ class Drawing:
                          2: pygame.image.load('img/wall4.png').convert(),
                          3: pygame.image.load('img/wall5.png').convert(),
                          4: pygame.image.load('img/wall6.png').convert(),
+                         5: pygame.image.load('img/wall7.png').convert(),
+                         6: pygame.image.load('img/wall8.png').convert(),
                          'S': pygame.image.load('img/sky2.png').convert()
                          }
         # menu
