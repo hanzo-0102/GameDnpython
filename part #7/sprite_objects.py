@@ -80,6 +80,22 @@ class Sprites:
                 'obj_action': deque([pygame.image.load(f'sprites/skeleton/anim/{i}.png')
                                     .convert_alpha() for i in range(3)])
             },
+            'npc_trader': {
+                'sprite': pygame.image.load('sprites/trader/base/0.png').convert_alpha(),
+                'viewing_angles': None,
+                'shift': 0.8,
+                'scale': (0.8, 0.8),
+                'side': 30,
+                'animation': [],
+                'death_animation': [],
+                'is_dead': 'immortal',
+                'dead_shift': 0,
+                'animation_dist': None,
+                'animation_speed': 6,
+                'blocked': True,
+                'flag': 'trader',
+                'obj_action': []
+            }
         }
 
         self.list_of_objects = [
@@ -94,6 +110,7 @@ class Sprites:
             SpriteObject(self.sprite_parameters['npc_skeleton'], (8.75, 3.65), 0.005, 2, 2),
             SpriteObject(self.sprite_parameters['npc_skeleton'], (1.27, 11.5), 0.005, 2, 2),
             SpriteObject(self.sprite_parameters['npc_skeleton'], (1.26, 8.29), 0.005, 2, 2),
+            SpriteObject(self.sprite_parameters['npc_trader'], (20.27, 12.43))
         ]
 
     @property
