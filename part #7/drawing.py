@@ -78,6 +78,9 @@ class Drawing:
             elif i.flag == 'trader':
                 x, y = i.pos
                 pygame.draw.circle(self.sc_map, SKYBLUE, (x // MAP_SCALE, y // MAP_SCALE), 3)
+            elif i.flag == 'drop':
+                x, y = i.pos
+                pygame.draw.circle(self.sc_map, SANDY, (x // MAP_SCALE, y // MAP_SCALE), 3)
         self.sc.blit(self.sc_map, MAP_POS)
 
     def gui(self, player):

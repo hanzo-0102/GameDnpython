@@ -4,6 +4,7 @@ import pygame
 from settings import *
 from collections import deque
 from ray_casting import mapping
+from inventory_test import Item
 
 
 
@@ -25,7 +26,8 @@ class Sprites:
                 'animation_speed': 10,
                 'blocked': True,
                 'flag': 'decor',
-                'obj_action': []
+                'obj_action': [],
+                'drop': {}
             },
             'sprite_flame': {
                 'sprite': pygame.image.load('sprites/flame/base/0.png').convert_alpha(),
@@ -42,7 +44,8 @@ class Sprites:
                 'animation_speed': 5,
                 'blocked': None,
                 'flag': 'decor',
-                'obj_action': []
+                'obj_action': [],
+                'drop': {}
             },
             'npc_orc': {
                 'sprite': [pygame.image.load(f'sprites/orc/base/{i // 2}.png').convert_alpha() for i in range(8)],
@@ -61,6 +64,7 @@ class Sprites:
                 'flag': 'npc',
                 'obj_action': deque(
                     [pygame.image.load(f'sprites/orc/anim/{i}.png').convert_alpha() for i in range(3)]),
+                'drop': {}
             },
             'npc_skeleton': {
                 'sprite': [pygame.image.load(f'sprites/skeleton/base/{i // 2}.png').convert_alpha() for i in range(8)],
@@ -78,7 +82,8 @@ class Sprites:
                 'blocked': True,
                 'flag': 'npc',
                 'obj_action': deque([pygame.image.load(f'sprites/skeleton/anim/{i}.png')
-                                    .convert_alpha() for i in range(3)])
+                                    .convert_alpha() for i in range(3)]),
+                'drop': {80: 'bone'}
             },
             'npc_trader': {
                 'sprite': pygame.image.load('sprites/trader/base/0.png').convert_alpha(),
@@ -94,7 +99,8 @@ class Sprites:
                 'animation_speed': 6,
                 'blocked': True,
                 'flag': 'trader',
-                'obj_action': []
+                'obj_action': [],
+                'drop': {}
             }
         }
 
@@ -118,10 +124,21 @@ class Sprites:
         return min([obj.is_on_fire for obj in self.list_of_objects], default=(float('inf'), 0))
 
 
-    def clearing(self, player, world_map):
+    def clearing(self, player, world_map, inventory):
         if len(self.list_of_objects) > 10:
             for i in self.list_of_objects:
+                if i.flag == 'drop':
+                    if i.distance_to_sprite <= 28:
+                        inventory.additem(i.name)
+                        del self.list_of_objects[self.list_of_objects.index(i)]
                 if i.is_dead and i.is_dead != 'immortal' and i.time_dead >= 100:
+                    for j in i.drop.keys():
+                        x = random.randint(1, 100)
+                        if x < j:
+                            self.list_of_objects.append(
+                                SpriteObject(Item(i.drop[j]).item, (i.x / TILE, i.y / TILE), name=i.drop[j])
+                            )
+                            self.list_of_objects[-1].object_locate(player)
                     del self.list_of_objects[self.list_of_objects.index(i)]
                     x, y = random.randint(1, 21), random.randint(1, 13)
                     while (x, y) in world_map.keys():
@@ -138,7 +155,8 @@ class Sprites:
 
 
 class SpriteObject:
-    def __init__(self, parameters, pos, damag=0, health=0, speed=0):
+    def __init__(self, parameters, pos, damag=0, health=0, speed=0, name=''):
+        self.name = name
         self.speed = speed
         self.damag = damag
         self.health = health
@@ -149,6 +167,7 @@ class SpriteObject:
         self.animation = parameters['animation'].copy()
         self.time_dead = 0
         # ---------------------
+        self.drop = parameters['drop'].copy()
         self.death_animation = parameters['death_animation'].copy()
         self.is_dead = parameters['is_dead']
         self.dead_shift = parameters['dead_shift']

@@ -63,7 +63,7 @@ while True:
                 if (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) < 170):
                     player.dmg(i.damag)
 
-        sprites.clearing(player, world_map)
+        sprites.clearing(player, world_map, inventory)
         interaction.interaction_objects()
         interaction.npc_action()
         interaction.clear_world()

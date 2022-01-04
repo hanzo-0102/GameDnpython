@@ -21,6 +21,27 @@ def load_image(name, colorkey=None):
     return image
 
 
+class Item:
+    def __init__(self, name):
+        self.item = {
+                'sprite': pygame.image.load(f'sprites/items/{name}.png').convert_alpha(),
+                'viewing_angles': None,
+                'shift': 0.8,
+                'scale': (0.5, 0.5),
+                'side': 30,
+                'animation': [],
+                'death_animation': [],
+                'is_dead': 'immortal',
+                'dead_shift': 0,
+                'animation_dist': None,
+                'animation_speed': 6,
+                'blocked': False,
+                'flag': 'drop',
+                'obj_action': [],
+                'drop': {}
+            }
+
+
 class Inventory:
     def __init__(self, width, height, top, left, cellsize, player, sprites):
         self.player = player
@@ -34,12 +55,13 @@ class Inventory:
         self.cellsize = cellsize
 
     def additem(self, item):
-        for x in range(len(self.invent)):
-            for y in range(len(self.invent[x])):
-                if not(self.invent[x][y]):
-                    self.invent[x][y] = item
-                    break
-        else:
+        for x in range(self.width):
+            for y in range(self.height):
+                if not(self.invent[y][x]):
+                    self.invent[y][x] = item
+                    print(self.invent)
+                    return 0
+        if all([all(i) for i in self.invent]):
             self.dropitem(item, self.sprites, self.player)
 
     def dropitem(self, item):
@@ -77,7 +99,7 @@ class Inventory:
                 screen.blit(pygame.image.load("sprites/inventory/emptyslot.png"),
                             (self.left + (x * self.cellsize), self.top + (y * self.cellsize)))
                 if self.invent[x][y]:
-                    screen.blit(pygame.image.load(f"sprites/inventory/{self.invent[x][y]}.png"),
+                    screen.blit(pygame.image.load(f"sprites/inventory/{self.invent[x][y]}icon.png"),
                                 (self.left + 2 + (x * self.cellsize), self.top + 2 + (y * self.cellsize)))
 
     def on_click(self, cell, pos):
