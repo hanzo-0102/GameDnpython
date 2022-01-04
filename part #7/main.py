@@ -12,11 +12,6 @@ from inventory_test import Inventory
 from pygame.event import Event
 from threading import Timer
 
-IsIt = True
-
-def allow():
-    IsIt = True
-
 
 pygame.init()
 sc = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -32,23 +27,26 @@ mode = 'game'
 drawing.menu()
 pygame.mouse.set_visible(False)
 interaction.play_music()
-inventory_timer = Timer(1.00, allow)
 while True:
     pygame.mixer.music.set_volume(VOLUME / 100)
 
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_1]:
-        drawing.curwep = 0
-        player.curwep = 0
-        player.weapon = player.weapons[player.curwep]
-    elif keys[pygame.K_2]:
-        drawing.curwep = 1
-        player.curwep = 1
-        player.weapon = player.weapons[player.curwep]
-    elif keys[pygame.K_e] and IsIt:
-        mode = 'inventory' if mode == 'game' else 'game'
-        IsIt = False
-        inventory_timer = Timer(1.00, allow)
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            exit()
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1 and not player.shot:
+                player.shot = True
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_1:
+                drawing.curwep = 0
+                player.curwep = 0
+                player.weapon = player.weapons[player.curwep]
+            elif event.key == pygame.K_2:
+                drawing.curwep = 1
+                player.curwep = 1
+                player.weapon = player.weapons[player.curwep]
+            elif event.key == pygame.K_e:
+                mode = 'inventory' if mode == 'game' else 'game'
     if mode == 'game':
         pygame.mouse.set_visible(False)
         player.movement()

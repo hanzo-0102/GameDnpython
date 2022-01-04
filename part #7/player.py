@@ -117,12 +117,6 @@ class Player:
         if keys[pygame.K_RIGHT]:
             self.angle += 0.02
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                exit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1 and not self.shot:
-                    self.shot = True
 
     def mouse_control(self):
         if pygame.mouse.get_focused():
