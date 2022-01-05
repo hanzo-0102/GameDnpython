@@ -62,15 +62,19 @@ while True:
         drawing.mini_map(player, sprites)
         drawing.gui(player)
         drawing.player_weapon([wall_shot, sprites.sprite_shot])
-
         for i in sprites.list_of_objects:
             if not(i.is_dead):
-                if (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) < 170):
+                if (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) < i.distance):
                     player.dmg(i.damag)
+            if i.flag == 'bullet':
+                if (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) < i.distance):
+                    player.dmg(i.damag)
+                    del sprites.list_of_objects[sprites.list_of_objects.index(i)]
 
         sprites.clearing(player, world_map, inventory)
         interaction.interaction_objects()
         interaction.npc_action()
+        sprites.list_of_objects = interaction.sprites.list_of_objects
         interaction.clear_world()
         inventory.sprites = sprites
     elif mode == 'inventory':

@@ -72,8 +72,11 @@ class Interaction:
                                           world_map, self.player.pos):
                     obj.npc_action_trigger = True
                     self.npc_move(obj)
+                    obj.npc_shoot(self.sprites.list_of_objects, self.player)
                 else:
                     obj.npc_action_trigger = False
+            elif obj.flag == 'bullet':
+                self.npc_move(obj)
 
     def npc_move(self, obj):
         if (abs(obj.distance_to_sprite) > TILE):

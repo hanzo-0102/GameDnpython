@@ -77,7 +77,6 @@ class Inventory:
     def dropitem(self, item):
         from sprite_objects import SpriteObject
         x = Item(item).item
-        print(self.player.x / TILE, self.player.y / TILE)
         self.sprites.list_of_objects.append(SpriteObject(x, (self.player.x // TILE + 0.6, self.player.y // TILE - 0.6), name=item))
 
 

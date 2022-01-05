@@ -166,19 +166,20 @@ class Sprites:
                     if chance > 10:
                         self.spawn('npc_skeleton', (x, y), 0.005, 2, 2)
                     else:
-                        self.spawn('npc_irongolem', (x, y), 0.02, 60, 0.5)
+                        self.spawn('npc_irongolem', (x, y), 0.02, 60, 0.5, '', True)
                     self.list_of_objects[-1].object_locate(player)
                 elif i.is_dead != 'immortal' and i.is_dead:
                     i.time_dead += 1
 
-    def spawn(self, type, pos, dmg, health, speed):
-        self.list_of_objects.append(SpriteObject(self.sprite_parameters[type], pos, dmg, health, speed))
+    def spawn(self, type, pos, dmg, health, speed, name='', shooting=False):
+        self.list_of_objects.append(SpriteObject(self.sprite_parameters[type], pos, dmg, health, speed, name, shooting))
 
 
 
 
 class SpriteObject:
-    def __init__(self, parameters, pos, damag=0, health=0, speed=0, name=''):
+    def __init__(self, parameters, pos, damag=0, health=0, speed=0, name='', shooting=False, distance=170):
+        self.shooting = shooting
         self.name = name
         self.speed = speed
         self.damag = damag
@@ -189,6 +190,7 @@ class SpriteObject:
         self.scale = parameters['scale']
         self.animation = parameters['animation'].copy()
         self.time_dead = 0
+        self.distance = distance
         # ---------------------
         self.drop = parameters['drop'].copy()
         self.death_animation = parameters['death_animation'].copy()
@@ -208,6 +210,7 @@ class SpriteObject:
         self.door_open_trigger = False
         self.door_prev_pos = self.y if self.flag == 'door_h' else self.x
         self.delete = False
+        self.reload = 0
         if self.viewing_angles:
             if len(self.object) == 8:
                 self.sprite_angles = [frozenset(range(338, 361)) | frozenset(range(0, 23))] + \
@@ -309,6 +312,30 @@ class SpriteObject:
 
     def is_dead(self):
         return self.is_dead()
+
+    def npc_shoot(self, list_of_objects, player):
+        self.reload -= 1
+        if self.shooting and self.reload <= 0:
+            list_of_objects.append(SpriteObject({
+                'sprite': pygame.image.load(f'sprites/bulletmagic/base/0.png').convert_alpha(),
+                'viewing_angles': False,
+                'shift': 0.2,
+                'scale': (0.4, 0.4),
+                'side': 30,
+                'animation': [],
+                'death_animation': [],
+                'is_dead': 'immortal',
+                'dead_shift': 0.8,
+                'animation_dist': None,
+                'animation_speed': 6,
+                'blocked': False,
+                'flag': 'bullet',
+                'obj_action': deque([pygame.image.load(f'sprites/bulletmagic/anim/{i}.png')
+                                    .convert_alpha() for i in range(5)]),
+                'drop': {}
+            }, (self.x / TILE, self.y / TILE), damag=0.1, speed=6, distance=230))
+            list_of_objects[-1].object_locate(player)
+            self.reload = 300
 
     def npc_in_action(self):
         sprite_object = self.obj_action[0]
