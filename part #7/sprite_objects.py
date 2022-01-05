@@ -120,6 +120,24 @@ class Sprites:
                 'obj_action': deque([pygame.image.load(f'sprites/irongolem/anim/{i}.png')
                                     .convert_alpha() for i in range(3)]),
                 'drop': {10: 'golemgun'}
+            },
+            'ogr_trader': {
+                'sprite': pygame.image.load(f'sprites/ogr/base/0.png').convert_alpha(),
+                'viewing_angles': False,
+                'shift': 0.4,
+                'scale': (1.2, 1.2),
+                'side': 30,
+                'animation': [],
+                'death_animation': [],
+                'is_dead': 'immortal',
+                'dead_shift': 0.8,
+                'animation_dist': None,
+                'animation_speed': 6,
+                'blocked': True,
+                'flag': 'trader',
+                'obj_action': deque([pygame.image.load(f'sprites/ogr/anim/{i}.png')
+                                    .convert_alpha() for i in range(1)]),
+                'drop': {}
             }
         }
 
@@ -135,7 +153,7 @@ class Sprites:
             SpriteObject(self.sprite_parameters['npc_skeleton'], (8.75, 3.65), 0.005, 2, 2),
             SpriteObject(self.sprite_parameters['npc_skeleton'], (1.27, 11.5), 0.005, 2, 2),
             SpriteObject(self.sprite_parameters['npc_skeleton'], (1.26, 8.29), 0.005, 2, 2),
-            SpriteObject(self.sprite_parameters['npc_trader'], (20.27, 12.43))
+            SpriteObject(self.sprite_parameters['ogr_trader'], (20.27, 12.43))
         ]
 
     @property
