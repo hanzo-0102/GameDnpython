@@ -21,6 +21,11 @@ class Drawing:
                          4: pygame.image.load('img/wall6.png').convert(),
                          5: pygame.image.load('img/wall7.png').convert(),
                          6: pygame.image.load('img/wall8.png').convert(),
+                         7: pygame.image.load('img/wall9.png').convert(),
+                         8: pygame.image.load('img/wall10.png').convert(),
+                         9: pygame.image.load('img/wall11.png').convert(),
+                         10: pygame.image.load('img/wall12.png').convert(),
+                         11: pygame.image.load('img/wall13.png').convert(),
                          'S': pygame.image.load('img/sky2.png').convert()
                          }
         # menu
@@ -65,21 +70,21 @@ class Drawing:
     def mini_map(self, player, sprites):
         self.sc_map.fill(BLACK)
         map_x, map_y = player.x // MAP_SCALE, player.y // MAP_SCALE
-        pygame.draw.line(self.sc_map, YELLOW, (map_x, map_y), (map_x + 12 * math.cos(player.angle),
-                                                 map_y + 12 * math.sin(player.angle)), 2)
-        pygame.draw.circle(self.sc_map, RED, (int(map_x), int(map_y)), 5)
+        pygame.draw.line(self.sc_map, YELLOW, (map_x, map_y), (map_x + 6 * math.cos(player.angle),
+                                                 map_y + 6 * math.sin(player.angle)), 1)
+        pygame.draw.circle(self.sc_map, RED, (int(map_x), int(map_y)), 2.5)
         for x, y in mini_map:
             pygame.draw.rect(self.sc_map, DARKBROWN, (x, y, MAP_TILE, MAP_TILE))
         for i in sprites.list_of_objects:
-            if i.is_dead != 'immortal':
+            if i.flag == 'npc' and i.is_dead != 'immortal':
                 x, y = i.pos
-                pygame.draw.circle(self.sc_map, WHITE, (x // MAP_SCALE, y // MAP_SCALE), 3)
+                pygame.draw.circle(self.sc_map, WHITE, (x // MAP_SCALE, y // MAP_SCALE), 1.5)
             elif i.flag == 'trader':
                 x, y = i.pos
-                pygame.draw.circle(self.sc_map, SKYBLUE, (x // MAP_SCALE, y // MAP_SCALE), 3)
+                pygame.draw.circle(self.sc_map, SKYBLUE, (x // MAP_SCALE, y // MAP_SCALE), 1.5)
             elif i.flag == 'drop':
                 x, y = i.pos
-                pygame.draw.circle(self.sc_map, SANDY, (x // MAP_SCALE, y // MAP_SCALE), 3)
+                pygame.draw.circle(self.sc_map, SANDY, (x // MAP_SCALE, y // MAP_SCALE), 1.5)
         self.sc.blit(self.sc_map, MAP_POS)
 
     def gui(self, player):
