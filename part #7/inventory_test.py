@@ -5,6 +5,11 @@ import sys
 from collections import deque
 
 
+items_rare = {
+    'bone':'common'
+}
+
+
 def load_image(name, colorkey=None):
     fullname = os.path.join('Icons', name)
     if not os.path.isfile(fullname):
@@ -59,7 +64,6 @@ class Inventory:
             for y in range(self.height):
                 if not(self.invent[y][x]):
                     self.invent[y][x] = item
-                    print(self.invent)
                     return 0
         if all([all(i) for i in self.invent]):
             self.dropitem(item, self.sprites, self.player)

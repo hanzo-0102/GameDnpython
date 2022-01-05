@@ -8,7 +8,7 @@ from ray_casting import ray_casting_walls
 from drawing import Drawing
 from interaction import Interaction
 from map import world_map
-from inventory_test import Inventory
+from inventory_test import Inventory, items_rare
 from pygame.event import Event
 from threading import Timer
 
@@ -27,6 +27,7 @@ mode = 'game'
 drawing.menu()
 pygame.mouse.set_visible(False)
 interaction.play_music()
+font = pygame.font.SysFont('Arial', 12, bold=True)
 while True:
     pygame.mixer.music.set_volume(VOLUME / 100)
 
@@ -73,6 +74,13 @@ while True:
         drawing.fps(clock)
         inventory.render(sc)
         inventory.draw(sc)
+        x, y = pygame.mouse.get_pos()
+        cell = inventory.get_cell((x, y))
+        if cell and inventory.invent[cell[0]][cell[1]]:
+            pygame.draw.rect(sc, DARKGRAY, (x, y, 100, 40))
+            text = font.render(f"{inventory.invent[cell[0]][cell[1]].capitalize()}-{items_rare[inventory.invent[cell[0]][cell[1]]]}",
+                               0, WHITE)
+            sc.blit(text, (x + 3, y + 13))
         sprites.list_of_objects = inventory.sprites.list_of_objects
 
 
