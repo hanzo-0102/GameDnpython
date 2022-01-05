@@ -8,7 +8,8 @@ from collections import deque
 items_rare = {
     'bone':'common',
     'woodensword':'common',
-    'magicwand':'common'
+    'magicwand':'common',
+    'golemgun':'legendary'
 }
 
 
@@ -119,6 +120,15 @@ class Inventory:
                     (self.left + 2 + ((self.width + 3) * self.cellsize), self.top + 2 + (self.height // 2 * self.cellsize)))
         screen.blit(pygame.image.load(f"sprites/inventory/{self.range}icon.png"),
                     (self.left + 2 + ((self.width + 3) * self.cellsize), self.top + 2 + ((self.height // 2 + 1) * self.cellsize)))
+
+    def render_trade(self, screen, trades):
+        for y in range(self.height):
+            for x in range(self.width):
+                screen.blit(pygame.image.load("sprites/inventory/emptyslot.png"),
+                            (self.left + (x * self.cellsize), self.top + (y * self.cellsize)))
+                if self.invent[x][y]:
+                    screen.blit(pygame.image.load(f"sprites/inventory/{self.invent[x][y]}icon.png"),
+                                (self.left + 2 + (x * self.cellsize), self.top + 2 + (y * self.cellsize)))
 
 
     def on_click(self, cell, pos):
