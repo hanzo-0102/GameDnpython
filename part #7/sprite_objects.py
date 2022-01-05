@@ -145,15 +145,17 @@ class Sprites:
             SpriteObject(self.sprite_parameters['sprite_vase'], (7.1, 2.1)),
             SpriteObject(self.sprite_parameters['sprite_vase'], (5.9, 2.1)),
             SpriteObject(self.sprite_parameters['npc_orc'], (7, 4), 0.01, 10, 1),
-            SpriteObject(self.sprite_parameters['sprite_flame'], (8.6, 5.6), 0.005, 2),
-            SpriteObject(self.sprite_parameters['npc_skeleton'], (2.5, 1.5), 0.005, 2, 2),
-            SpriteObject(self.sprite_parameters['npc_skeleton'], (5.51, 1.5), 0.005, 2, 2),
-            SpriteObject(self.sprite_parameters['npc_skeleton'], (6.61, 2.92), 0.005, 2, 2),
             SpriteObject(self.sprite_parameters['npc_skeleton'], (7.68, 1.47), 0.005, 2, 2),
             SpriteObject(self.sprite_parameters['npc_skeleton'], (8.75, 3.65), 0.005, 2, 2),
             SpriteObject(self.sprite_parameters['npc_skeleton'], (1.27, 11.5), 0.005, 2, 2),
             SpriteObject(self.sprite_parameters['npc_skeleton'], (1.26, 8.29), 0.005, 2, 2),
-            SpriteObject(self.sprite_parameters['ogr_trader'], (20.27, 12.43))
+            SpriteObject(self.sprite_parameters['ogr_trader'], (20.27, 12.43), dialog_list=[
+                'T Hello. My want bones. You - bones, Me - reward.',
+                'Q Ok ?',
+                'T Good luck !',
+                'R--(10, bone)--(1, bow)--Take it pleas. Thanks for help !',
+                'D'
+            ])
         ]
 
     @property
@@ -162,7 +164,7 @@ class Sprites:
 
 
     def clearing(self, player, world_map, inventory):
-        if len(self.list_of_objects) > 10:
+        if len(self.list_of_objects) > 7:
             for i in self.list_of_objects:
                 if i.flag == 'drop':
                     if i.distance_to_sprite <= 28:
@@ -196,8 +198,9 @@ class Sprites:
 
 
 class SpriteObject:
-    def __init__(self, parameters, pos, damag=0, health=0, speed=0, name='', shooting=False, distance=170):
+    def __init__(self, parameters, pos, damag=0, health=0, speed=0, name='', shooting=False, distance=170, dialog_list=[]):
         self.shooting = shooting
+        self.dialog_list = dialog_list
         self.name = name
         self.speed = speed
         self.damag = damag

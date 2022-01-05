@@ -10,7 +10,8 @@ items_rare = {
     'bone':'common',
     'woodensword':'common',
     'magicwand':'common',
-    'golemgun':'legendary'
+    'golemgun':'legendary',
+    'bow':'uncommon'
 }
 
 
@@ -93,7 +94,7 @@ class Inventory:
         else:
             return (int(cell[0]), int(cell[1]))
 
-    def render(self, screen):
+    def render(self, screen, quests):
         for y in range(self.height):
             for x in range(self.width):
                 screen.blit(pygame.image.load("sprites/inventory/emptyslot.png"),
@@ -109,6 +110,15 @@ class Inventory:
                     (self.left + 2 + ((self.width + 3) * self.cellsize), self.top + 2 + (self.height // 2 * self.cellsize)))
         screen.blit(pygame.image.load(f"sprites/inventory/{self.range}icon.png"),
                     (self.left + 2 + ((self.width + 3) * self.cellsize), self.top + 2 + ((self.height // 2 + 1) * self.cellsize)))
+        pygame.draw.rect(screen, DARKGRAY, (10, 10, 300, HEIGHT - 30))
+        font = pygame.font.SysFont('Arial', 12, bold=True)
+        text = font.render('QUESTS', 0, WHITE)
+        screen.blit(text, (134, 12))
+        coutni = 0
+        for j in quests:
+            text = font.render(f"Need {j[0]} {j[1]}{'s' if j[0] > 1 else ''} | Award : {j[2]} {j[3]}{'s' if j[2] > 1 else ''}", 0, WHITE)
+            screen.blit(text, (12, 12 + (13 * (coutni + 1))))
+            coutni += 1
 
     def render_trade(self, screen, trades):
         for y in range(self.height):
@@ -129,16 +139,15 @@ class Inventory:
         else:
             try:
                 x, y = self.get_cell(pos, True)
-                print(x, y, self.moving)
                 if (x, y) != (13, 5) and (x, y) != (13, 6):
                     if self.invent[x][y]:
                         self.invent[x][y], self.moving = self.moving, self.invent[x][y]
                     else:
                         self.invent[x][y] = self.moving
                         self.moving = False
-                elif (x, y) == (13, 5) and self.moving in ['woodensword', 'magicwand', 'golemgun']:
+                elif (x, y) == (13, 5) and self.moving in ['woodensword', 'magicwand', 'golemgun', 'bow']:
                     self.melee, self.moving = self.moving, self.melee
-                elif (x, y) == (13, 6) and self.moving in ['woodensword', 'magicwand', 'golemgun']:
+                elif (x, y) == (13, 6) and self.moving in ['woodensword', 'magicwand', 'golemgun', 'bow']:
                     self.range, self.moving = self.moving, self.range
             except Exception:
                 if self.moving:

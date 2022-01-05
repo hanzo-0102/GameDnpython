@@ -33,6 +33,13 @@ drawing.menu()
 pygame.mouse.set_visible(False)
 interaction.play_music()
 font = pygame.font.SysFont('Arial', 12, bold=True)
+fontBigger = pygame.font.SysFont('Arial', 48, bold=True)
+avaliable_dialog = False
+num_of_dialog = 0
+dialog_list = []
+answer = False
+quests = []
+was_quests = []
 while True:
     pygame.mixer.music.set_volume(VOLUME / 100)
 
@@ -45,6 +52,31 @@ while True:
         elif event.type == pygame.MOUSEBUTTONDOWN and mode == 'inventory':
             if event.button == 1:
                 inventory.get_click(pygame.mouse.get_pos())
+        elif event.type == pygame.MOUSEBUTTONDOWN and mode == 'dialog':
+            if event.button == 1 and dialog_list[num_of_dialog].split()[0] == 'T':
+                num_of_dialog += 1
+                pygame.mixer.music.load('sound/bell.mp3')
+                pygame.mixer.music.play(1)
+            elif event.button == 1 and dialog_list[num_of_dialog].split()[0] == 'Q':
+                if pygame.mouse.get_pos()[0] > HALF_WIDTH:
+                    mode = 'game'
+                else:
+                    num_of_dialog += 1
+                    pygame.mixer.music.load('sound/bell.mp3')
+                    pygame.mixer.music.play(1)
+            elif event.button == 1 and dialog_list[num_of_dialog].split()[0] == 'R':
+                need = dialog_list[num_of_dialog].split('--')[1]
+                need = need[1:len(need) - 1].split(', ')
+                reward = dialog_list[num_of_dialog].split('--')[2]
+                reward = reward[1:len(reward) - 1].split(', ')
+                if [int(need[0]), need[1], int(reward[0]), reward[1]] not in quests and [int(need[0]), need[1], int(reward[0]), reward[1]] not in was_quests:
+                    num_of_dialog += 1
+                    pygame.mixer.music.load('sound/bell.mp3')
+                    pygame.mixer.music.play(1)
+            elif event.button == 1 and dialog_list[num_of_dialog].split()[0] == 'D':
+                pygame.mixer.music.load('sound/bell.mp3')
+                pygame.mixer.music.play(1)
+                mode = 'game'
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_1:
                 player.weaponi = inventory.melee
@@ -65,6 +97,9 @@ while True:
             elif event.key == pygame.K_e:
                 pygame.mouse.set_pos((HALF_WIDTH, HALF_HEIGHT))
                 mode = 'inventory' if mode == 'game' else 'game'
+            elif event.key == pygame.K_f and avaliable_dialog:
+                mode = 'dialog'
+                num_of_dialog = 0
     if mode == 'game':
         pygame.mouse.set_visible(False)
         player.movement()
@@ -83,7 +118,13 @@ while True:
                 if (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) < i.distance):
                     player.dmg(i.damag)
                     del sprites.list_of_objects[sprites.list_of_objects.index(i)]
-
+            if i.flag == 'trader' and (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) < 120):
+                render = fontBigger.render('press [F] to interract', 0, DARKORANGE)
+                avaliable_dialog = True
+                dialog_list = i.dialog_list
+                sc.blit(render, (HALF_WIDTH - 220, HALF_HEIGHT + 80))
+            elif i.flag == 'trader' and (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) >= 120):
+                avaliable_dialog = False
         sprites.clearing(player, world_map, inventory)
         interaction.interaction_objects()
         interaction.npc_action()
@@ -94,7 +135,7 @@ while True:
         pygame.mouse.set_visible(True)
         sc.blit(pygame.image.load('img/inventory.jpg'), (0, 0))
         drawing.fps(clock)
-        inventory.render(sc)
+        inventory.render(sc, quests)
         inventory.draw(sc)
         x, y = pygame.mouse.get_pos()
         cell = inventory.get_cell((x, y), True)
@@ -123,7 +164,47 @@ while True:
         except Exception:
             pass
         sprites.list_of_objects = inventory.sprites.list_of_objects
-
+    elif mode == 'dialog':
+        pygame.mouse.set_visible(True)
+        drawing.background(player.angle)
+        walls, wall_shot = ray_casting_walls(player, drawing.textures)
+        drawing.world(walls + [obj.object_locate(player) for obj in sprites.list_of_objects])
+        drawing.fps(clock)
+        pygame.draw.rect(sc, DARKGRAY, (0, HALF_HEIGHT + 60, WIDTH, HALF_HEIGHT - 60))
+        if dialog_list[num_of_dialog].split()[0] == 'T':
+            text = fontBigger.render(dialog_list[num_of_dialog][2:], 0, WHITE)
+            sc.blit(text, (3, HALF_HEIGHT + 63))
+        elif dialog_list[num_of_dialog].split()[0] == 'Q':
+            text = fontBigger.render(dialog_list[num_of_dialog][2:], 0, WHITE)
+            sc.blit(text, (3, HALF_HEIGHT + 63))
+            text = fontBigger.render('YES', 0, WHITE)
+            sc.blit(text, (30, HEIGHT - 60))
+            text = fontBigger.render('NO', 0, WHITE)
+            sc.blit(text, (HALF_WIDTH + 30, HEIGHT - 60))
+        elif dialog_list[num_of_dialog].split('--')[0] == 'R':
+            need = dialog_list[num_of_dialog].split('--')[1]
+            need = need[1:len(need) - 1].split(', ')
+            reward = dialog_list[num_of_dialog].split('--')[2]
+            reward = reward[1:len(reward) - 1].split(', ')
+            counti = 0
+            needcounti = int(need[0])
+            for i in inventory.invent:
+                for j in i:
+                    if j == need[1]:
+                        counti += 1
+            if needcounti <= counti:
+                for i in range(len(inventory.invent)):
+                    for j in range(len(inventory.invent[0])):
+                        if inventory.invent[i][j] == need[1] and needcounti != 0:
+                            inventory.invent[i][j] = False
+                            needcounti -= 1
+                inventory.additem('bow')
+                text = fontBigger.render(dialog_list[num_of_dialog].split()[3], 0, WHITE)
+                sc.blit(text, (3, HALF_HEIGHT + 63))
+            else:
+                if [int(need[0]), need[1], int(reward[0]), reward[1]] not in quests and [int(need[0]), need[1], int(reward[0]), reward[1]] not in was_quests:
+                    quests.append([int(need[0]), need[1], int(reward[0]), reward[1]])
+                mode = 'game'
 
     pygame.display.flip()
     clock.tick(FPS)
