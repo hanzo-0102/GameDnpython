@@ -27,19 +27,18 @@ class Drawing:
         self.menu_trigger = True
         self.menu_picture = pygame.image.load('img/bg.jpg').convert()
         # weapon parameters
-        self.curwep = self.player.curwep
-        self.weapon_list = ['magicwand', 'woodensword']
-        self.weapon_base_sprite = [pygame.image.load(f'sprites/weapons/{self.weapon_list[j]}/base/0.png').convert_alpha() for j in range(2)]
-        self.weapon_shot_animation = [deque([pygame.image.load(f'sprites/weapons/{self.weapon_list[j]}/shot/{i}.png').convert_alpha()
-                                            for i in range(7)]) for j in range(2)]
-        self.weapon_rect = self.weapon_base_sprite[self.curwep].get_rect()
+        self.weaponi = self.player.weaponi
+        self.weapon_base_sprite = pygame.image.load(f'sprites/weapons/{self.weaponi}/base/0.png')
+        self.weapon_shot_animation = [pygame.image.load(f'sprites/weapons/{self.weaponi}/shot/{i}.png').convert_alpha()
+                                            for i in range(7)]
+        self.weapon_rect = self.weapon_base_sprite.get_rect()
         self.weapon_pos = (WIDTH - 375 - self.weapon_rect.width // 2, HEIGHT - self.weapon_rect.height)
         self.shot_length = len(self.weapon_shot_animation)
         self.shot_length_count = 0
-        self.shot_animation_speed = [3, 2]
+        self.shot_animation_speed = 2
         self.shot_animation_count = 0
         self.shot_animation_trigger = True
-        self.shot_sound = [pygame.mixer.Sound(f'sound/{self.weapon_list[j]}.mp3') for j in range(2)]
+        self.shot_sound = pygame.mixer.Sound(f'sound/{self.weaponi}.mp3')
         # sfx parameters
         self.sfx = deque([pygame.image.load(f'sprites/weapons/sfx/{i}.png').convert_alpha() for i in range(9)])
         self.sfx_length_count = 0
@@ -92,15 +91,14 @@ class Drawing:
     def player_weapon(self, shots):
         if self.player.shot:
             if not self.shot_length_count:
-                self.shot_sound[self.curwep].play()
+                self.shot_sound.play()
             self.shot_projection = min(shots)[1] // 2
-            if self.curwep not in [1]:
+            if self.weaponi not in ['woodensword']:
                 self.bullet_sfx()
-            shot_sprite = self.weapon_shot_animation[self.curwep][0]
+            shot_sprite = self.weapon_shot_animation[self.shot_length_count]
             self.sc.blit(shot_sprite, self.weapon_pos)
             self.shot_animation_count += 1
-            if self.shot_animation_count == self.shot_animation_speed[self.curwep]:
-                self.weapon_shot_animation[self.curwep].rotate(-1)
+            if self.shot_animation_count == self.shot_animation_speed:
                 self.shot_animation_count = 0
                 self.shot_length_count += 1
                 self.shot_animation_trigger = False
@@ -110,7 +108,7 @@ class Drawing:
                 self.sfx_length_count = 0
                 self.shot_animation_trigger = True
         else:
-            self.sc.blit(self.weapon_base_sprite[self.curwep], self.weapon_pos)
+            self.sc.blit(self.weapon_base_sprite, self.weapon_pos)
 
     def bullet_sfx(self):
         if self.sfx_length_count < self.sfx_length:

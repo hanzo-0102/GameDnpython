@@ -48,10 +48,20 @@ while True:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_1:
                 player.weaponi = inventory.melee
-                drawing.curwep = indexes[player.weaponi]
+                drawing.weaponi = player.weaponi
+                drawing.weapon_base_sprite = pygame.image.load(f'sprites/weapons/{drawing.weaponi}/base/0.png')
+                drawing.weapon_shot_animation = [
+                    pygame.image.load(f'sprites/weapons/{drawing.weaponi}/shot/{i}.png').convert_alpha()
+                    for i in range(7)]
+                drawing.shot_sound = pygame.mixer.Sound(f'sound/{drawing.weaponi}.mp3')
             elif event.key == pygame.K_2:
                 player.weaponi = inventory.range
-                drawing.curwep = indexes[player.weaponi]
+                drawing.weaponi = player.weaponi
+                drawing.weapon_base_sprite = pygame.image.load(f'sprites/weapons/{drawing.weaponi}/base/0.png')
+                drawing.weapon_shot_animation = [
+                    pygame.image.load(f'sprites/weapons/{drawing.weaponi}/shot/{i}.png').convert_alpha()
+                    for i in range(7)]
+                drawing.shot_sound = pygame.mixer.Sound(f'sound/{drawing.weaponi}.mp3')
             elif event.key == pygame.K_e:
                 pygame.mouse.set_pos((HALF_WIDTH, HALF_HEIGHT))
                 mode = 'inventory' if mode == 'game' else 'game'
