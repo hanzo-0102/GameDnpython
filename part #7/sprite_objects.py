@@ -179,15 +179,16 @@ class Sprites:
                             )
                             self.list_of_objects[-1].object_locate(player)
                     del self.list_of_objects[self.list_of_objects.index(i)]
-                    chance = random.randint(1, 100)
-                    x, y = random.randint(1, 33), random.randint(1, 21)
-                    while (x, y) in world_map.keys():
+                    if len(self.list_of_objects) < 7:
+                        chance = random.randint(1, 100)
                         x, y = random.randint(1, 33), random.randint(1, 21)
-                    if chance > 10:
-                        self.spawn('npc_skeleton', (x, y), 0.005, 2, 2)
-                    else:
-                        self.spawn('npc_irongolem', (x, y), 0.02, 60, 0.5, '', True)
-                    self.list_of_objects[-1].object_locate(player)
+                        while (x, y) in world_map.keys():
+                            x, y = random.randint(1, 33), random.randint(1, 21)
+                        if chance > 10:
+                            self.spawn('npc_skeleton', (x, y), 0.005, 2, 2)
+                        else:
+                            self.spawn('npc_irongolem', (x, y), 0.02, 60, 0.5, '', True)
+                        self.list_of_objects[-1].object_locate(player)
                 elif i.is_dead != 'immortal' and i.is_dead:
                     i.time_dead += 1
 
