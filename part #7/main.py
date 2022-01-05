@@ -54,7 +54,7 @@ while True:
         elif event.type == pygame.MOUSEBUTTONDOWN and mode == 'inventory':
             if event.button == 1:
                 inventory.get_click(pygame.mouse.get_pos())
-            if event.button == 2:
+            if event.button == 3:
                 cell = inventory.get_cell(pygame.mouse.get_pos())
                 if cell:
                     if inventory.invent[cell[0]][cell[1]] == 'manashroom':
