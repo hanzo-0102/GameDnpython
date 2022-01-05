@@ -95,9 +95,9 @@ class Inventory:
         cell = self.get_cell(mouse_pos)
         self.on_click(cell, mouse_pos)
 
-    def get_cell(self, pos):
+    def get_cell(self, pos, need=False):
         cell = ((pos[0] - self.left) / self.cellsize, (pos[1] - self.top) / self.cellsize)
-        if int(cell[0]) == 13 and int(cell[1]) in range(5, 7):
+        if need:
             return (int(cell[0]), int(cell[1]))
         elif cell[0] < 0 or cell[0] > self.width or cell[1] < 0 or cell[1] > self.height:
             return None
@@ -135,16 +135,20 @@ class Inventory:
         if self.moving == False:
             self.dx = cell[0] * self.cellsize + self.left - pos[0]
             self.dy = cell[1] * self.cellsize + self.top - pos[1]
+            self.moving = self.invent[cell[0]][cell[1]]
             self.invent[cell[0]][cell[1]] = False
         else:
-            x, y = self.get_cell(pos)
-            if self.invent[x][y]:
+            try:
+                x, y = self.get_cell(pos)
+                if self.invent[x][y]:
+                    self.dropitem(self.moving)
+                else:
+                    self.invent[x][y] = self.moving
+            except Exception:
                 self.dropitem(self.moving)
-            else:
-                self.invent[x][y] = self.moving
             self.moving = False
 
     def draw(self, screen):
         if self.moving:
             x, y = pygame.mouse.get_pos()
-            screen.blit(pygame.image.load(f"sprites/items/{self.moving}.png"), (x + self.dx, y + self.dy))
+            screen.blit(pygame.image.load(f"sprites/inventory/{self.moving}icon.png"), (x + self.dx, y + self.dy))

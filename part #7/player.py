@@ -2,7 +2,7 @@ from settings import *
 import pygame
 import math
 from map import collision_walls
-from weapons import Weapon
+from weapons import weapon_list
 
 class Player:
     def __init__(self, sprites):
@@ -19,7 +19,7 @@ class Player:
         self.rect = pygame.Rect(*player_pos, self.side, self.side)
         # weapon
         self.shot = False
-        self.weapons = [Weapon('magicwand', 100, 2, 1), Weapon('woodensword', 600, 0, 3), Weapon('golemgun', 100, 4, 5)]
+        self.weapons = [weapon_list['magicwand'], weapon_list['woodensword']]
         self.weapon = self.weapons[self.curwep]
 
     def curwep(self):
