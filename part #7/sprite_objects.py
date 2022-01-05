@@ -163,7 +163,6 @@ class Sprites:
                     x, y = random.randint(1, 21), random.randint(1, 13)
                     while (x, y) in world_map.keys():
                         x, y = random.randint(1, 21), random.randint(1, 13)
-                    print(chance)
                     if chance > 10:
                         self.spawn('npc_skeleton', (x, y), 0.005, 2, 2)
                     else:
