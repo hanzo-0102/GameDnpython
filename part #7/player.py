@@ -19,11 +19,7 @@ class Player:
         self.rect = pygame.Rect(*player_pos, self.side, self.side)
         # weapon
         self.shot = False
-        self.weapons = [weapon_list['magicwand'], weapon_list['woodensword']]
-        self.weapon = self.weapons[self.curwep]
-
-    def curwep(self):
-        return self.curwep
+        self.weaponi = 'woodensword'
 
     def hp(self):
         return self.hp
@@ -80,7 +76,7 @@ class Player:
         self.y += dy
 
     def weapon(self):
-        return self.weapon
+        return weapon_list[self.weaponi]
 
     def movement(self):
         self.keys_control()

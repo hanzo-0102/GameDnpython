@@ -121,22 +121,29 @@ class Inventory:
 
 
     def on_click(self, cell, pos):
-        if self.moving == False and cell:
+        if self.moving == False and cell and cell != (13, 5) and cell != (13, 6):
             self.dx = cell[0] * self.cellsize + self.left - pos[0]
             self.dy = cell[1] * self.cellsize + self.top - pos[1]
             self.moving = self.invent[cell[0]][cell[1]]
             self.invent[cell[0]][cell[1]] = False
         else:
             try:
-                x, y = self.get_cell(pos)
-                if self.invent[x][y]:
-                    self.dropitem(self.moving)
-                else:
-                    self.invent[x][y] = self.moving
+                x, y = self.get_cell(pos, True)
+                print(x, y, self.moving)
+                if (x, y) != (13, 5) and (x, y) != (13, 6):
+                    if self.invent[x][y]:
+                        self.invent[x][y], self.moving = self.moving, self.invent[x][y]
+                    else:
+                        self.invent[x][y] = self.moving
+                        self.moving = False
+                elif (x, y) == (13, 5) and self.moving in ['woodensword', 'magicwand', 'golemgun']:
+                    self.melee, self.moving = self.moving, self.melee
+                elif (x, y) == (13, 6) and self.moving in ['woodensword', 'magicwand', 'golemgun']:
+                    self.range, self.moving = self.moving, self.range
             except Exception:
                 if self.moving:
                     self.dropitem(self.moving)
-            self.moving = False
+                    self.moving = False
 
     def draw(self, screen):
         if self.moving:

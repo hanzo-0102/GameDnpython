@@ -52,8 +52,8 @@ class Interaction:
             for obj in sorted(self.sprites.list_of_objects, key=lambda obj: obj.distance_to_sprite):
                 if obj.is_on_fire[1]:
                     if obj.is_dead != 'immortal' and not obj.is_dead:
-                        if obj.is_on_fire[1] >= self.player.weapon.dist:
-                            obj.health -= self.player.weapon.damage
+                        if obj.is_on_fire[1] >= self.player.weapon().dist:
+                            obj.health -= self.player.weapon().damage
                             if obj.health <= 0:
                                 if ray_casting_npc_player(obj.x, obj.y,
                                                           [],

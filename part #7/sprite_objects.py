@@ -83,7 +83,7 @@ class Sprites:
                 'flag': 'npc',
                 'obj_action': deque([pygame.image.load(f'sprites/skeleton/anim/{i}.png')
                                     .convert_alpha() for i in range(3)]),
-                'drop': {80: 'bone'}
+                'drop': {80: 'bone', 40: 'woodensword'}
             },
             'npc_trader': {
                 'sprite': pygame.image.load('sprites/trader/base/0.png').convert_alpha(),

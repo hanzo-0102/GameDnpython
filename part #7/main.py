@@ -12,6 +12,11 @@ from inventory_test import Inventory, items_rare
 from pygame.event import Event
 from threading import Timer
 
+indexes = {
+    'magicwand': 0,
+    'woodensword': 1,
+    'golemgun': 2
+}
 
 pygame.init()
 sc = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -42,13 +47,11 @@ while True:
                 inventory.get_click(pygame.mouse.get_pos())
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_1:
-                drawing.curwep = 0
-                player.curwep = 0
-                player.weapon = player.weapons[player.curwep]
+                player.weaponi = inventory.melee
+                drawing.curwep = indexes[player.weaponi]
             elif event.key == pygame.K_2:
-                drawing.curwep = 1
-                player.curwep = 1
-                player.weapon = player.weapons[player.curwep]
+                player.weaponi = inventory.range
+                drawing.curwep = indexes[player.weaponi]
             elif event.key == pygame.K_e:
                 pygame.mouse.set_pos((HALF_WIDTH, HALF_HEIGHT))
                 mode = 'inventory' if mode == 'game' else 'game'
