@@ -19,7 +19,7 @@ class Player:
         self.rect = pygame.Rect(*player_pos, self.side, self.side)
         # weapon
         self.shot = False
-        self.weapons = [Weapon('magicwand', 100, 2, 1), Weapon('woodensword', 600, 0, 3)]
+        self.weapons = [Weapon('magicwand', 100, 2, 1), Weapon('woodensword', 600, 0, 3), Weapon('golemgun', 100, 4, 5)]
         self.weapon = self.weapons[self.curwep]
 
     def curwep(self):
