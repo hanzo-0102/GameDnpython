@@ -11,7 +11,10 @@ items_rare = {
     'woodensword':'common',
     'magicwand':'common',
     'golemgun':'legendary',
-    'bow':'uncommon'
+    'bow':'uncommon',
+    'healshroom':'uncommon',
+    'manashroom':'uncommon',
+    'chiken':'uncommon'
 }
 
 

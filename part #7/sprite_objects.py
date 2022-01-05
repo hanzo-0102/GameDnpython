@@ -102,6 +102,44 @@ class Sprites:
                 'obj_action': [],
                 'drop': {}
             },
+            'npc_bee': {
+                'sprite': pygame.image.load('sprites/bee/base/0.png').convert_alpha(),
+                'viewing_angles': None,
+                'shift': 0.8,
+                'scale': (0.8, 0.8),
+                'side': 30,
+                'animation': [],
+                'death_animation': deque([pygame.image.load(f'sprites/bee/death/{i}.png')
+                                         .convert_alpha() for i in range(6)]),
+                'is_dead': None,
+                'dead_shift': 0.8,
+                'animation_dist': None,
+                'animation_speed': 6,
+                'blocked': True,
+                'flag': 'npc',
+                'obj_action': deque([pygame.image.load(f'sprites/bee/anim/{i}.png')
+                                    .convert_alpha() for i in range(3)]),
+                'drop': {30:'healshroom', 20:'manashroom'}
+            },
+            'npc_chiken': {
+                'sprite': pygame.image.load('sprites/chiken/base/0.png').convert_alpha(),
+                'viewing_angles': None,
+                'shift': 0.8,
+                'scale': (0.8, 0.8),
+                'side': 30,
+                'animation': [],
+                'death_animation': deque([pygame.image.load(f'sprites/chiken/death/{i}.png')
+                                         .convert_alpha() for i in range(6)]),
+                'is_dead': None,
+                'dead_shift': 0.8,
+                'animation_dist': None,
+                'animation_speed': 6,
+                'blocked': True,
+                'flag': 'npc',
+                'obj_action': deque([pygame.image.load(f'sprites/chiken/anim/{i}.png')
+                                    .convert_alpha() for i in range(3)]),
+                'drop': {100: 'chiken'}
+            },
             'npc_irongolem': {
                 'sprite': pygame.image.load(f'sprites/irongolem/base/0.png').convert_alpha(),
                 'viewing_angles': False,
@@ -179,16 +217,23 @@ class Sprites:
                             )
                             self.list_of_objects[-1].object_locate(player)
                     del self.list_of_objects[self.list_of_objects.index(i)]
-                    if len(self.list_of_objects) < 7:
-                        chance = random.randint(1, 100)
+                    chance = random.randint(1, 100)
+                    x, y = random.randint(1, 33), random.randint(1, 21)
+                    while (x, y) in world_map.keys():
                         x, y = random.randint(1, 33), random.randint(1, 21)
-                        while (x, y) in world_map.keys():
-                            x, y = random.randint(1, 33), random.randint(1, 21)
-                        if chance > 10:
+                    if chance > 10:
+                        a, b = x - 13, y - 12
+                        if a >= 0 and b < 0:#forest
+                            self.spawn('npc_bee', (x, y), 0.007, 4, 1)
+                        elif a < 0 and b < 0:#mineshaft
                             self.spawn('npc_skeleton', (x, y), 0.005, 2, 2)
-                        else:
-                            self.spawn('npc_irongolem', (x, y), 0.02, 60, 0.5, '', True)
-                        self.list_of_objects[-1].object_locate(player)
+                        elif a < 0 and b >= 0:#dragon's dungenon
+                            self.spawn('npc_skeleton', (x, y), 0.005, 2, 2)
+                        elif a >= 0 and b >= 0:#city
+                            self.spawn('npc_chiken', (x, y), 0, 3, -1)
+                    else:
+                        self.spawn('npc_irongolem', (x, y), 0.02, 60, 0.5, '', True)
+                    self.list_of_objects[-1].object_locate(player)
                 elif i.is_dead != 'immortal' and i.is_dead:
                     i.time_dead += 1
 
