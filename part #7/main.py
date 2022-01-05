@@ -42,7 +42,8 @@ quests = []
 was_quests = []
 while True:
     pygame.mixer.music.set_volume(VOLUME / 100)
-
+    if player.hp == 0:
+        break
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             exit()
