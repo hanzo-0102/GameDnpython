@@ -21,7 +21,7 @@ indexes = {
 pygame.init()
 sc = pygame.display.set_mode((WIDTH, HEIGHT))
 sc_map = pygame.Surface(MINIMAP_RES)
-sc_gui = pygame.Surface((410, 30))
+sc_gui = pygame.Surface((410, 50))
 sprites = Sprites()
 clock = pygame.time.Clock()
 player = Player(sprites)
@@ -47,11 +47,24 @@ while True:
         if event.type == pygame.QUIT:
             exit()
         if event.type == pygame.MOUSEBUTTONDOWN and mode == 'game':
-            if event.button == 1 and not player.shot:
+            if event.button == 1 and not player.shot and player.mana >= player.weapon().manacost:
                 player.shot = True
+                player.mana -= player.weapon().manacost
         elif event.type == pygame.MOUSEBUTTONDOWN and mode == 'inventory':
             if event.button == 1:
                 inventory.get_click(pygame.mouse.get_pos())
+            if event.button == 2:
+                cell = inventory.get_cell(pygame.mouse.get_pos())
+                if cell:
+                    if inventory.invent[cell[0]][cell[1]] == 'manashroom':
+                        inventory.invent[cell[0]][cell[1]] = False
+                        player.mana = max(player.max_mana, player.mana + 2)
+                    elif inventory.invent[cell[0]][cell[1]] == 'healshroom':
+                        inventory.invent[cell[0]][cell[1]] = False
+                        player.hp = max(player.max_hp, player.hp + 1.2)
+                    elif inventory.invent[cell[0]][cell[1]] == 'chiken':
+                        inventory.invent[cell[0]][cell[1]] = False
+                        player.hp = max(player.max_hp, player.hp + 3.2)
         elif event.type == pygame.MOUSEBUTTONDOWN and mode == 'dialog':
             if event.button == 1 and dialog_list[num_of_dialog].split()[0] == 'T':
                 num_of_dialog += 1

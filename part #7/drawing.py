@@ -89,8 +89,9 @@ class Drawing:
 
     def gui(self, player):
         self.sc_gui.fill(BLACK)
-        pygame.draw.rect(self.sc_gui, WHITE, (5, 5, 400, 20))
+        pygame.draw.rect(self.sc_gui, WHITE, (5, 5, 400, 40))
         pygame.draw.rect(self.sc_gui, GREEN, (5, 5, 400 * (player.hp / player.max_hp), 20))
+        pygame.draw.rect(self.sc_gui, SKYBLUE, (5, 25, 400 * (player.mana / player.max_mana), 20))
         self.sc.blit(self.sc_gui, (30, 740))
 
     def player_weapon(self, shots):

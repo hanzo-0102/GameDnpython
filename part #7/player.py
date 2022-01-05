@@ -13,6 +13,8 @@ class Player:
         self.sensitivity = 0.004
         self.max_hp = 5
         self.hp = 5
+        self.max_mana = 5
+        self.mana = 5
         self.lvl = 1
         # collision parameters
         self.side = 50
@@ -20,6 +22,12 @@ class Player:
         # weapon
         self.shot = False
         self.weaponi = 'woodensword'
+
+    def mana(self):
+        return self.mana
+
+    def max_mana(self):
+        return self.max_mana
 
     def hp(self):
         return self.hp
