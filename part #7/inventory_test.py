@@ -3,6 +3,7 @@ import copy
 import os
 import sys
 from collections import deque
+from settings import *
 
 
 items_rare = {
@@ -71,24 +72,13 @@ class Inventory:
                     self.invent[y][x] = item
                     return 0
         if all([all(i) for i in self.invent]):
-            self.dropitem(item, self.sprites, self.player)
+            self.dropitem(item)
 
     def dropitem(self, item):
-        x = {'sprite': pygame.image.load(f'sprites/items/base/{item}.png').convert_alpha(),
-                'viewing_angles': False,
-                'shift': 0.8,
-                'scale': (0.8, 0.8),
-                'side': 30,
-                'animation': [],
-                'death_animation': deque([]),
-                'is_dead': 'immortal',
-                'dead_shift': 0.8,
-                'animation_dist': None,
-                'animation_speed': 6,
-                'blocked': True,
-                'flag': 'decor',
-                'obj_action': deque([])}
-        self.sprites.list_of_objects.append(x, self.player.pos)
+        from sprite_objects import SpriteObject
+        x = Item(item).item
+        print(self.player.x / TILE, self.player.y / TILE)
+        self.sprites.list_of_objects.append(SpriteObject(x, (self.player.x // TILE + 0.6, self.player.y // TILE - 0.6), name=item))
 
 
     def get_click(self, mouse_pos):
@@ -132,7 +122,7 @@ class Inventory:
 
 
     def on_click(self, cell, pos):
-        if self.moving == False:
+        if self.moving == False and cell:
             self.dx = cell[0] * self.cellsize + self.left - pos[0]
             self.dy = cell[1] * self.cellsize + self.top - pos[1]
             self.moving = self.invent[cell[0]][cell[1]]
@@ -145,7 +135,8 @@ class Inventory:
                 else:
                     self.invent[x][y] = self.moving
             except Exception:
-                self.dropitem(self.moving)
+                if self.moving:
+                    self.dropitem(self.moving)
             self.moving = False
 
     def draw(self, screen):

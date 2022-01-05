@@ -50,6 +50,7 @@ while True:
                 player.curwep = 1
                 player.weapon = player.weapons[player.curwep]
             elif event.key == pygame.K_e:
+                pygame.mouse.set_pos((HALF_WIDTH, HALF_HEIGHT))
                 mode = 'inventory' if mode == 'game' else 'game'
     if mode == 'game':
         pygame.mouse.set_visible(False)
@@ -71,6 +72,7 @@ while True:
         interaction.interaction_objects()
         interaction.npc_action()
         interaction.clear_world()
+        inventory.sprites = sprites
     elif mode == 'inventory':
         pygame.mouse.set_visible(True)
         sc.blit(pygame.image.load('img/inventory.jpg'), (0, 0))
