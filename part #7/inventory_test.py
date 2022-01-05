@@ -6,7 +6,9 @@ from collections import deque
 
 
 items_rare = {
-    'bone':'common'
+    'bone':'common',
+    'woodensword':'common',
+    'magicwand':'common'
 }
 
 
@@ -58,6 +60,8 @@ class Inventory:
         self.top = top
         self.left = left
         self.cellsize = cellsize
+        self.melee = 'woodensword'
+        self.range = 'magicwand'
 
     def additem(self, item):
         for x in range(self.width):
@@ -92,7 +96,9 @@ class Inventory:
 
     def get_cell(self, pos):
         cell = ((pos[0] - self.left) / self.cellsize, (pos[1] - self.top) / self.cellsize)
-        if cell[0] < 0 or cell[0] > self.width or cell[1] < 0 or cell[1] > self.height:
+        if int(cell[0]) == 13 and int(cell[1]) in range(5, 7):
+            return (int(cell[0]), int(cell[1]))
+        elif cell[0] < 0 or cell[0] > self.width or cell[1] < 0 or cell[1] > self.height:
             return None
         else:
             return (int(cell[0]), int(cell[1]))
@@ -105,6 +111,15 @@ class Inventory:
                 if self.invent[x][y]:
                     screen.blit(pygame.image.load(f"sprites/inventory/{self.invent[x][y]}icon.png"),
                                 (self.left + 2 + (x * self.cellsize), self.top + 2 + (y * self.cellsize)))
+        screen.blit(pygame.image.load("sprites/inventory/emptyslot.png"),
+                    (self.left + ((self.width + 3) * self.cellsize), self.top + (self.height // 2 * self.cellsize)))
+        screen.blit(pygame.image.load("sprites/inventory/emptyslot.png"),
+                    (self.left + ((self.width + 3) * self.cellsize), self.top + ((self.height // 2 + 1) * self.cellsize)))
+        screen.blit(pygame.image.load(f"sprites/inventory/{self.melee}icon.png"),
+                    (self.left + 2 + ((self.width + 3) * self.cellsize), self.top + 2 + (self.height // 2 * self.cellsize)))
+        screen.blit(pygame.image.load(f"sprites/inventory/{self.range}icon.png"),
+                    (self.left + 2 + ((self.width + 3) * self.cellsize), self.top + 2 + ((self.height // 2 + 1) * self.cellsize)))
+
 
     def on_click(self, cell, pos):
         if self.moving == False:

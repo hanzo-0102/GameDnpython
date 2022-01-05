@@ -76,10 +76,26 @@ while True:
         inventory.draw(sc)
         x, y = pygame.mouse.get_pos()
         cell = inventory.get_cell((x, y))
-        if cell and inventory.invent[cell[0]][cell[1]]:
+        if cell and cell != (13, 5) and cell != (13, 6) and inventory.invent[cell[0]][cell[1]]:
+            widthi = len(f"{inventory.invent[cell[0]][cell[1]].capitalize()}-{items_rare[inventory.invent[cell[0]][cell[1]]]}")
+            pygame.draw.rect(sc, DARKGRAY, (x, y, 8 * widthi, 40))
             pygame.draw.rect(sc, DARKGRAY, (x, y, 100, 40))
             text = font.render(f"{inventory.invent[cell[0]][cell[1]].capitalize()}-{items_rare[inventory.invent[cell[0]][cell[1]]]}",
                                0, WHITE)
+            sc.blit(text, (x + 3, y + 13))
+        elif cell and cell == (13, 5):
+            widthi = len(f"{inventory.melee.capitalize()}-{items_rare[inventory.melee]}")
+            pygame.draw.rect(sc, DARKGRAY, (x, y, 8 * widthi, 40))
+            text = font.render(
+                f"{inventory.melee.capitalize()}-{items_rare[inventory.melee]}",
+                0, WHITE)
+            sc.blit(text, (x + 3, y + 13))
+        elif cell and cell == (13, 6):
+            widthi = len(f"{inventory.range.capitalize()}-{items_rare[inventory.range]}")
+            pygame.draw.rect(sc, DARKGRAY, (x, y, 8 * widthi, 40))
+            text = font.render(
+                f"{inventory.range.capitalize()}-{items_rare[inventory.range]}",
+                0, WHITE)
             sc.blit(text, (x + 3, y + 13))
         sprites.list_of_objects = inventory.sprites.list_of_objects
 
