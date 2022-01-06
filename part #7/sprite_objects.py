@@ -248,6 +248,24 @@ class Sprites:
                                     .convert_alpha() for i in range(3)]),
                 'drop': {}
             },
+            'oldtree_trader': {
+                'sprite': pygame.image.load(f'sprites/oldtree/base/0.png').convert_alpha(),
+                'viewing_angles': False,
+                'shift': 0.4,
+                'scale': (1.2, 1.2),
+                'side': 30,
+                'animation': [],
+                'death_animation': [],
+                'is_dead': 'immortal',
+                'dead_shift': 0.8,
+                'animation_dist': None,
+                'animation_speed': 6,
+                'blocked': True,
+                'flag': 'trader',
+                'obj_action': deque([pygame.image.load(f'sprites/oldtree/anim/{i}.png')
+                                    .convert_alpha() for i in range(1)]),
+                'drop': {}
+            }
         }
 
         self.list_of_objects = [
@@ -276,6 +294,15 @@ class Sprites:
                 'Q Bring me 3 crashed swords and i will reapir it.',
                 'T Good bye. Be careful !',
                 'R--(3, crashedironsword)--(1, ironsword)--I hope you will like it. Hope to see you again !',
+                'D'
+            ]),
+            SpriteObject(self.sprite_parameters['oldtree_trader'], (34.5, 1.5), dialog_list=[
+                "T Hello my human-firend. I'm old tree living there.",
+                'T Pleas, return my friend to me.',
+                'T Someone turned them into swords many years ago.',
+                'Q Will you help me ?',
+                'T May the magic be with you !',
+                'R--(5, woodensword)--(2, healshroom)--I hope it will help you. Good bye !',
                 'D'
             ])
         ]
