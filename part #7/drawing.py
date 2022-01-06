@@ -99,7 +99,7 @@ class Drawing:
             if not self.shot_length_count:
                 self.shot_sound.play()
             self.shot_projection = min(shots)[1] // 2
-            if self.weaponi not in ['woodensword']:
+            if self.weaponi not in ['woodensword', 'crashedironsword', 'ironsword']:
                 self.bullet_sfx()
             shot_sprite = self.weapon_shot_animation[self.shot_length_count]
             self.sc.blit(shot_sprite, self.weapon_pos)
