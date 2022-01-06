@@ -33,12 +33,14 @@ inventory = Inventory(10, 10, 200, 450, 36, player, sprites)
 skilltree = SkillTree([['NatureSheild', 'NatureSheild2', 'NatureSheild3', 'MagicSheild', 'MagicSheild2'],
                        ['FastSteps', 'LikeTornado', 'LikeTornado2', 'Uncatchable', 'SpeedOfTheif'],
                        ['SharpSword', 'IronFist', 'IronFist2', 'KungFu', 'OnePunchMan'],
-                       ['YoungStudent', 'GraduateStudent', 'MasterOfWater', 'MasterOfFire', 'MagisterOfMagic']],
-                      [[1, 2, 2, 3, 3], [1, 2, 2, 3, 4], [1, 2, 2, 3, 4], [1, 2, 3, 3, 4]],
+                       ['YoungStudent', 'GraduateStudent', 'MasterOfWater', 'MasterOfFire', 'MagisterOfMagic'],
+                       ['StrongShot', 'StrongShot2', 'StrongShot3', 'StrongShot4', 'GoodEye']],
+                      [[1, 2, 2, 3, 3], [1, 2, 2, 3, 4], [1, 2, 2, 3, 4], [1, 2, 3, 3, 4], [1, 1, 2, 3, 4]],
                       [['Decrease incoming damage by 10 %', 'Decrease incoming damage by 20 %', 'Decrease incoming damage by 30 %', 'Decrease incoming damage by 50 %', 'Decrease incoming damage by 70 %'],
                        ['Increase speed by 10 %', 'Increase speed by 25 %', 'Increase speed by 40 %', 'Increase speed by 65 %', 'Increase speed by 100 %'],
                        ['Increase melee damage by 10 %', 'Increase melee damage by 25 %', 'Increase melee damage by 40 %', 'Increase melee damage by 60 %', 'Increase melee damage by 80 %'],
-                       ['Decrease mana cost by 10 %', 'Decrease mana cost by 20 %', 'Decrease mana cost by 40 %', 'Decrease mana cost by 60 %', 'Regenerate 2 % mana for tick']],
+                       ['Decrease mana cost by 10 %', 'Decrease mana cost by 20 %', 'Decrease mana cost by 40 %', 'Decrease mana cost by 60 %', 'Regenerate 2 % mana for tick'],
+                       ['Increase range damage by 10 %', 'Increase range damage by 20 %', 'Increase range damage by 40 %', 'Increase range damage by 60 %', 'You wont lose mana if you miss']],
                       [])
 mode = 'game'
 drawing.menu()
@@ -53,6 +55,7 @@ answer = False
 take = False
 quests = []
 was_quests = []
+can_miss = False
 while True:
     pygame.mixer.music.set_volume(VOLUME / 100)
     interaction.player = player
@@ -103,13 +106,25 @@ while True:
     if 'MagisterOfMagic' in skilltree.learned:
         player.managen = 0.02
 
+    if 'StrongShot' in skilltree.learned:
+        player.rangedmg = 1.1
+    if 'StrongShot2' in skilltree.learned:
+        player.rangedmg = 1.2
+    if 'StrongShot3' in skilltree.learned:
+        player.rangedmg = 1.4
+    if 'StrongShot4' in skilltree.learned:
+        player.rangedmg = 1.6
+    if 'GoodEye' in skilltree.learned:
+        can_miss = True
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             exit()
         if event.type == pygame.MOUSEBUTTONDOWN and mode == 'game':
             if event.button == 1 and not player.shot and player.mana >= player.weapon().manacost * player.manacost:
                 player.shot = True
-                player.mana -= player.weapon().manacost * player.manacost
+                if not(can_miss and any([obj.is_on_fire[1] for obj in sprites.list_of_objects])):
+                    player.mana -= player.weapon().manacost * player.manacost
         elif event.type == pygame.MOUSEBUTTONDOWN and mode == 'skilltree':
             if event.button == 1:
                 skilltree.get_click(pygame.mouse.get_pos())

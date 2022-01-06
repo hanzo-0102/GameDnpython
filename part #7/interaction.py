@@ -58,7 +58,7 @@ class Interaction:
                             if self.player.weapon().type == 'melee':
                                 obj.health -= self.player.weapon().damage * self.player.meleedmg
                             else:
-                                obj.health -= self.player.weapon().damage
+                                obj.health -= self.player.weapon().damage * self.player.rangedmg
                             if obj.health <= 0:
                                 if ray_casting_npc_player(obj.x, obj.y,
                                                           [],

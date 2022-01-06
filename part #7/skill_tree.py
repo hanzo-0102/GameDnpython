@@ -30,7 +30,7 @@ class SkillTree:
         self.learned = learned
         self.need = need
         self.cellsize = 40
-        self.width = 4
+        self.width = 5
         self.height = 5
         self.left = 50
         self.top = 120

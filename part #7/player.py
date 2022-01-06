@@ -14,6 +14,7 @@ class Player:
         self.skillpoints = 0
         self.speed = 1
         self.meleedmg = 1
+        self.rangedmg = 1
         self.manacost = 1
         self.sheild = 1
         self.max_hp = 5
