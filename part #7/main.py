@@ -244,6 +244,7 @@ while True:
                 if [int(need[0]), need[1], int(reward[0]), reward[1]] not in quests and [int(need[0]), need[1], int(reward[0]), reward[1]] not in was_quests:
                     quests.append([int(need[0]), need[1], int(reward[0]), reward[1]])
                 mode = 'game'
+
     pygame.display.flip()
     clock.tick(FPS)
 pygame.quit()
