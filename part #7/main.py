@@ -12,6 +12,7 @@ from map import world_map
 from inventory_test import Inventory, items_rare
 from pygame.event import Event
 from threading import Timer
+from skill_tree import SkillTree
 
 indexes = {
     'magicwand': 0,
@@ -29,6 +30,16 @@ player = Player(sprites)
 drawing = Drawing(sc, sc_map, player, clock, sc_gui)
 interaction = Interaction(player, sprites, drawing)
 inventory = Inventory(10, 10, 200, 450, 36, player, sprites)
+skilltree = SkillTree([['NatureSheild', 'NatureSheild2', 'NatureSheild3', 'MagicSheild', 'MagicSheild2'],
+                       ['FastSteps', 'LikeTornado', 'LikeTornado2', 'Uncatchable', 'SpeedOfTheif'],
+                       ['SharpSword', 'IronFist', 'IronFist2', 'KungFu', 'OnePunchMan'],
+                       ['YoungStudent', 'GraduateStudent', 'MasterOfWater', 'MasterOfFire', 'MagisterOfMagic']],
+                      [[1, 2, 2, 3, 3], [1, 2, 2, 3, 4], [1, 2, 2, 3, 4], [1, 2, 3, 3, 4]],
+                      [['Decrease incoming damage by 10 %', 'Decrease incoming damage by 20 %', 'Decrease incoming damage by 30 %', 'Decrease incoming damage by 50 %', 'Decrease incoming damage by 70 %'],
+                       ['Increase speed by 10 %', 'Increase speed by 25 %', 'Increase speed by 40 %', 'Increase speed by 65 %', 'Increase speed by 100 %'],
+                       ['Increase melee damage by 10 %', 'Increase melee damage by 25 %', 'Increase melee damage by 40 %', 'Increase melee damage by 60 %', 'Increase melee damage by 80 %'],
+                       ['Decrease mana cost by 10 %', 'Decrease mana cost by 20 %', 'Decrease mana cost by 40 %', 'Decrease mana cost by 60 %', 'Regenerate 2 % mana for tick']],
+                      [])
 mode = 'game'
 drawing.menu()
 pygame.mouse.set_visible(False)
@@ -44,15 +55,64 @@ quests = []
 was_quests = []
 while True:
     pygame.mixer.music.set_volume(VOLUME / 100)
+    interaction.player = player
     if player.hp <= 0:
         break
+
+    if 'NatureSheild' in skilltree.learned:
+        player.sheild = 0.9
+    if 'NatureSheild2' in skilltree.learned:
+        player.sheild = 0.8
+    if 'NatureSheild3' in skilltree.learned:
+        player.sheild = 0.7
+    if 'MagicSheild' in skilltree.learned:
+        player.sheild = 0.5
+    if 'MagicSheild2' in skilltree.learned:
+        player.sheild = 0.3
+
+    if 'FastSteps' in skilltree.learned:
+        player.sheild = 1.1
+    if 'LikeTornado' in skilltree.learned:
+        player.sheild = 1.25
+    if 'LikeTornado2' in skilltree.learned:
+        player.sheild = 1.4
+    if 'Uncatchable' in skilltree.learned:
+        player.sheild = 1.65
+    if 'SpeedOfTheif' in skilltree.learned:
+        player.sheild = 2
+
+    if 'SharpSword' in skilltree.learned:
+        player.sheild = 1.1
+    if 'IronFist' in skilltree.learned:
+        player.sheild = 1.25
+    if 'IronFist2' in skilltree.learned:
+        player.sheild = 1.4
+    if 'KungFu' in skilltree.learned:
+        player.sheild = 1.6
+    if 'OnePunchMan' in skilltree.learned:
+        player.sheild = 1.8
+
+    if 'YoungStudent' in skilltree.learned:
+        player.sheild = 0.9
+    if 'GraduateStudent' in skilltree.learned:
+        player.sheild = 0.8
+    if 'MasterOfWater' in skilltree.learned:
+        player.sheild = 0.6
+    if 'MasterOfFire' in skilltree.learned:
+        player.sheild = 0.4
+    if 'MagisterOfMagic' in skilltree.learned:
+        player.managen = 0.02
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             exit()
         if event.type == pygame.MOUSEBUTTONDOWN and mode == 'game':
-            if event.button == 1 and not player.shot and player.mana >= player.weapon().manacost:
+            if event.button == 1 and not player.shot and player.mana >= player.weapon().manacost * player.manacost:
                 player.shot = True
-                player.mana -= player.weapon().manacost
+                player.mana -= player.weapon().manacost * player.manacost
+        elif event.type == pygame.MOUSEBUTTONDOWN and mode == 'skilltree':
+            if event.button == 1:
+                skilltree.get_click(pygame.mouse.get_pos())
         elif event.type == pygame.MOUSEBUTTONDOWN and mode == 'inventory':
             if event.button == 1:
                 inventory.get_click(pygame.mouse.get_pos())
@@ -120,6 +180,9 @@ while True:
             elif event.key == pygame.K_e:
                 pygame.mouse.set_pos((HALF_WIDTH, HALF_HEIGHT))
                 mode = 'inventory' if mode == 'game' else 'game'
+            elif event.key == pygame.K_TAB:
+                pygame.mouse.set_pos((HALF_WIDTH, HALF_HEIGHT))
+                mode = 'skilltree' if mode == 'game' else 'game'
             elif event.key == pygame.K_f and avaliable_dialog:
                 mode = 'dialog'
                 num_of_dialog = 0
@@ -130,8 +193,10 @@ while True:
                 take = False
     if mode == 'game':
         pygame.mouse.set_visible(False)
+        player.mana = min(player.max_mana, player.mana + (player.mana * player.managen))
         player.movement()
         player.level_up()
+        skilltree.skillpoints = player.skillpoints
         drawing.background(player.angle)
         walls, wall_shot = ray_casting_walls(player, drawing.textures)
         drawing.world(walls + [obj.object_locate(player) for obj in sprites.list_of_objects])
@@ -142,7 +207,7 @@ while True:
         for i in sprites.list_of_objects:
             if not(i.is_dead):
                 if (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) < i.distance):
-                    player.dmg(i.damag)
+                    player.dmg(i.damag * player.sheild)
             if i.flag == 'bullet':
                 if (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) < i.distance):
                     player.dmg(i.damag)
@@ -203,6 +268,25 @@ while True:
         except Exception:
             pass
         sprites.list_of_objects = inventory.sprites.list_of_objects
+    elif mode == 'skilltree':
+        pygame.mouse.set_visible(True)
+        player.skillpoints = skilltree.skillpoints
+        sc.blit(pygame.image.load('img/skilltree.png'), (0, 0))
+        drawing.fps(clock)
+        skilltree.render(sc, player.lvl)
+        x, y = pygame.mouse.get_pos()
+        cell = skilltree.get_cell((x, y))
+        if cell:
+            try:
+                pygame.draw.rect(sc, DARKGRAY, (x, y, 260, 40))
+                text = font.render(f"{skilltree.skills[cell[0]][cell[1]]} Cost: {skilltree.need[cell[0]][cell[1]]}",
+                                   0, WHITE)
+                sc.blit(text, (x + 3, y + 13))
+                text = font.render(f"EFFECT : {skilltree.effect[cell[0]][cell[1]]}",
+                                   0, WHITE)
+                sc.blit(text, (x + 3, y + 26))
+            except Exception:
+                pass
     elif mode == 'dialog':
         pygame.mouse.set_visible(True)
         drawing.background(player.angle)

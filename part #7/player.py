@@ -11,9 +11,15 @@ class Player:
         self.sprites = sprites
         self.angle = player_angle
         self.sensitivity = 0.004
+        self.skillpoints = 0
+        self.speed = 1
+        self.meleedmg = 1
+        self.manacost = 1
+        self.sheild = 1
         self.max_hp = 5
         self.hp = 5
         self.max_mana = 3
+        self.managen = 0
         self.mana = 3
         self.xp = 0
         self.lvl = 1
@@ -45,6 +51,7 @@ class Player:
             self.lvl += 1
             self.max_hp += 2
             self.max_mana += 1
+            self.skillpoints += max(0, 3 - (self.lvl // 5))
 
     def xp(self):
         return self.xp
@@ -108,20 +115,20 @@ class Player:
             exit()
 
         if keys[pygame.K_w]:
-            dx = player_speed * cos_a
-            dy = player_speed * sin_a
+            dx = (player_speed * self.speed) * cos_a
+            dy = (player_speed * self.speed) * sin_a
             self.detect_collision(dx, dy)
         if keys[pygame.K_s]:
-            dx = -player_speed * cos_a
-            dy = -player_speed * sin_a
+            dx = -(player_speed * self.speed) * cos_a
+            dy = -(player_speed * self.speed) * sin_a
             self.detect_collision(dx, dy)
         if keys[pygame.K_a]:
-            dx = player_speed * sin_a
-            dy = -player_speed * cos_a
+            dx = (player_speed * self.speed) * sin_a
+            dy = -(player_speed * self.speed) * cos_a
             self.detect_collision(dx, dy)
         if keys[pygame.K_d]:
-            dx = -player_speed * sin_a
-            dy = player_speed * cos_a
+            dx = -(player_speed * self.speed) * sin_a
+            dy = (player_speed * self.speed) * cos_a
             self.detect_collision(dx, dy)
 
         if keys[pygame.K_LEFT]:

@@ -55,7 +55,10 @@ class Interaction:
                 if obj.is_on_fire[1]:
                     if obj.is_dead != 'immortal' and not obj.is_dead:
                         if obj.is_on_fire[1] >= self.player.weapon().dist:
-                            obj.health -= self.player.weapon().damage
+                            if self.player.weapon().type == 'melee':
+                                obj.health -= self.player.weapon().damage * self.player.meleedmg
+                            else:
+                                obj.health -= self.player.weapon().damage
                             if obj.health <= 0:
                                 if ray_casting_npc_player(obj.x, obj.y,
                                                           [],
