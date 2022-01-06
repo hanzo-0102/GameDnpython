@@ -11,7 +11,7 @@ class Player:
         self.sprites = sprites
         self.angle = player_angle
         self.sensitivity = 0.004
-        self.skillpoints = 0
+        self.skillpoints = 60
         self.speed = 1
         self.meleedmg = 1
         self.rangedmg = 1

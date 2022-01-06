@@ -55,7 +55,7 @@ answer = False
 take = False
 quests = []
 was_quests = []
-can_miss = False
+can_miss = True
 while True:
     pygame.mixer.music.set_volume(VOLUME / 100)
     interaction.player = player
@@ -115,7 +115,7 @@ while True:
     if 'StrongShot4' in skilltree.learned:
         player.rangedmg = 1.6
     if 'GoodEye' in skilltree.learned:
-        can_miss = True
+        can_miss = False
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -123,7 +123,7 @@ while True:
         if event.type == pygame.MOUSEBUTTONDOWN and mode == 'game':
             if event.button == 1 and not player.shot and player.mana >= player.weapon().manacost * player.manacost:
                 player.shot = True
-                if not(can_miss and any([obj.is_on_fire[1] for obj in sprites.list_of_objects])):
+                if can_miss or any([obj.is_on_fire[1] for obj in sprites.list_of_objects]):
                     player.mana -= player.weapon().manacost * player.manacost
         elif event.type == pygame.MOUSEBUTTONDOWN and mode == 'skilltree':
             if event.button == 1:
