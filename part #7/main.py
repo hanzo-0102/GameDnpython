@@ -321,7 +321,8 @@ while True:
                         if inventory.invent[i][j] == need[1] and needcounti != 0:
                             inventory.invent[i][j] = False
                             needcounti -= 1
-                inventory.additem('bow')
+                for i in range(int(reward[0])):
+                    inventory.additem(reward[1])
                 text = fontBigger.render(dialog_list[num_of_dialog].split()[3], 0, WHITE)
                 sc.blit(text, (3, HALF_HEIGHT + 63))
             else:
