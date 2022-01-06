@@ -14,7 +14,9 @@ items_rare = {
     'bow':'uncommon',
     'healshroom':'uncommon',
     'manashroom':'uncommon',
-    'chiken':'uncommon'
+    'chiken':'uncommon',
+    'carrot':'common',
+    'cabage':'common'
 }
 
 

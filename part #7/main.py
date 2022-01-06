@@ -1,3 +1,4 @@
+import random
 import timeit
 
 import pygame
@@ -38,6 +39,7 @@ avaliable_dialog = False
 num_of_dialog = 0
 dialog_list = []
 answer = False
+take = False
 quests = []
 was_quests = []
 while True:
@@ -59,10 +61,16 @@ while True:
                 if cell:
                     if inventory.invent[cell[0]][cell[1]] == 'manashroom':
                         inventory.invent[cell[0]][cell[1]] = False
-                        player.mana = max(player.max_mana, player.mana + 2)
+                        player.mana = min(player.max_mana, player.mana + 2)
                     elif inventory.invent[cell[0]][cell[1]] == 'healshroom':
                         inventory.invent[cell[0]][cell[1]] = False
-                        player.hp = max(player.max_hp, player.hp + 1.2)
+                        player.hp = min(player.max_hp, player.hp + 1.2)
+                    elif inventory.invent[cell[0]][cell[1]] == 'cabage':
+                        inventory.invent[cell[0]][cell[1]] = False
+                        player.hp = min(player.max_hp, player.hp + 0.9)
+                    elif inventory.invent[cell[0]][cell[1]] == 'carrot':
+                        inventory.invent[cell[0]][cell[1]] = False
+                        player.hp = min(player.max_hp, player.hp + 0.6)
                     elif inventory.invent[cell[0]][cell[1]] == 'chiken':
                         inventory.invent[cell[0]][cell[1]] = False
                         player.max_hp += 2
@@ -114,6 +122,11 @@ while True:
             elif event.key == pygame.K_f and avaliable_dialog:
                 mode = 'dialog'
                 num_of_dialog = 0
+            elif event.key == pygame.K_f:
+                take = True
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_f:
+                take = False
     if mode == 'game':
         pygame.mouse.set_visible(False)
         player.movement()
@@ -139,6 +152,16 @@ while True:
                 sc.blit(render, (HALF_WIDTH - 220, HALF_HEIGHT + 80))
             elif i.flag == 'trader' and (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) >= 120):
                 avaliable_dialog = False
+            if i.flag == 'farmland' and i.stage == 3 and (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) < 120):
+                if not(take):
+                    render = fontBigger.render('press [F] to interract', 0, DARKORANGE)
+                    sc.blit(render, (HALF_WIDTH - 220, HALF_HEIGHT + 80))
+                else:
+                    take = False
+                    inventory.additem(i.item)
+                    i.stage = 1
+                    i.object = pygame.image.load(f'sprites/{i.item}/base/{i.stage - 1}.png').convert_alpha()
+                    i.time_to_grow = random.randint(1000, 10000)
         sprites.clearing(player, world_map, inventory)
         interaction.interaction_objects()
         interaction.npc_action()
@@ -219,7 +242,6 @@ while True:
                 if [int(need[0]), need[1], int(reward[0]), reward[1]] not in quests and [int(need[0]), need[1], int(reward[0]), reward[1]] not in was_quests:
                     quests.append([int(need[0]), need[1], int(reward[0]), reward[1]])
                 mode = 'game'
-
     pygame.display.flip()
     clock.tick(FPS)
 pygame.quit()

@@ -119,7 +119,7 @@ class Sprites:
                 'flag': 'npc',
                 'obj_action': deque([pygame.image.load(f'sprites/bee/anim/{i}.png')
                                     .convert_alpha() for i in range(3)]),
-                'drop': {30:'healshroom', 20:'manashroom'}
+                'drop': {40:'healshroom', 39:'manashroom'}
             },
             'npc_chiken': {
                 'sprite': pygame.image.load('sprites/chiken/base/0.png').convert_alpha(),
@@ -176,6 +176,23 @@ class Sprites:
                 'obj_action': deque([pygame.image.load(f'sprites/ogr/anim/{i}.png')
                                     .convert_alpha() for i in range(1)]),
                 'drop': {}
+            },
+            'farmland': {
+                'sprite': pygame.image.load(f'sprites/farmland/base/0.png').convert_alpha(),
+                'viewing_angles': False,
+                'shift': 0.4,
+                'scale': (0.8, 0.8),
+                'side': 30,
+                'animation': [],
+                'death_animation': [],
+                'is_dead': 'immortal',
+                'dead_shift': 0.8,
+                'animation_dist': None,
+                'animation_speed': 6,
+                'blocked': False,
+                'flag': 'farmland',
+                'obj_action': [],
+                'drop': {}
             }
         }
 
@@ -187,6 +204,9 @@ class Sprites:
             SpriteObject(self.sprite_parameters['npc_skeleton'], (8.75, 3.65), 0.005, 2, 2),
             SpriteObject(self.sprite_parameters['npc_skeleton'], (1.27, 11.5), 0.005, 2, 2),
             SpriteObject(self.sprite_parameters['npc_skeleton'], (1.26, 8.29), 0.005, 2, 2),
+            SpriteObject(self.sprite_parameters['farmland'], (32, 11.5)),
+            SpriteObject(self.sprite_parameters['farmland'], (32, 12)),
+            SpriteObject(self.sprite_parameters['farmland'], (32, 12.5)),
             SpriteObject(self.sprite_parameters['ogr_trader'], (20.27, 12.43), dialog_list=[
                 'T Hello. My want bones. You - bones, Me - reward.',
                 'Q Ok ?',
@@ -268,6 +288,11 @@ class SpriteObject:
         self.animation_speed = parameters['animation_speed']
         self.blocked = parameters['blocked']
         self.flag = parameters['flag']
+        if self.flag == 'farmland':
+            self.item = ['carrot', 'cabage'][random.randint(0, 1)]
+            self.stage = 1
+            self.object = pygame.image.load(f'sprites/{self.item}/base/{self.stage - 1}.png').convert_alpha()
+            self.time_to_grow = random.randint(1000, 10000)
         self.obj_action = parameters['obj_action'].copy()
         self.x, self.y = pos[0] * TILE, pos[1] * TILE
         self.side = parameters['side']

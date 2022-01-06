@@ -3,6 +3,7 @@ from map import world_map
 from ray_casting import mapping
 import math
 import pygame
+import random
 
 
 
@@ -77,6 +78,12 @@ class Interaction:
                     obj.npc_action_trigger = False
             elif obj.flag == 'bullet':
                 self.npc_move(obj)
+            elif obj.flag == 'farmland' and obj.stage != 3:
+                obj.time_to_grow -= 1
+                if obj.time_to_grow == 0:
+                    obj.stage += 1
+                    obj.object = pygame.image.load(f'sprites/{obj.item}/base/{obj.stage - 1}.png').convert_alpha()
+                    obj.time_to_grow = random.randint(1000, 10000)
 
     def npc_move(self, obj):
         if (abs(obj.distance_to_sprite) > TILE):
