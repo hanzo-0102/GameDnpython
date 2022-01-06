@@ -83,7 +83,7 @@ class Sprites:
                 'flag': 'npc',
                 'obj_action': deque([pygame.image.load(f'sprites/skeleton/anim/{i}.png')
                                     .convert_alpha() for i in range(3)]),
-                'drop': {80: 'bone', 40: 'woodensword'}
+                'drop': {80: 'bone', 40: 'woodensword', 10: 'crashedironsword'}
             },
             'npc_trader': {
                 'sprite': pygame.image.load('sprites/trader/base/0.png').convert_alpha(),
@@ -212,6 +212,13 @@ class Sprites:
                 'Q Ok ?',
                 'T Good luck !',
                 'R--(10, bone)--(1, bow)--Take it pleas. Thanks for help !',
+                'D'
+            ]),
+            SpriteObject(self.sprite_parameters['npc_trader'], (34, 16), dialog_list=[
+                "T Hello. I'm blacksmith in this town.",
+                'Q Bring me 3 crashed swords and i will reapir it.',
+                'T Good bye. Be careful !',
+                'R--(3, crashedironsword)--(1, ironsword)--I hope you will like it. Hope to see you again !',
                 'D'
             ])
         ]

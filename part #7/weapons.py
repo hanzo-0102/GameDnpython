@@ -8,7 +8,9 @@ class Weapon:
 
 weapon_list = {
     'magicwand': Weapon('magicwand', 100, 2, 1),
-    'woodensword': Weapon('woodensword', 600, 0, 3),
+    'woodensword': Weapon('woodensword', 600, 0, 2),
     'golemgun': Weapon('golemgun', 100, 4, 8),
-    'bow': Weapon('bow', 100, 0, 4)
+    'bow': Weapon('bow', 100, 1, 3),
+    'crashedironsword': Weapon('crashedironsword', 600, 0, 3),
+    'ironsword': Weapon('ironsword', 500, 0, 5)
 }
