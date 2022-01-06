@@ -135,7 +135,7 @@ class Interaction:
                 'obj_action': deque([pygame.image.load(f'sprites/dragon/old/anim/{i}.png')
                                     .convert_alpha() for i in range(3)]),
                 'drop': {}
-            }, (x, y), 0.03, 120, 0.7, shooting=True, shootdamag=3.5))
+            }, (x, y), 0.03, 120, 0.7, shooting=True, shootdamag=6))
                     self.sprites.list_of_objects[-1].object_locate(self.player)
 
     def npc_move(self, obj):
