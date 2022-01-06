@@ -239,7 +239,11 @@ class Sprites:
                     del self.list_of_objects[self.list_of_objects.index(i)]
                     chance = random.randint(1, 100)
                     x, y = random.randint(1, 33), random.randint(1, 21)
-                    while (x, y) in world_map.keys():
+                    while ((x, y) in world_map.keys() or (x + 1, y) in world_map.keys()
+                    or (x - 1, y) in world_map.keys() or (x, y + 1) in world_map.keys()
+                    or (x, y - 1) in world_map.keys() or (x + 1, y + 1) in world_map.keys()
+                    or (x + 1, y - 1) in world_map.keys() or (x - 1, y + 1) in world_map.keys()
+                    or (x - 1, y - 1) in world_map.keys()):
                         x, y = random.randint(1, 33), random.randint(1, 21)
                     if chance > 10:
                         a, b = x - 13, y - 12
@@ -250,7 +254,7 @@ class Sprites:
                         elif a < 0 and b >= 0:#dragon's dungenon
                             self.spawn('npc_skeleton', (x, y), 0.005, 2, 2)
                         elif a >= 0 and b >= 0:#city
-                            self.spawn('npc_chiken', (x, y), 0, 3, -1)
+                            self.spawn('npc_chiken', (x, y), 0, 3, -0.3)
                     else:
                         self.spawn('npc_irongolem', (x, y), 0.02, 60, 0.5, '', True)
                     self.list_of_objects[-1].object_locate(player)
