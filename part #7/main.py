@@ -73,8 +73,8 @@ while True:
                         player.hp = min(player.max_hp, player.hp + 0.6)
                     elif inventory.invent[cell[0]][cell[1]] == 'chiken':
                         inventory.invent[cell[0]][cell[1]] = False
-                        player.max_hp += 2
-                        player.max_mana += 1
+                        player.hp = min(player.max_hp, player.hp + 2)
+                        player.mana = min(player.max_mana, player.mana + 1)
         elif event.type == pygame.MOUSEBUTTONDOWN and mode == 'dialog':
             if event.button == 1 and dialog_list[num_of_dialog].split()[0] == 'T':
                 num_of_dialog += 1
@@ -131,6 +131,7 @@ while True:
     if mode == 'game':
         pygame.mouse.set_visible(False)
         player.movement()
+        player.level_up()
         drawing.background(player.angle)
         walls, wall_shot = ray_casting_walls(player, drawing.textures)
         drawing.world(walls + [obj.object_locate(player) for obj in sprites.list_of_objects])
@@ -173,7 +174,7 @@ while True:
         pygame.mouse.set_visible(True)
         sc.blit(pygame.image.load('img/inventory.jpg'), (0, 0))
         drawing.fps(clock)
-        inventory.render(sc, quests)
+        inventory.render(sc, quests, player.lvl, player.xp)
         inventory.draw(sc)
         x, y = pygame.mouse.get_pos()
         cell = inventory.get_cell((x, y), True)

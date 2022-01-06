@@ -300,6 +300,7 @@ class Sprites:
                                 SpriteObject(Item(i.drop[j]).item, (i.x / TILE, i.y / TILE), name=i.drop[j])
                             )
                             self.list_of_objects[-1].object_locate(player)
+                    player.xp += i.max_health // 2
                     del self.list_of_objects[self.list_of_objects.index(i)]
                     chance = random.randint(1, 100)
                     x, y = random.randint(1, 33), random.randint(1, 21)
@@ -334,6 +335,7 @@ class Sprites:
 class SpriteObject:
     def __init__(self, parameters, pos, damag=0, health=0, speed=0, name='', shooting=False, distance=170, dialog_list=[], shootdamag=1):
         self.shooting = shooting
+        self.max_health = health
         self.dialog_list = dialog_list
         self.name = name
         self.speed = speed

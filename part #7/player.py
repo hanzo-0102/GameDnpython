@@ -13,8 +13,9 @@ class Player:
         self.sensitivity = 0.004
         self.max_hp = 5
         self.hp = 5
-        self.max_mana = 5
-        self.mana = 5
+        self.max_mana = 3
+        self.mana = 3
+        self.xp = 0
         self.lvl = 1
         # collision parameters
         self.side = 50
@@ -39,7 +40,14 @@ class Player:
         self.hp -= damage
 
     def level_up(self):
-        self.lvl += 1
+        if self.xp >= self.lvl * 10:
+            self.xp -= self.lvl * 10
+            self.lvl += 1
+            self.max_hp += 2
+            self.max_mana += 1
+
+    def xp(self):
+        return self.xp
 
     def lvl(self):
         return self.lvl

@@ -101,7 +101,7 @@ class Inventory:
         else:
             return (int(cell[0]), int(cell[1]))
 
-    def render(self, screen, quests):
+    def render(self, screen, quests, level, xp):
         for y in range(self.height):
             for x in range(self.width):
                 screen.blit(pygame.image.load("sprites/inventory/emptyslot.png"),
@@ -126,6 +126,12 @@ class Inventory:
             text = font.render(f"Need {j[0]} {j[1]}{'s' if j[0] > 1 else ''} | Award : {j[2]} {j[3]}{'s' if j[2] > 1 else ''}", 0, WHITE)
             screen.blit(text, (12, 12 + (13 * (coutni + 1))))
             coutni += 1
+        font = pygame.font.SysFont('Arial', 12, bold=True)
+        text = font.render(f'YOUR LEVEL IS {level}', 0, BLACK)
+        screen.blit(text, (HALF_WIDTH + 30, 24))
+        font = pygame.font.SysFont('Arial', 12, bold=True)
+        text = font.render(f'XP: {xp}/{level * 10}', 0, BLACK)
+        screen.blit(text, (HALF_WIDTH + 30, 48))
 
     def render_trade(self, screen, trades):
         for y in range(self.height):
