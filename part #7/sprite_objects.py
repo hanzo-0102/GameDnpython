@@ -193,7 +193,61 @@ class Sprites:
                 'flag': 'farmland',
                 'obj_action': [],
                 'drop': {}
-            }
+            },
+            'dragon_baby': {
+                'sprite': pygame.image.load(f'sprites/dragon/baby/base/0.png').convert_alpha(),
+                'viewing_angles': False,
+                'shift': 0.4,
+                'scale': (0.8, 0.8),
+                'side': 30,
+                'animation': [],
+                'death_animation': [],
+                'is_dead': None,
+                'dead_shift': 0.8,
+                'animation_dist': None,
+                'animation_speed': 6,
+                'blocked': False,
+                'flag': 'dragon_baby',
+                'obj_action': deque([pygame.image.load(f'sprites/dragon/baby/anim/{i}.png')
+                                    .convert_alpha() for i in range(3)]),
+                'drop': {}
+            },
+            'dragon_young': {
+                'sprite': pygame.image.load(f'sprites/dragon/young/base/0.png').convert_alpha(),
+                'viewing_angles': False,
+                'shift': 0.4,
+                'scale': (0.8, 0.8),
+                'side': 30,
+                'animation': [],
+                'death_animation': [],
+                'is_dead': None,
+                'dead_shift': 0.8,
+                'animation_dist': None,
+                'animation_speed': 6,
+                'blocked': False,
+                'flag': 'dragon_young',
+                'obj_action': deque([pygame.image.load(f'sprites/dragon/young/anim/{i}.png')
+                                    .convert_alpha() for i in range(3)]),
+                'drop': {}
+            },
+            'dragon_old': {
+                'sprite': pygame.image.load(f'sprites/dragon/old/base/0.png').convert_alpha(),
+                'viewing_angles': False,
+                'shift': 0.4,
+                'scale': (0.8, 0.8),
+                'side': 30,
+                'animation': [],
+                'death_animation': [],
+                'is_dead': None,
+                'dead_shift': 0.8,
+                'animation_dist': None,
+                'animation_speed': 6,
+                'blocked': False,
+                'flag': 'npc',
+                'obj_action': deque([pygame.image.load(f'sprites/dragon/old/anim/{i}.png')
+                                    .convert_alpha() for i in range(3)]),
+                'drop': {}
+            },
         }
 
         self.list_of_objects = [
@@ -204,6 +258,7 @@ class Sprites:
             SpriteObject(self.sprite_parameters['npc_skeleton'], (8.75, 3.65), 0.005, 2, 2),
             SpriteObject(self.sprite_parameters['npc_skeleton'], (1.27, 11.5), 0.005, 2, 2),
             SpriteObject(self.sprite_parameters['npc_skeleton'], (1.26, 8.29), 0.005, 2, 2),
+            SpriteObject(self.sprite_parameters['dragon_baby'], (4.5, 20.5), 0.005, 3, 0.5),
             SpriteObject(self.sprite_parameters['farmland'], (32, 11.5)),
             SpriteObject(self.sprite_parameters['farmland'], (32, 12)),
             SpriteObject(self.sprite_parameters['farmland'], (32, 12.5)),
@@ -275,7 +330,7 @@ class Sprites:
 
 
 class SpriteObject:
-    def __init__(self, parameters, pos, damag=0, health=0, speed=0, name='', shooting=False, distance=170, dialog_list=[]):
+    def __init__(self, parameters, pos, damag=0, health=0, speed=0, name='', shooting=False, distance=170, dialog_list=[], shootdamag=1):
         self.shooting = shooting
         self.dialog_list = dialog_list
         self.name = name
@@ -289,6 +344,7 @@ class SpriteObject:
         self.animation = parameters['animation'].copy()
         self.time_dead = 0
         self.distance = distance
+        self.shootdamag = shootdamag
         # ---------------------
         self.drop = parameters['drop'].copy()
         self.death_animation = parameters['death_animation'].copy()
@@ -299,6 +355,10 @@ class SpriteObject:
         self.animation_speed = parameters['animation_speed']
         self.blocked = parameters['blocked']
         self.flag = parameters['flag']
+        if self.flag == 'dragon_baby':
+            self.time_to_grow = 3000
+        if self.flag == 'dragon_young':
+            self.time_to_grow = 6000
         if self.flag == 'farmland':
             self.item = ['carrot', 'cabage'][random.randint(0, 1)]
             self.stage = 1
@@ -436,7 +496,7 @@ class SpriteObject:
                 'obj_action': deque([pygame.image.load(f'sprites/bulletmagic/anim/{i}.png')
                                     .convert_alpha() for i in range(5)]),
                 'drop': {}
-            }, (self.x / TILE, self.y / TILE), damag=0.1, speed=6, distance=230))
+            }, (self.x / TILE, self.y / TILE), damag=self.shootdamag / 10, speed=6, distance=230))
             list_of_objects[-1].object_locate(player)
             self.reload = 300
 

@@ -74,6 +74,7 @@ while True:
                     elif inventory.invent[cell[0]][cell[1]] == 'chiken':
                         inventory.invent[cell[0]][cell[1]] = False
                         player.max_hp += 2
+                        player.max_mana += 1
         elif event.type == pygame.MOUSEBUTTONDOWN and mode == 'dialog':
             if event.button == 1 and dialog_list[num_of_dialog].split()[0] == 'T':
                 num_of_dialog += 1

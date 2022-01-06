@@ -4,7 +4,8 @@ from ray_casting import mapping
 import math
 import pygame
 import random
-
+from sprite_objects import SpriteObject
+from collections import deque
 
 
 def ray_casting_npc_player(npc_x, npc_y, blocked_doors, world_map, player_pos):
@@ -67,7 +68,7 @@ class Interaction:
 
     def npc_action(self):
         for obj in self.sprites.list_of_objects:
-            if obj.flag == 'npc' and not obj.is_dead:
+            if (obj.flag == 'npc' or obj.flag == 'dragon_baby' or obj.flag == 'dragon_young') and not obj.is_dead:
                 if ray_casting_npc_player(obj.x, obj.y,
                                           [],
                                           world_map, self.player.pos):
@@ -84,6 +85,58 @@ class Interaction:
                     obj.stage += 1
                     obj.object = pygame.image.load(f'sprites/{obj.item}/base/{obj.stage - 1}.png').convert_alpha()
                     obj.time_to_grow = random.randint(1000, 10000)
+            if obj.flag == 'dragon_baby':
+                obj.time_to_grow -= 1
+                if obj.time_to_grow == 0:
+                    x, y = obj.pos
+                    x /= TILE
+                    y /= TILE
+                    del self.sprites.list_of_objects[self.sprites.list_of_objects.index(obj)]
+                    self.sprites.list_of_objects.append(SpriteObject({
+                'sprite': pygame.image.load(f'sprites/dragon/young/base/0.png').convert_alpha(),
+                'viewing_angles': False,
+                'shift': 0.4,
+                'scale': (0.8, 0.8),
+                'side': 30,
+                'animation': [],
+                'death_animation': [],
+                'is_dead': None,
+                'dead_shift': 0.8,
+                'animation_dist': None,
+                'animation_speed': 6,
+                'blocked': False,
+                'flag': 'dragon_young',
+                'obj_action': deque([pygame.image.load(f'sprites/dragon/young/anim/{i}.png')
+                                    .convert_alpha() for i in range(3)]),
+                'drop': {}
+            }, (x, y), 0.015, 40, 1, shooting=True, shootdamag=0.5))
+                    self.sprites.list_of_objects[-1].object_locate(self.player)
+            elif obj.flag == 'dragon_young':
+                obj.time_to_grow -= 1
+                if obj.time_to_grow == 0:
+                    x, y = obj.pos
+                    x /= TILE
+                    y /= TILE
+                    del self.sprites.list_of_objects[self.sprites.list_of_objects.index(obj)]
+                    self.sprites.list_of_objects.append(SpriteObject({
+                'sprite': pygame.image.load(f'sprites/dragon/old/base/0.png').convert_alpha(),
+                'viewing_angles': False,
+                'shift': 0.4,
+                'scale': (0.8, 0.8),
+                'side': 30,
+                'animation': [],
+                'death_animation': [],
+                'is_dead': None,
+                'dead_shift': 0.8,
+                'animation_dist': None,
+                'animation_speed': 6,
+                'blocked': False,
+                'flag': 'npc',
+                'obj_action': deque([pygame.image.load(f'sprites/dragon/old/anim/{i}.png')
+                                    .convert_alpha() for i in range(3)]),
+                'drop': {}
+            }, (x, y), 0.03, 120, 0.7, shooting=True, shootdamag=3.5))
+                    self.sprites.list_of_objects[-1].object_locate(self.player)
 
     def npc_move(self, obj):
         if (abs(obj.distance_to_sprite) > TILE):

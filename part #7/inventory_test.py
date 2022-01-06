@@ -152,9 +152,11 @@ class Inventory:
                     else:
                         self.invent[x][y] = self.moving
                         self.moving = False
-                elif (x, y) == (13, 5) and self.moving in ['woodensword', 'magicwand', 'golemgun', 'bow']:
+                elif (x, y) == (13, 5) and self.moving in ['woodensword', 'magicwand', 'golemgun', 'bow',
+                                                           'crashedironsword', 'ironsword']:
                     self.melee, self.moving = self.moving, self.melee
-                elif (x, y) == (13, 6) and self.moving in ['woodensword', 'magicwand', 'golemgun', 'bow']:
+                elif (x, y) == (13, 6) and self.moving in ['woodensword', 'magicwand', 'golemgun', 'bow',
+                                                           'crashedironsword', 'ironsword']:
                     self.range, self.moving = self.moving, self.range
             except Exception:
                 if self.moving:
