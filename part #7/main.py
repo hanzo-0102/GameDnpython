@@ -148,10 +148,10 @@ while True:
                     del sprites.list_of_objects[sprites.list_of_objects.index(i)]
             if i.flag == 'trader' and (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) < 120):
                 render = fontBigger.render('press [F] to interract', 0, DARKORANGE)
-                avaliable_dialog = True
+                avaliable_dialog = i.pos
                 dialog_list = i.dialog_list
                 sc.blit(render, (HALF_WIDTH - 220, HALF_HEIGHT + 80))
-            elif i.flag == 'trader' and (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) >= 120):
+            elif i.flag == 'trader' and (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) >= 120) and avaliable_dialog == i.pos:
                 avaliable_dialog = False
             if i.flag == 'farmland' and i.stage == 3 and (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) < 120):
                 if not(take):
