@@ -316,7 +316,7 @@ class Sprites:
                         elif a < 0 and b >= 0:#dragon's dungenon
                             self.spawn('npc_skeleton', (x, y), 0.005, 2, 2)
                         elif a >= 0 and b >= 0:#city
-                            self.spawn('npc_chiken', (x, y), 0, 3, -0.3)
+                            self.spawn('npc_chiken', (x, y), 0, 3, 0)
                     else:
                         self.spawn('npc_irongolem', (x, y), 0.02, 60, 0.5, '', True)
                     self.list_of_objects[-1].object_locate(player)
