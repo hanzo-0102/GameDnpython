@@ -262,6 +262,8 @@ class Sprites:
             SpriteObject(self.sprite_parameters['farmland'], (32, 11.5)),
             SpriteObject(self.sprite_parameters['farmland'], (32, 12)),
             SpriteObject(self.sprite_parameters['farmland'], (32, 12.5)),
+            SpriteObject(self.sprite_parameters['npc_orc'], (32.5, 12.5), 0.01, 10, 1),
+            SpriteObject(self.sprite_parameters['npc_orc'], (32.5, 11.5), 0.01, 10, 1),
             SpriteObject(self.sprite_parameters['ogr_trader'], (20.27, 12.43), dialog_list=[
                 'T Hello. My want bones. You - bones, Me - reward.',
                 'Q Ok ?',
@@ -314,9 +316,11 @@ class Sprites:
                         elif a < 0 and b < 0:#mineshaft
                             self.spawn('npc_skeleton', (x, y), 0.005, 2, 2)
                         elif a < 0 and b >= 0:#dragon's dungenon
-                            self.spawn('npc_irongolem', (x, y), 0.02, 60, 0.5, '', True)
+                            self.spawn('npc_orc', (x, y), 0.01, 10, 1)
                         elif a >= 0 and b >= 0:#city
                             self.spawn('npc_chiken', (x, y), 0, 3, 0)
+                    else:
+                        self.spawn('npc_irongolem', (x, y), 0.02, 60, 0.5, '', True)
                     self.list_of_objects[-1].object_locate(player)
                 elif i.is_dead != 'immortal' and i.is_dead:
                     i.time_dead += 1
