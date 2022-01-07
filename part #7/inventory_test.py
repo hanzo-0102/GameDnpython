@@ -18,7 +18,8 @@ items_rare = {
     'carrot':'common',
     'cabage':'common',
     'crashedironsword':'uncommon',
-    'ironsword':'epic'
+    'ironsword':'epic',
+    'ironspear':'legendary'
 }
 
 

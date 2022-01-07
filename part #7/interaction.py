@@ -48,6 +48,7 @@ class Interaction:
         self.sprites = sprites
         self.drawing = drawing
         self.pain_sound = pygame.mixer.Sound('sound/pain.mp3')
+        self.attack_human = False
 
     def interaction_objects(self):
         if self.player.shot and self.drawing.shot_animation_trigger:
@@ -55,6 +56,8 @@ class Interaction:
                 if obj.is_on_fire[1]:
                     if obj.is_dead != 'immortal' and not obj.is_dead:
                         if obj.is_on_fire[1] >= self.player.weapon().dist:
+                            if obj.flag == 'human':
+                                self.attack_human = True
                             if self.player.weapon().type == 'melee':
                                 obj.health -= self.player.weapon().damage * self.player.meleedmg
                             else:
@@ -71,7 +74,7 @@ class Interaction:
 
     def npc_action(self):
         for obj in self.sprites.list_of_objects:
-            if (obj.flag == 'npc' or obj.flag == 'dragon_baby' or obj.flag == 'dragon_young') and not obj.is_dead:
+            if (obj.flag == 'npc' or obj.flag == 'dragon_baby' or obj.flag == 'dragon_young' or (obj.flag == 'human' and self.attack_human)) and not obj.is_dead:
                 if ray_casting_npc_player(obj.x, obj.y,
                                           [],
                                           world_map, self.player.pos):

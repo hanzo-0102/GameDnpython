@@ -220,7 +220,7 @@ while True:
         drawing.gui(player)
         drawing.player_weapon([wall_shot, sprites.sprite_shot])
         for i in sprites.list_of_objects:
-            if not(i.is_dead):
+            if not(i.is_dead) and (i.flag == 'npc' or (i.flag == 'human' and interaction.attack_human)):
                 if (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) < i.distance):
                     player.dmg(i.damag * player.sheild)
             if i.flag == 'bullet':

@@ -265,7 +265,26 @@ class Sprites:
                 'obj_action': deque([pygame.image.load(f'sprites/oldtree/anim/{i}.png')
                                     .convert_alpha() for i in range(1)]),
                 'drop': {}
-            }
+            },
+            'npc_guard': {
+                'sprite': pygame.image.load(f'sprites/guard/base/0.png').convert_alpha(),
+                'viewing_angles': False,
+                'shift': 0.8,
+                'scale': (0.8, 0.8),
+                'side': 30,
+                'animation': [],
+                'death_animation': deque([pygame.image.load(f'sprites/guard/death/{i}.png')
+                                         .convert_alpha() for i in range(5)]),
+                'is_dead': None,
+                'dead_shift': 0.8,
+                'animation_dist': None,
+                'animation_speed': 6,
+                'blocked': True,
+                'flag': 'human',
+                'obj_action': deque([pygame.image.load(f'sprites/guard/anim/{i}.png')
+                                    .convert_alpha() for i in range(3)]),
+                'drop': {20: 'crashedironsword', 40: 'ironspear'}
+            },
         }
 
         self.list_of_objects = [
@@ -346,15 +365,19 @@ class Sprites:
                         elif a < 0 and b >= 0:#dragon's dungenon
                             self.spawn('npc_orc', (x, y), 0.01, 10, 1)
                         elif a >= 0 and b >= 0:#city
-                            self.spawn('npc_chiken', (x, y), 0, 3, 0)
+                            chance = random.randint(1, 100)
+                            if chance <= 20:
+                                self.spawn('npc_gurad', (x, y), 0.018, 8, 0.8, distance=340)
+                            elif chance > 20:
+                                self.spawn('npc_chiken', (x, y), 0, 3, 0)
                     else:
                         self.spawn('npc_irongolem', (x, y), 0.02, 60, 0.5, '', True)
                     self.list_of_objects[-1].object_locate(player)
                 elif i.is_dead != 'immortal' and i.is_dead:
                     i.time_dead += 1
 
-    def spawn(self, type, pos, dmg, health, speed, name='', shooting=False):
-        self.list_of_objects.append(SpriteObject(self.sprite_parameters[type], pos, dmg, health, speed, name, shooting))
+    def spawn(self, type, pos, dmg, health, speed, name='', shooting=False, distance=0):
+        self.list_of_objects.append(SpriteObject(self.sprite_parameters[type], pos, dmg, health, speed, name, shooting, distance=distance))
 
 
 
