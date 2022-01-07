@@ -300,7 +300,7 @@ while True:
                 text = font.render(f"{skilltree.skills[cell[0]][cell[1]]} Cost: {skilltree.need[cell[0]][cell[1]]}",
                                    0, WHITE)
                 sc.blit(text, (x + 3, y + 13))
-                text = font.render(f"Effect : {skilltree.effect[cell[0]][cell[1]]}",
+                text = font.render(f"Effect: {skilltree.effect[cell[0]][cell[1]]}",
                                    0, WHITE)
                 sc.blit(text, (x + 3, y + 26))
             except Exception:
