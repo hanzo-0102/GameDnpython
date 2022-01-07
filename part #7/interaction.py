@@ -74,7 +74,7 @@ class Interaction:
 
     def npc_action(self):
         for obj in self.sprites.list_of_objects:
-            if (obj.flag == 'npc' or obj.flag == 'dragon_baby' or obj.flag == 'dragon_young' or (obj.flag == 'human' and self.attack_human)) and not obj.is_dead:
+            if (obj.flag == 'npc' or obj.flag == 'dragon_baby' or obj.flag == 'dragon_young') and not obj.is_dead:
                 if ray_casting_npc_player(obj.x, obj.y,
                                           [],
                                           world_map, self.player.pos):
@@ -85,6 +85,15 @@ class Interaction:
                     obj.npc_action_trigger = False
             elif obj.flag == 'bullet':
                 self.npc_move(obj)
+            elif obj.flag == 'human' and self.attack_human:
+                if ray_casting_npc_player(obj.x, obj.y,
+                                          [],
+                                          world_map, self.player.pos):
+                    obj.npc_action_trigger = True
+                    self.npc_move(obj)
+                    obj.npc_shoot(self.sprites.list_of_objects, self.player)
+                else:
+                    obj.npc_action_trigger = False
             elif obj.flag == 'farmland' and obj.stage != 3:
                 obj.time_to_grow -= 1
                 if obj.time_to_grow == 0:

@@ -366,9 +366,9 @@ class Sprites:
                             self.spawn('npc_orc', (x, y), 0.01, 10, 1)
                         elif a >= 0 and b >= 0:#city
                             chance = random.randint(1, 100)
-                            if chance <= 20:
-                                self.spawn('npc_gurad', (x, y), 0.018, 8, 0.8, distance=340)
-                            elif chance > 20:
+                            if chance <= 50:
+                                self.spawn('npc_guard', (x, y), 0.018, 8, 0.8, distance=340)
+                            elif chance > 50:
                                 self.spawn('npc_chiken', (x, y), 0, 3, 0)
                     else:
                         self.spawn('npc_irongolem', (x, y), 0.02, 60, 0.5, '', True)
@@ -376,7 +376,7 @@ class Sprites:
                 elif i.is_dead != 'immortal' and i.is_dead:
                     i.time_dead += 1
 
-    def spawn(self, type, pos, dmg, health, speed, name='', shooting=False, distance=0):
+    def spawn(self, type, pos, dmg, health, speed, name='', shooting=False, distance=170):
         self.list_of_objects.append(SpriteObject(self.sprite_parameters[type], pos, dmg, health, speed, name, shooting, distance=distance))
 
 
