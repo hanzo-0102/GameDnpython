@@ -269,21 +269,21 @@ class Sprites:
             'npc_guard': {
                 'sprite': pygame.image.load(f'sprites/guard/base/0.png').convert_alpha(),
                 'viewing_angles': False,
-                'shift': 0.8,
-                'scale': (0.8, 0.8),
+                'shift': 0.4,
+                'scale': (0.8, 1),
                 'side': 30,
                 'animation': [],
                 'death_animation': deque([pygame.image.load(f'sprites/guard/death/{i}.png')
                                          .convert_alpha() for i in range(5)]),
                 'is_dead': None,
-                'dead_shift': 0.8,
+                'dead_shift': 0.4,
                 'animation_dist': None,
                 'animation_speed': 6,
                 'blocked': True,
                 'flag': 'human',
                 'obj_action': deque([pygame.image.load(f'sprites/guard/anim/{i}.png')
                                     .convert_alpha() for i in range(3)]),
-                'drop': {20: 'crashedironsword', 40: 'ironspear'}
+                'drop': {20: 'chiken', 40: 'ironspear'}
             },
         }
 
