@@ -367,7 +367,7 @@ class Sprites:
                         elif a >= 0 and b >= 0:#city
                             chance = random.randint(1, 100)
                             if chance <= 50:
-                                self.spawn('npc_guard', (x, y), 0.018, 8, 0.8, distance=340)
+                                self.spawn('npc_guard', (x, y), 0.008, 8, 0.8, distance=340)
                             elif chance > 50:
                                 self.spawn('npc_chiken', (x, y), 0, 3, 0)
                     else:
