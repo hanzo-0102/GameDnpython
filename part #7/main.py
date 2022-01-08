@@ -257,7 +257,7 @@ while True:
                 if (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) < i.distance):
                     player.dmg(i.damag)
                     del sprites.list_of_objects[sprites.list_of_objects.index(i)]
-            if i.flag == 'trader' and plot_num['oldtree'] == 1 and (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) >= 300):
+            if i.flag == 'trader' and plot_num['oldtree'] == 1 and (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) >= 1000):
                 i.dialog_list = [
                 "T Oh, that is you ! Hello.",
                 'T After you go out some skeletons come to me !',
@@ -269,6 +269,20 @@ while True:
                 ]
                 i.object = pygame.image.load(f'sprites/oldtree/base/1.png').convert_alpha()
                 i.obj_action = pygame.image.load(f'sprites/oldtree/anim/1.png').convert_alpha()
+            elif i.flag == 'trader' and plot_num['oldtree'] == 2 and (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) >= 1000):
+                i.dialog_list = [
+                "T Hello, human-friend !",
+                'T Thank you for all you have done for me !',
+                'T Now I have roots instead of legs.',
+                'T But it is not the problem',
+                'T Now I am ready to trade with you.'
+                'Q What is about... 3 water for 1 healsroom ?',
+                'T Good bye my friend !',
+                'R--(3, waterbottle)--(1, healshroom)--Nice deal.',
+                'D'
+                ]
+                i.object = pygame.image.load(f'sprites/oldtree/base/2.png').convert_alpha()
+                i.obj_action = pygame.image.load(f'sprites/oldtree/anim/2.png').convert_alpha()
             if i.flag == 'lake' and (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) < 350):
                 render = fontBigger.render('press [F] to interract', 0, DARKORANGE)
                 avaliable_bottle = True
