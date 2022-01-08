@@ -64,7 +64,7 @@ class Sprites:
                 'flag': 'npc',
                 'obj_action': deque(
                     [pygame.image.load(f'sprites/orc/anim/{i}.png').convert_alpha() for i in range(3)]),
-                'drop': {}
+                'drop': {20: 'bottle'}
             },
             'npc_skeleton': {
                 'sprite': [pygame.image.load(f'sprites/skeleton/base/{i // 2}.png').convert_alpha() for i in range(8)],
@@ -83,7 +83,7 @@ class Sprites:
                 'flag': 'npc',
                 'obj_action': deque([pygame.image.load(f'sprites/skeleton/anim/{i}.png')
                                     .convert_alpha() for i in range(3)]),
-                'drop': {80: 'bone', 40: 'woodensword', 10: 'crashedironsword'}
+                'drop': {80: 'bone', 40: 'woodensword', 10: 'crashedironsword', 3: 'bottle'}
             },
             'npc_trader': {
                 'sprite': pygame.image.load('sprites/trader/base/0.png').convert_alpha(),
@@ -283,13 +283,31 @@ class Sprites:
                 'flag': 'human',
                 'obj_action': deque([pygame.image.load(f'sprites/guard/anim/{i}.png')
                                     .convert_alpha() for i in range(3)]),
-                'drop': {20: 'chiken', 40: 'ironspear'}
+                'drop': {20: 'chiken', 40: 'ironspear', 30:'bottle', 10:'watterbottle'}
+            },
+            'lake': {
+                'sprite': pygame.image.load(f'sprites/lake/base/0.png').convert_alpha(),
+                'viewing_angles': False,
+                'shift': 0.5,
+                'scale': (4, 4),
+                'side': 280,
+                'animation': [],
+                'death_animation': [],
+                'is_dead': 'immortal',
+                'dead_shift': 0.4,
+                'animation_dist': None,
+                'animation_speed': 6,
+                'blocked': False,
+                'flag': 'lake',
+                'obj_action': [],
+                'drop': {}
             },
         }
 
         self.list_of_objects = [
             SpriteObject(self.sprite_parameters['sprite_vase'], (7.1, 2.1)),
             SpriteObject(self.sprite_parameters['sprite_vase'], (5.9, 2.1)),
+            SpriteObject(self.sprite_parameters['lake'], (14.9, 13.1)),
             SpriteObject(self.sprite_parameters['npc_orc'], (7, 4), 0.01, 10, 1),
             SpriteObject(self.sprite_parameters['npc_skeleton'], (7.68, 1.47), 0.005, 2, 2),
             SpriteObject(self.sprite_parameters['npc_skeleton'], (8.75, 3.65), 0.005, 2, 2),
@@ -322,7 +340,7 @@ class Sprites:
                 'Q Will you help me ?',
                 'T May the magic be with you !',
                 'R--(5, woodensword)--(2, healshroom)--I hope it will help you. Good bye !',
-                'D'
+                'P oldtree'
             ])
         ]
 

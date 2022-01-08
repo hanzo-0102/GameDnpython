@@ -19,7 +19,9 @@ items_rare = {
     'cabage':'common',
     'crashedironsword':'uncommon',
     'ironsword':'epic',
-    'ironspear':'legendary'
+    'ironspear':'legendary',
+    'bottle':'common',
+    'waterbottle':'common'
 }
 
 

@@ -56,6 +56,8 @@ take = False
 quests = []
 was_quests = []
 can_miss = True
+avaliable_bottle = False
+plot_num = {'oldtree': 0, 'ogr': 0, 'blacksmith': 0}
 while True:
     pygame.mixer.music.set_volume(VOLUME / 100)
     interaction.player = player
@@ -137,19 +139,34 @@ while True:
                     if inventory.invent[cell[0]][cell[1]] == 'manashroom':
                         inventory.invent[cell[0]][cell[1]] = False
                         player.mana = min(player.max_mana, player.mana + 2)
+                        pygame.mixer.music.load('sound/eatfood.mp3')
+                        pygame.mixer.music.play(1)
                     elif inventory.invent[cell[0]][cell[1]] == 'healshroom':
                         inventory.invent[cell[0]][cell[1]] = False
                         player.hp = min(player.max_hp, player.hp + 1.2)
+                        pygame.mixer.music.load('sound/eatfood.mp3')
+                        pygame.mixer.music.play(1)
                     elif inventory.invent[cell[0]][cell[1]] == 'cabage':
                         inventory.invent[cell[0]][cell[1]] = False
                         player.hp = min(player.max_hp, player.hp + 0.9)
+                        pygame.mixer.music.load('sound/eatfood.mp3')
+                        pygame.mixer.music.play(1)
                     elif inventory.invent[cell[0]][cell[1]] == 'carrot':
                         inventory.invent[cell[0]][cell[1]] = False
                         player.hp = min(player.max_hp, player.hp + 0.6)
+                        pygame.mixer.music.load('sound/eatfood.mp3')
+                        pygame.mixer.music.play(1)
                     elif inventory.invent[cell[0]][cell[1]] == 'chiken':
                         inventory.invent[cell[0]][cell[1]] = False
                         player.hp = min(player.max_hp, player.hp + 2)
                         player.mana = min(player.max_mana, player.mana + 1)
+                        pygame.mixer.music.load('sound/eatfood.mp3')
+                        pygame.mixer.music.play(1)
+                    elif inventory.invent[cell[0]][cell[1]] == 'waterbottle':
+                        inventory.invent[cell[0]][cell[1]] = 'bottle'
+                        player.mana = min(player.max_mana, player.mana + 0.2)
+                        pygame.mixer.music.load('sound/eatfuild.mp3')
+                        pygame.mixer.music.play(1)
         elif event.type == pygame.MOUSEBUTTONDOWN and mode == 'dialog':
             if event.button == 1 and dialog_list[num_of_dialog].split()[0] == 'T':
                 num_of_dialog += 1
@@ -175,6 +192,11 @@ while True:
                 pygame.mixer.music.load('sound/bell.mp3')
                 pygame.mixer.music.play(1)
                 mode = 'game'
+            elif event.button == 1 and dialog_list[num_of_dialog].split()[0] == 'P':
+                pygame.mixer.music.load('sound/bell.mp3')
+                pygame.mixer.music.play(1)
+                mode = 'game'
+                plot_num[dialog_list[num_of_dialog].split()[1]] += 1
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_1:
                 player.weaponi = inventory.melee
@@ -201,6 +223,11 @@ while True:
             elif event.key == pygame.K_f and avaliable_dialog:
                 mode = 'dialog'
                 num_of_dialog = 0
+            elif event.key == pygame.K_f and avaliable_bottle:
+                for i in range(len(inventory.invent)):
+                    for j in range(len(inventory.invent[0])):
+                        if inventory.invent[i][j] == 'bottle':
+                            inventory.invent[i][j] = 'waterbottle'
             elif event.key == pygame.K_f:
                 take = True
         if event.type == pygame.KEYUP:
@@ -230,6 +257,24 @@ while True:
                 if (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) < i.distance):
                     player.dmg(i.damag)
                     del sprites.list_of_objects[sprites.list_of_objects.index(i)]
+            if i.flag == 'trader' and plot_num['oldtree'] == 1 and (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) >= 300):
+                i.dialog_list = [
+                "T Oh, that is you ! Hello.",
+                'T After you go out some skeletons come to me !',
+                'T They cut off my roots-legs.',
+                'Q Pleas bring to me 2 water bottles. Ok ?',
+                'T Hope to see you again !',
+                'R--(2, waterbottle)--(1, crashedironsword)--Skeletons lost it, but I hope it will be useful for you.',
+                'P oldtree'
+                ]
+                i.object = pygame.image.load(f'sprites/oldtree/base/1.png').convert_alpha()
+                i.obj_action = pygame.image.load(f'sprites/oldtree/anim/1.png').convert_alpha()
+            if i.flag == 'lake' and (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) < 350):
+                render = fontBigger.render('press [F] to interract', 0, DARKORANGE)
+                avaliable_bottle = True
+                sc.blit(render, (HALF_WIDTH - 220, HALF_HEIGHT + 80))
+            elif i.flag == 'lake' and (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) >= 350):
+                avaliable_bottle = False
             if i.flag == 'trader' and (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) < 120):
                 render = fontBigger.render('press [F] to interract', 0, DARKORANGE)
                 avaliable_dialog = i.pos
