@@ -14,5 +14,6 @@ weapon_list = {
     'bow': Weapon('bow', 100, 1, 3, 'range'),
     'crashedironsword': Weapon('crashedironsword', 600, 0, 3, 'melee'),
     'ironsword': Weapon('ironsword', 500, 0, 5, 'melee'),
-    'ironspear': Weapon('ironspear', 300, 0, 3.5, 'melee')
+    'ironspear': Weapon('ironspear', 300, 0, 3.5, 'melee'),
+    'naturebow': Weapon('naturebow', 80, 0.5, 3.5, 'range')
 }

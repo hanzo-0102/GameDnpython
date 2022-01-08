@@ -138,7 +138,7 @@ class Sprites:
                 'flag': 'npc',
                 'obj_action': deque([pygame.image.load(f'sprites/chiken/anim/{i}.png')
                                     .convert_alpha() for i in range(3)]),
-                'drop': {100: 'chiken'}
+                'drop': {100: 'chiken', 5: 'egg'}
             },
             'npc_irongolem': {
                 'sprite': pygame.image.load(f'sprites/irongolem/base/0.png').convert_alpha(),
@@ -324,7 +324,7 @@ class Sprites:
                 'Q Ok ?',
                 'T Good luck !',
                 'R--(10, bone)--(1, bow)--Take it pleas. Thanks for help !',
-                'D'
+                'P ogr'
             ]),
             SpriteObject(self.sprite_parameters['npc_trader'], (34, 16), dialog_list=[
                 "T Hello. I'm blacksmith in this town.",

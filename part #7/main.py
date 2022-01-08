@@ -162,6 +162,12 @@ while True:
                         player.mana = min(player.max_mana, player.mana + 1)
                         pygame.mixer.music.load('sound/eatfood.mp3')
                         pygame.mixer.music.play(1)
+                    elif inventory.invent[cell[0]][cell[1]] == 'egg':
+                        inventory.invent[cell[0]][cell[1]] = False
+                        player.hp = min(player.max_hp, player.hp + 0.5)
+                        player.mana = min(player.max_mana, player.mana + 0.25)
+                        pygame.mixer.music.load('sound/eatfood.mp3')
+                        pygame.mixer.music.play(1)
                     elif inventory.invent[cell[0]][cell[1]] == 'waterbottle':
                         inventory.invent[cell[0]][cell[1]] = 'bottle'
                         player.mana = min(player.max_mana, player.mana + 0.2)
@@ -283,6 +289,32 @@ while True:
                 ]
                 i.object = pygame.image.load(f'sprites/oldtree/base/2.png').convert_alpha()
                 i.obj_action = pygame.image.load(f'sprites/oldtree/anim/2.png').convert_alpha()
+            if i.flag == 'trader' and plot_num['ogr'] == 1 and (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) >= 1000):
+                i.dialog_list = [
+                "T Hello, traveler.",
+                'T Bone qute !',
+                'T Me is beautiful.',
+                'T Now need chiken.',
+                'Q I will wait there. You agree ?',
+                'T Bye.',
+                'R--(12, chiken)--(1, naturebow)--Good. Very good.',
+                'P ogr'
+                ]
+                i.object = pygame.image.load(f'sprites/ogr/base/1.png').convert_alpha()
+                i.obj_action = pygame.image.load(f'sprites/ogr/anim/1.png').convert_alpha()
+            elif i.flag == 'trader' and plot_num['ogr'] == 2 and (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) >= 1000):
+                i.dialog_list = [
+                "T Hello, friend.",
+                'T Chiken me friend. Chiken - Alfred.',
+                'T He cool',
+                'T Me trade you',
+                'Q Healshroom for Alfred to eggs',
+                'T See you.',
+                'R--(1, healshroom)--(3, egg)--Tasty.',
+                'D'
+                ]
+                i.object = pygame.image.load(f'sprites/ogr/base/2.png').convert_alpha()
+                i.obj_action = pygame.image.load(f'sprites/ogr/anim/2.png').convert_alpha()
             if i.flag == 'lake' and (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) < 350):
                 render = fontBigger.render('press [F] to interract', 0, DARKORANGE)
                 avaliable_bottle = True
