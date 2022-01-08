@@ -174,6 +174,7 @@ while True:
                         pygame.mixer.music.load('sound/eatfuild.mp3')
                         pygame.mixer.music.play(1)
         elif event.type == pygame.MOUSEBUTTONDOWN and mode == 'dialog':
+            print(dialog_list[num_of_dialog].split()[0])
             if event.button == 1 and dialog_list[num_of_dialog].split()[0] == 'T':
                 num_of_dialog += 1
                 pygame.mixer.music.load('sound/bell.mp3')
@@ -185,7 +186,7 @@ while True:
                     num_of_dialog += 1
                     pygame.mixer.music.load('sound/bell.mp3')
                     pygame.mixer.music.play(1)
-            elif event.button == 1 and dialog_list[num_of_dialog].split()[0] == 'R':
+            elif event.button == 1 and dialog_list[num_of_dialog].split('--')[0] == 'R':
                 need = dialog_list[num_of_dialog].split('--')[1]
                 need = need[1:len(need) - 1].split(', ')
                 reward = dialog_list[num_of_dialog].split('--')[2]
@@ -198,11 +199,6 @@ while True:
                 pygame.mixer.music.load('sound/bell.mp3')
                 pygame.mixer.music.play(1)
                 mode = 'game'
-            elif event.button == 1 and dialog_list[num_of_dialog].split()[0] == 'P':
-                pygame.mixer.music.load('sound/bell.mp3')
-                pygame.mixer.music.play(1)
-                mode = 'game'
-                plot_num[dialog_list[num_of_dialog].split()[1]] += 1
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_1:
                 player.weaponi = inventory.melee
@@ -263,7 +259,15 @@ while True:
                 if (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) < i.distance):
                     player.dmg(i.damag)
                     del sprites.list_of_objects[sprites.list_of_objects.index(i)]
-            if i.flag == 'trader' and plot_num['oldtree'] == 1 and (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) >= 1000):
+            if i.flag == 'trader' and plot_num['oldtree'] == 1 and (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) >= 1000) and i.dialog_list == [
+                "T Hello my human-firend. I'm old tree living there.",
+                'T Pleas, return my friend to me.',
+                'T Someone turned them into swords many years ago.',
+                'Q Will you help me ?',
+                'T May the magic be with you !',
+                'R--(5, woodensword)--(2, healshroom)--I hope it will help you. Good bye !',
+                'P oldtree'
+            ]:
                 i.dialog_list = [
                 "T Oh, that is you ! Hello.",
                 'T After you go out some skeletons come to me !',
@@ -275,13 +279,21 @@ while True:
                 ]
                 i.object = pygame.image.load(f'sprites/oldtree/base/1.png').convert_alpha()
                 i.obj_action = pygame.image.load(f'sprites/oldtree/anim/1.png').convert_alpha()
-            elif i.flag == 'trader' and plot_num['oldtree'] == 2 and (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) >= 1000):
+            elif i.flag == 'trader' and plot_num['oldtree'] == 2 and (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) >= 1000) and i.dialog_list == [
+                "T Oh, that is you ! Hello.",
+                'T After you go out some skeletons come to me !',
+                'T They cut off my roots-legs.',
+                'Q Pleas bring to me 2 water bottles. Ok ?',
+                'T Hope to see you again !',
+                'R--(2, waterbottle)--(1, crashedironsword)--Skeletons lost it, but I hope it will be useful for you.',
+                'P oldtree'
+                ]:
                 i.dialog_list = [
                 "T Hello, human-friend !",
                 'T Thank you for all you have done for me !',
                 'T Now I have roots instead of legs.',
                 'T But it is not the problem',
-                'T Now I am ready to trade with you.'
+                'T Now I am ready to trade with you.',
                 'Q What is about... 3 water for 1 healsroom ?',
                 'T Good bye my friend !',
                 'R--(3, waterbottle)--(1, healshroom)--Nice deal.',
@@ -289,7 +301,13 @@ while True:
                 ]
                 i.object = pygame.image.load(f'sprites/oldtree/base/2.png').convert_alpha()
                 i.obj_action = pygame.image.load(f'sprites/oldtree/anim/2.png').convert_alpha()
-            if i.flag == 'trader' and plot_num['ogr'] == 1 and (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) >= 1000):
+            if i.flag == 'trader' and plot_num['ogr'] == 1 and (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) >= 1000) and i.dialog_list == [
+                'T Hello. My want bones. You - bones, Me - reward.',
+                'Q Ok ?',
+                'T Good luck !',
+                'R--(10, bone)--(1, bow)--Take it pleas. Thanks for help !',
+                'P ogr'
+            ]:
                 i.dialog_list = [
                 "T Hello, traveler.",
                 'T Bone qute !',
@@ -302,7 +320,16 @@ while True:
                 ]
                 i.object = pygame.image.load(f'sprites/ogr/base/1.png').convert_alpha()
                 i.obj_action = pygame.image.load(f'sprites/ogr/anim/1.png').convert_alpha()
-            elif i.flag == 'trader' and plot_num['ogr'] == 2 and (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) >= 1000):
+            elif i.flag == 'trader' and plot_num['ogr'] == 2 and (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) >= 1000) and i.dialog_list == [
+                "T Hello, traveler.",
+                'T Bone qute !',
+                'T Me is beautiful.',
+                'T Now need chiken.',
+                'Q I will wait there. You agree ?',
+                'T Bye.',
+                'R--(12, chiken)--(1, naturebow)--Good. Very good.',
+                'P ogr'
+                ]:
                 i.dialog_list = [
                 "T Hello, friend.",
                 'T Chiken me friend. Chiken - Alfred.',
@@ -432,6 +459,7 @@ while True:
                             needcounti -= 1
                 for i in range(int(reward[0])):
                     inventory.additem(reward[1])
+                    plot_num[dialog_list[-1].split()[1]] += 0.5
                 text = fontBigger.render(dialog_list[num_of_dialog].split()[3], 0, WHITE)
                 sc.blit(text, (3, HALF_HEIGHT + 63))
             else:

@@ -311,6 +311,8 @@ class Sprites:
             SpriteObject(self.sprite_parameters['npc_orc'], (7, 4), 0.01, 10, 1),
             SpriteObject(self.sprite_parameters['npc_skeleton'], (7.68, 1.47), 0.005, 2, 2),
             SpriteObject(self.sprite_parameters['npc_skeleton'], (8.75, 3.65), 0.005, 2, 2),
+            SpriteObject(self.sprite_parameters['npc_skeleton'], (7, 1.47), 0.005, 2, 2),
+            SpriteObject(self.sprite_parameters['npc_skeleton'], (8, 3.65), 0.005, 2, 2),
             SpriteObject(self.sprite_parameters['npc_skeleton'], (1.27, 11.5), 0.005, 2, 2),
             SpriteObject(self.sprite_parameters['npc_skeleton'], (1.26, 8.29), 0.005, 2, 2),
             SpriteObject(self.sprite_parameters['dragon_baby'], (4.5, 20.5), 0.005, 3, 0.5),
