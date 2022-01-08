@@ -174,7 +174,6 @@ while True:
                         pygame.mixer.music.load('sound/eatfuild.mp3')
                         pygame.mixer.music.play(1)
         elif event.type == pygame.MOUSEBUTTONDOWN and mode == 'dialog':
-            print(dialog_list[num_of_dialog].split()[0])
             if event.button == 1 and dialog_list[num_of_dialog].split()[0] == 'T':
                 num_of_dialog += 1
                 pygame.mixer.music.load('sound/bell.mp3')
