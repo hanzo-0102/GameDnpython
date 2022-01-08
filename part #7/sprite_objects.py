@@ -288,7 +288,7 @@ class Sprites:
             'lake': {
                 'sprite': pygame.image.load(f'sprites/lake/base/0.png').convert_alpha(),
                 'viewing_angles': False,
-                'shift': 0.5,
+                'shift': 0.4,
                 'scale': (4, 4),
                 'side': 280,
                 'animation': [],
@@ -374,7 +374,7 @@ class Sprites:
                     or (x + 1, y - 1) in world_map.keys() or (x - 1, y + 1) in world_map.keys()
                     or (x - 1, y - 1) in world_map.keys()):
                         x, y = random.randint(1, 33), random.randint(1, 21)
-                    if chance > 10:
+                    if chance > 3:
                         a, b = x - 13, y - 12
                         if a >= 0 and b < 0:#forest
                             self.spawn('npc_bee', (x, y), 0.007, 4, 1)
