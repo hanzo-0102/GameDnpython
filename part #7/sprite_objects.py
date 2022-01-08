@@ -283,7 +283,7 @@ class Sprites:
                 'flag': 'human',
                 'obj_action': deque([pygame.image.load(f'sprites/guard/anim/{i}.png')
                                     .convert_alpha() for i in range(3)]),
-                'drop': {20: 'chiken', 40: 'ironspear', 30:'bottle', 10:'watterbottle'}
+                'drop': {20: 'chiken', 40: 'ironspear', 30:'bottle', 10:'waterbottle'}
             },
             'lake': {
                 'sprite': pygame.image.load(f'sprites/lake/base/0.png').convert_alpha(),
