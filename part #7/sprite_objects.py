@@ -310,7 +310,7 @@ class Sprites:
                 'side': 30,
                 'animation': [],
                 'death_animation': deque([pygame.image.load(f'sprites/smartshroom/death/{i}.png')
-                                         .convert_alpha() for i in range(5)]),
+                                         .convert_alpha() for i in range(6)]),
                 'is_dead': None,
                 'dead_shift': 0.8,
                 'animation_dist': None,
@@ -318,7 +318,7 @@ class Sprites:
                 'blocked': True,
                 'flag': 'npc',
                 'obj_action': deque([pygame.image.load(f'sprites/smartshroom/anim/{i}.png')
-                                    .convert_alpha() for i in range(6)]),
+                                    .convert_alpha() for i in range(5)]),
                 'drop': {50: 'healshroom', 51: 'manashroom'}
             }
         }
