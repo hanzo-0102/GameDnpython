@@ -23,7 +23,8 @@ items_rare = {
     'bottle':'common',
     'waterbottle':'common',
     'naturebow':'epic',
-    'egg':'uncommon'
+    'egg':'uncommon',
+    'honey':'uncommon'
 }
 
 

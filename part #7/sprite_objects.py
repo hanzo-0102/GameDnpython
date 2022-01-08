@@ -119,7 +119,7 @@ class Sprites:
                 'flag': 'npc',
                 'obj_action': deque([pygame.image.load(f'sprites/bee/anim/{i}.png')
                                     .convert_alpha() for i in range(3)]),
-                'drop': {40:'healshroom', 39:'manashroom'}
+                'drop': {50: 'honey'}
             },
             'npc_chiken': {
                 'sprite': pygame.image.load('sprites/chiken/base/0.png').convert_alpha(),
@@ -302,6 +302,25 @@ class Sprites:
                 'obj_action': [],
                 'drop': {}
             },
+            'npc_smartshroom': {
+                'sprite': pygame.image.load('sprites/smartshroom/base/0.png').convert_alpha(),
+                'viewing_angles': None,
+                'shift': 0.8,
+                'scale': (0.8, 0.8),
+                'side': 30,
+                'animation': [],
+                'death_animation': deque([pygame.image.load(f'sprites/smartshroom/death/{i}.png')
+                                         .convert_alpha() for i in range(5)]),
+                'is_dead': None,
+                'dead_shift': 0.8,
+                'animation_dist': None,
+                'animation_speed': 6,
+                'blocked': True,
+                'flag': 'npc',
+                'obj_action': deque([pygame.image.load(f'sprites/smartshroom/anim/{i}.png')
+                                    .convert_alpha() for i in range(6)]),
+                'drop': {50: 'healshroom', 51: 'manashroom'}
+            }
         }
 
         self.list_of_objects = [
@@ -379,7 +398,11 @@ class Sprites:
                     if chance > 3:
                         a, b = x - 13, y - 12
                         if a >= 0 and b < 0:#forest
-                            self.spawn('npc_bee', (x, y), 0.007, 4, 1)
+                            chance = random.randint(1, 100)
+                            if chance <= 50:
+                                self.spawn('npc_bee', (x, y), 0.007, 4, 1)
+                            elif chance > 50:
+                                self.spawn('npc_smartshroom', (x, y), 0.006, 6, 1.2)
                         elif a < 0 and b < 0:#mineshaft
                             self.spawn('npc_skeleton', (x, y), 0.005, 2, 2)
                         elif a < 0 and b >= 0:#dragon's dungenon

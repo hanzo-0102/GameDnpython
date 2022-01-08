@@ -162,6 +162,11 @@ while True:
                         player.mana = min(player.max_mana, player.mana + 1)
                         pygame.mixer.music.load('sound/eatfood.mp3')
                         pygame.mixer.music.play(1)
+                    elif inventory.invent[cell[0]][cell[1]] == 'honey':
+                        inventory.invent[cell[0]][cell[1]] = False
+                        player.hp = min(player.max_hp, player.hp + 1)
+                        pygame.mixer.music.load('sound/eatfood.mp3')
+                        pygame.mixer.music.play(1)
                     elif inventory.invent[cell[0]][cell[1]] == 'egg':
                         inventory.invent[cell[0]][cell[1]] = False
                         player.hp = min(player.max_hp, player.hp + 0.5)
