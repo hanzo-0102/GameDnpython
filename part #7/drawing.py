@@ -31,6 +31,9 @@ class Drawing:
         # menu
         self.menu_trigger = True
         self.menu_picture = pygame.image.load('img/bg.jpg').convert()
+        #endmenu
+        self.endmenu_trigger = True
+        self.endmenu_picture = pygame.image.load('img/bgfinal.jpg').convert()
         # weapon parameters
         self.weaponi = self.player.weaponi
         self.weapon_base_sprite = pygame.image.load(f'sprites/weapons/{self.weaponi}/base/0.png')
@@ -169,6 +172,44 @@ class Drawing:
                 if mouse_click[0]:
                     self.menu_trigger = False
             elif button_exit.collidepoint(mouse_pos):
+                pygame.draw.rect(self.sc, WHITE, button_exit, border_radius=25)
+                self.sc.blit(exit, (button_exit.centerx - 85, button_exit.centery - 70))
+                if mouse_click[0]:
+                    pygame.quit()
+                    sys.exit()
+
+            pygame.display.flip()
+            self.clock.tick(20)
+
+
+    def end(self, loseorwin, seconds):
+        button_font = pygame.font.Font('font/font.ttf', 72)
+        label_font = pygame.font.Font('font/font1.otf', 300)
+        label_font_smaller = pygame.font.Font('font/font1.otf', 90)
+        exit = button_font.render('EXIT', 1, pygame.Color('black'))
+        button_exit = pygame.Rect(0, 0, 400, 150)
+        button_exit.center = HALF_WIDTH, HALF_HEIGHT + 300
+        step = 1
+
+        while self.endmenu_trigger:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+
+            self.sc.blit(self.endmenu_picture, (0, 0), (0, 0, WIDTH, HEIGHT))
+
+            pygame.draw.rect(self.sc, BLACK, button_exit, border_radius=25, width=10)
+            self.sc.blit(exit, (button_exit.centerx - 85, button_exit.centery - 70))
+
+            label = label_font.render(f'YOU {loseorwin}', 1, (15, 70, 50))
+            self.sc.blit(label, (15, -30))
+            label = label_font_smaller.render(f'It takes {seconds} seconds', 1, (15, 70, 50))
+            self.sc.blit(label, (215, 170))
+
+            mouse_pos = pygame.mouse.get_pos()
+            mouse_click = pygame.mouse.get_pressed()
+            if button_exit.collidepoint(mouse_pos):
                 pygame.draw.rect(self.sc, WHITE, button_exit, border_radius=25)
                 self.sc.blit(exit, (button_exit.centerx - 85, button_exit.centery - 70))
                 if mouse_click[0]:

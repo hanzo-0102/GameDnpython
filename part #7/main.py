@@ -1,4 +1,5 @@
 import random
+import time
 import timeit
 
 import pygame
@@ -19,6 +20,7 @@ indexes = {
     'woodensword': 1,
     'golemgun': 2
 }
+
 
 pygame.init()
 sc = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -60,12 +62,14 @@ avaliable_bottle = False
 plot_num = {'oldtree': 0, 'ogr': 0, 'blacksmith': 0}
 anable_saddle = False
 anable_ride = False
+start_time = time.perf_counter()
+end_time = False
 while True:
     pygame.mixer.music.set_volume(VOLUME / 100)
     interaction.player = player
     if player.hp <= 0:
+        end_time = time.perf_counter()
         break
-
     if 'NatureSheild' in skilltree.learned:
         player.sheild = 0.9
     if 'NatureSheild2' in skilltree.learned:
@@ -516,4 +520,9 @@ while True:
 
     pygame.display.flip()
     clock.tick(FPS)
+if end_time:
+    pygame.mouse.set_visible(True)
+    drawing.end('LOSE', int(start_time - end_time))
+    while drawing.menu_trigger:
+        drawing.end('LOSE', int(start_time - end_time))
 pygame.quit()
