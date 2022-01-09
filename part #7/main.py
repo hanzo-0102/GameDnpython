@@ -484,7 +484,7 @@ while True:
                 'P plot 2'
                 ]:
                 i.dialog_list = [
-                'T Hello again.'
+                'T Hello again.',
                 "Q Are you ready ?",
                 "R--(3, key)--(1, magickey)--...",
                 'T That was quick, but dragon already grow.',
