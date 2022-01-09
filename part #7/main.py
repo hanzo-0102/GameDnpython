@@ -470,7 +470,7 @@ while True:
                 i.object = pygame.image.load(f'sprites/plot/soothsayer/base/0.png').convert_alpha()
                 i.obj_action = deque([pygame.image.load(f'sprites/plot/soothsayer/anim/{i}.png')
                                     .convert_alpha() for i in range(2)])
-                i.pos = (28 * TILE, 16 * TILE)
+                i.x, i.y = (28 * TILE, 16 * TILE)
             elif i.flag == 'trader' and plot_num['plot'] == 2 and i.dialog_list == [
                 "T Hello, adventurer. I know why you come to me.",
                 "T Ok, ok. There is no time to talk.",
@@ -505,7 +505,7 @@ while True:
                 'P plot 3'
                 ]:
                 i.flag = 'easteregg'
-                i.pos = (0, 0)
+                i.x, i.y = (0, 0)
                 i.object = pygame.image.load('sprites/plot/easteregg/0.png').convert_alpha()
                 del world_map[(10 * TILE, 21 * TILE)]
                 del world_map[(10 * TILE, 20 * TILE)]
