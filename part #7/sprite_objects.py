@@ -487,7 +487,7 @@ class Sprites:
                     or (x - 1, y) in world_map.keys() or (x, y + 1) in world_map.keys()
                     or (x, y - 1) in world_map.keys() or (x + 1, y + 1) in world_map.keys()
                     or (x + 1, y - 1) in world_map.keys() or (x - 1, y + 1) in world_map.keys()
-                    or (x - 1, y - 1) in world_map.keys()):
+                    or (x - 1, y - 1) in world_map.keys()) or (x < 10 and y > 16):
                         x, y = random.randint(1, 33), random.randint(1, 21)
                     if chance > 30:
                         a, b = x - 13, y - 12
