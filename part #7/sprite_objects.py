@@ -345,7 +345,7 @@ class Sprites:
                 'Q Ok ?',
                 'T Good luck !',
                 'R--(10, bone)--(1, bow)--Take it pleas. Thanks for help !',
-                'P ogr'
+                'P ogr 1'
             ]),
             SpriteObject(self.sprite_parameters['npc_trader'], (34, 16), dialog_list=[
                 "T Hello. I'm blacksmith in this town.",
@@ -361,7 +361,7 @@ class Sprites:
                 'Q Will you help me ?',
                 'T May the magic be with you !',
                 'R--(5, woodensword)--(2, healshroom)--I hope it will help you. Good bye !',
-                'P oldtree'
+                'P oldtree 1'
             ])
         ]
 

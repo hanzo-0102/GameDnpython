@@ -270,7 +270,7 @@ while True:
                 'Q Will you help me ?',
                 'T May the magic be with you !',
                 'R--(5, woodensword)--(2, healshroom)--I hope it will help you. Good bye !',
-                'P oldtree'
+                'P oldtree 1'
             ]:
                 i.dialog_list = [
                 "T Oh, that is you ! Hello.",
@@ -279,7 +279,7 @@ while True:
                 'Q Pleas bring to me 2 water bottles. Ok ?',
                 'T Hope to see you again !',
                 'R--(2, waterbottle)--(1, crashedironsword)--Skeletons lost it, but I hope it will be useful for you.',
-                'P oldtree'
+                'P oldtree 2'
                 ]
                 i.object = pygame.image.load(f'sprites/oldtree/base/1.png').convert_alpha()
                 i.obj_action = pygame.image.load(f'sprites/oldtree/anim/1.png').convert_alpha()
@@ -290,7 +290,7 @@ while True:
                 'Q Pleas bring to me 2 water bottles. Ok ?',
                 'T Hope to see you again !',
                 'R--(2, waterbottle)--(1, crashedironsword)--Skeletons lost it, but I hope it will be useful for you.',
-                'P oldtree'
+                'P oldtree 2'
                 ]:
                 i.dialog_list = [
                 "T Hello, human-friend !",
@@ -310,7 +310,7 @@ while True:
                 'Q Ok ?',
                 'T Good luck !',
                 'R--(10, bone)--(1, bow)--Take it pleas. Thanks for help !',
-                'P ogr'
+                'P ogr 1'
             ]:
                 i.dialog_list = [
                 "T Hello, traveler.",
@@ -320,7 +320,7 @@ while True:
                 'Q I will wait there. You agree ?',
                 'T Bye.',
                 'R--(12, chiken)--(1, naturebow)--Good. Very good.',
-                'P ogr'
+                'P ogr 2'
                 ]
                 i.object = pygame.image.load(f'sprites/ogr/base/1.png').convert_alpha()
                 i.obj_action = pygame.image.load(f'sprites/ogr/anim/1.png').convert_alpha()
@@ -332,7 +332,7 @@ while True:
                 'Q I will wait there. You agree ?',
                 'T Bye.',
                 'R--(12, chiken)--(1, naturebow)--Good. Very good.',
-                'P ogr'
+                'P ogr 2'
                 ]:
                 i.dialog_list = [
                 "T Hello, friend.",
@@ -463,7 +463,7 @@ while True:
                             needcounti -= 1
                 for i in range(int(reward[0])):
                     inventory.additem(reward[1])
-                    plot_num[dialog_list[-1].split()[1]] += 0.5
+                    plot_num[dialog_list[-1].split()[1]] = int(dialog_list[-1].split()[2])
                 text = fontBigger.render(dialog_list[num_of_dialog].split()[3], 0, WHITE)
                 sc.blit(text, (3, HALF_HEIGHT + 63))
             else:
