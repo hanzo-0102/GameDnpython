@@ -9,7 +9,7 @@ from sprite_objects import *
 from ray_casting import ray_casting_walls
 from drawing import Drawing
 from interaction import Interaction
-from map import world_map
+from map import world_map, collision_walls
 from inventory_test import Inventory, items_rare
 from pygame.event import Event
 from threading import Timer
@@ -488,30 +488,34 @@ while True:
                 i.dialog_list = [
                 'T Hello again.',
                 "Q Are you ready ?",
-                "R--(3, key)--(1, magickey)--...",
+                "R--(3, key)--(1, magickey)--Good job.",
                 'T That was quick, but dragon already grow.',
                 'T Be carefuler, my friend.',
                 'T If you want you can train by killing monsters.',
-                'T Take this magic key as a memory of me.'
+                'T Take this magic key as a memory of me.',
                 'T I hope to see you again later. Bye',
                 'P plot 3'
                 ]
             elif i.flag == 'trader' and plot_num['plot'] == 3 and i.dialog_list == [
-                'T Hello again.'
+                'T Hello again.',
                 "Q Are you ready ?",
-                "R--(3, key)--(1, magickey)--...",
+                "R--(3, key)--(1, magickey)--Good job.",
                 'T That was quick, but dragon already grow.',
                 'T Be carefuler, my friend.',
                 'T If you want you can train by killing monsters.',
+                'T Take this magic key as a memory of me.',
                 'T I hope to see you again later. Bye',
                 'P plot 3'
                 ]:
                 i.flag = 'easteregg'
                 i.x, i.y = (0, 0)
                 i.object = pygame.image.load('sprites/plot/easteregg/0.png').convert_alpha()
-                del world_map[(10 * TILE, 21 * TILE)]
-                del world_map[(10 * TILE, 20 * TILE)]
-                del world_map[(10 * TILE, 22 * TILE)]
+                del world_map[(9 * TILE, 21 * TILE)]
+                del world_map[(9 * TILE, 20 * TILE)]
+                del world_map[(9 * TILE, 22 * TILE)]
+                del collision_walls[collision_walls.index(pygame.Rect(9 * TILE, 21 * TILE, TILE, TILE))]
+                del collision_walls[collision_walls.index(pygame.Rect(9 * TILE, 20 * TILE, TILE, TILE))]
+                del collision_walls[collision_walls.index(pygame.Rect(9 * TILE, 22 * TILE, TILE, TILE))]
             if i.flag == 'lake' and (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) < 350):
                 render = fontBigger.render('press [F] to interract', 0, DARKORANGE)
                 avaliable_bottle = True
@@ -635,7 +639,7 @@ while True:
             else:
                 if [int(need[0]), need[1], int(reward[0]), reward[1]] not in quests and [int(need[0]), need[1], int(reward[0]), reward[1]] not in was_quests:
                     quests.append([int(need[0]), need[1], int(reward[0]), reward[1]])
-                mode = 'game'
+                num_of_dialog += 1
         elif dialog_list[num_of_dialog].split()[0] in ['P', 'D']:
             if dialog_list[num_of_dialog].split()[0] == 'P':
                 plot_num[dialog_list[-1].split()[1]] = int(dialog_list[-1].split()[2])
@@ -643,7 +647,7 @@ while True:
 
     pygame.display.flip()
     clock.tick(FPS)
-x = 'WIN ' if sprites.dragon_dead else 'LOSE'
+x = 'WIN!' if sprites.dragon_dead else 'LOSE'
 if end_time:
     pygame.mouse.set_visible(True)
     drawing.end(x, int(start_time - end_time))

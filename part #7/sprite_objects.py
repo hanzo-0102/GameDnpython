@@ -202,12 +202,13 @@ class Sprites:
                 'scale': (0.8, 0.8),
                 'side': 30,
                 'animation': [],
-                'death_animation': [],
+                'death_animation': deque([pygame.image.load(f'sprites/dragon/death/{i}.png')
+                                    .convert_alpha() for i in range(1)]),
                 'is_dead': None,
                 'dead_shift': 0.8,
                 'animation_dist': None,
                 'animation_speed': 6,
-                'blocked': False,
+                'blocked': True,
                 'flag': 'dragon_baby',
                 'obj_action': deque([pygame.image.load(f'sprites/dragon/baby/anim/{i}.png')
                                     .convert_alpha() for i in range(3)]),
@@ -220,12 +221,13 @@ class Sprites:
                 'scale': (0.8, 0.8),
                 'side': 30,
                 'animation': [],
-                'death_animation': [],
+                'death_animation': deque([pygame.image.load(f'sprites/dragon/death/{i}.png')
+                                    .convert_alpha() for i in range(1)]),
                 'is_dead': None,
                 'dead_shift': 0.8,
                 'animation_dist': None,
                 'animation_speed': 6,
-                'blocked': False,
+                'blocked': True,
                 'flag': 'dragon_young',
                 'obj_action': deque([pygame.image.load(f'sprites/dragon/young/anim/{i}.png')
                                     .convert_alpha() for i in range(3)]),
@@ -238,12 +240,13 @@ class Sprites:
                 'scale': (0.8, 0.8),
                 'side': 30,
                 'animation': [],
-                'death_animation': [],
+                'death_animation': deque([pygame.image.load(f'sprites/dragon/death/{i}.png')
+                                    .convert_alpha() for i in range(1)]),
                 'is_dead': None,
                 'dead_shift': 0.8,
                 'animation_dist': None,
                 'animation_speed': 6,
-                'blocked': False,
+                'blocked': True,
                 'flag': 'dragon_old',
                 'obj_action': deque([pygame.image.load(f'sprites/dragon/old/anim/{i}.png')
                                     .convert_alpha() for i in range(3)]),

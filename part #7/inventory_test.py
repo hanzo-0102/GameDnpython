@@ -25,7 +25,9 @@ items_rare = {
     'naturebow':'epic',
     'egg':'uncommon',
     'honey':'uncommon',
-    'saddle':'epic'
+    'saddle':'epic',
+    'key':'epic',
+    'magickey':'legendary'
 }
 
 
