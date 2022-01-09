@@ -262,6 +262,7 @@ while True:
                 obji = [objic.pos for objic in sprites.list_of_objects].index(anable_ride)
                 player.horsespeed = 2.5
                 del sprites.list_of_objects[obji]
+                anable_ride = False
             elif event.key == pygame.K_f:
                 take = True
             if event.key == pygame.K_q and player.horsespeed == 2.5:
@@ -471,6 +472,7 @@ while True:
                 i.obj_action = deque([pygame.image.load(f'sprites/plot/soothsayer/anim/{i}.png')
                                     .convert_alpha() for i in range(2)])
                 i.x, i.y = (28 * TILE, 16 * TILE)
+                avaliable_dialog = False
             elif i.flag == 'trader' and plot_num['plot'] == 2 and i.dialog_list == [
                 "T Hello, adventurer. I know why you come to me.",
                 "T Ok, ok. There is no time to talk.",
