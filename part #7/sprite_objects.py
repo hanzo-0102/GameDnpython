@@ -320,7 +320,26 @@ class Sprites:
                 'obj_action': deque([pygame.image.load(f'sprites/smartshroom/anim/{i}.png')
                                     .convert_alpha() for i in range(5)]),
                 'drop': {50: 'healshroom', 51: 'manashroom'}
-            }
+            },
+            'npc_horseguard': {
+                'sprite': pygame.image.load(f'sprites/horseguard/base/0.png').convert_alpha(),
+                'viewing_angles': False,
+                'shift': 0.4,
+                'scale': (0.8, 1),
+                'side': 30,
+                'animation': [],
+                'death_animation': deque([pygame.image.load(f'sprites/horseguard/death/{i}.png')
+                                         .convert_alpha() for i in range(5)]),
+                'is_dead': None,
+                'dead_shift': 0.4,
+                'animation_dist': None,
+                'animation_speed': 6,
+                'blocked': True,
+                'flag': 'human',
+                'obj_action': deque([pygame.image.load(f'sprites/horseguard/anim/{i}.png')
+                                    .convert_alpha() for i in range(4)]),
+                'drop': {35: 'saddle', 20: 'chiken', 30: 'bottle', 10: 'waterbottle'}
+            },
         }
 
         self.list_of_objects = [
@@ -409,10 +428,12 @@ class Sprites:
                             self.spawn('npc_orc', (x, y), 0.01, 10, 1)
                         elif a >= 0 and b >= 0:#city
                             chance = random.randint(1, 100)
-                            if chance <= 50:
+                            if chance <= 33:
                                 self.spawn('npc_guard', (x, y), 0.008, 8, 0.8, distance=340)
-                            elif chance > 50:
+                            elif chance > 33 and chance <= 66:
                                 self.spawn('npc_chiken', (x, y), 0, 3, 0.2, is_animal=True)
+                            elif chance > 66:
+                                self.spawn('npc_horseguard', (x, y), 0.006, 10, 2.5)
                     else:
                         self.spawn('npc_irongolem', (x, y), 0.02, 60, 0.5, '', True)
                     self.list_of_objects[-1].object_locate(player)
