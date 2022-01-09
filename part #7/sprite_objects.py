@@ -340,6 +340,44 @@ class Sprites:
                                     .convert_alpha() for i in range(4)]),
                 'drop': {35: 'saddle', 20: 'chiken', 30: 'bottle', 10: 'waterbottle'}
             },
+            'npc_horse0': {
+                'sprite': pygame.image.load('sprites/horse/0/base/0.png').convert_alpha(),
+                'viewing_angles': None,
+                'shift': 0.8,
+                'scale': (0.8, 1),
+                'side': 30,
+                'animation': [],
+                'death_animation': deque([pygame.image.load(f'sprites/horse/0/death/{i}.png')
+                                         .convert_alpha() for i in range(1)]),
+                'is_dead': None,
+                'dead_shift': 0.8,
+                'animation_dist': None,
+                'animation_speed': 6,
+                'blocked': True,
+                'flag': 'horse0',
+                'obj_action': deque([pygame.image.load(f'sprites/horse/0/anim/{i}.png')
+                                    .convert_alpha() for i in range(4)]),
+                'drop': {}
+            },
+            'npc_horse1': {
+                'sprite': pygame.image.load('sprites/horse/1/base/0.png').convert_alpha(),
+                'viewing_angles': None,
+                'shift': 0.8,
+                'scale': (0.8, 1),
+                'side': 30,
+                'animation': [],
+                'death_animation': deque([pygame.image.load(f'sprites/horse/1/death/{i}.png')
+                                         .convert_alpha() for i in range(1)]),
+                'is_dead': None,
+                'dead_shift': 0.8,
+                'animation_dist': None,
+                'animation_speed': 6,
+                'blocked': True,
+                'flag': 'horse1',
+                'obj_action': deque([pygame.image.load(f'sprites/horse/1/anim/{i}.png')
+                                    .convert_alpha() for i in range(4)]),
+                'drop': {}
+            },
         }
 
         self.list_of_objects = [
@@ -371,7 +409,7 @@ class Sprites:
                 'Q Bring me 3 crashed swords and i will reapir it.',
                 'T Good bye. Be careful !',
                 'R--(3, crashedironsword)--(1, ironsword)--I hope you will like it. Hope to see you again !',
-                'D'
+                'D blacksmith 1'
             ]),
             SpriteObject(self.sprite_parameters['oldtree_trader'], (34.5, 1.5), dialog_list=[
                 "T Hello my human-firend. I'm old tree living there.",
@@ -414,7 +452,7 @@ class Sprites:
                     or (x + 1, y - 1) in world_map.keys() or (x - 1, y + 1) in world_map.keys()
                     or (x - 1, y - 1) in world_map.keys()):
                         x, y = random.randint(1, 33), random.randint(1, 21)
-                    if chance > 3:
+                    if chance > 30:
                         a, b = x - 13, y - 12
                         if a >= 0 and b < 0:#forest
                             chance = random.randint(1, 100)
@@ -435,7 +473,10 @@ class Sprites:
                             elif chance > 66:
                                 self.spawn('npc_horseguard', (x, y), 0.006, 10, 2.5)
                     else:
-                        self.spawn('npc_irongolem', (x, y), 0.02, 60, 0.5, '', True)
+                        if chance <= 2:
+                            self.spawn('npc_irongolem', (x, y), 0.02, 60, 0.5, '', True)
+                        else:
+                            self.spawn('npc_horse0', (x, y), 0, 5, 0.4, is_animal=True)
                     self.list_of_objects[-1].object_locate(player)
                 elif i.is_dead != 'immortal' and i.is_dead:
                     i.time_dead += 1

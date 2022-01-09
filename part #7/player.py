@@ -6,6 +6,7 @@ from weapons import weapon_list
 
 class Player:
     def __init__(self, sprites):
+        self.horsespeed = 0
         self.curwep = 1
         self.x, self.y = player_pos
         self.sprites = sprites
@@ -116,20 +117,20 @@ class Player:
             exit()
 
         if keys[pygame.K_w]:
-            dx = (player_speed * self.speed) * cos_a
-            dy = (player_speed * self.speed) * sin_a
+            dx = (player_speed * max(self.speed, self.horsespeed)) * cos_a
+            dy = (player_speed * max(self.speed, self.horsespeed)) * sin_a
             self.detect_collision(dx, dy)
         if keys[pygame.K_s]:
-            dx = -(player_speed * self.speed) * cos_a
-            dy = -(player_speed * self.speed) * sin_a
+            dx = -(player_speed * max(self.speed, self.horsespeed)) * cos_a
+            dy = -(player_speed * max(self.speed, self.horsespeed)) * sin_a
             self.detect_collision(dx, dy)
         if keys[pygame.K_a]:
-            dx = (player_speed * self.speed) * sin_a
-            dy = -(player_speed * self.speed) * cos_a
+            dx = (player_speed * max(self.speed, self.horsespeed)) * sin_a
+            dy = -(player_speed * max(self.speed, self.horsespeed)) * cos_a
             self.detect_collision(dx, dy)
         if keys[pygame.K_d]:
-            dx = -(player_speed * self.speed) * sin_a
-            dy = (player_speed * self.speed) * cos_a
+            dx = -(player_speed * max(self.speed, self.horsespeed)) * sin_a
+            dy = (player_speed * max(self.speed, self.horsespeed)) * cos_a
             self.detect_collision(dx, dy)
 
         if keys[pygame.K_LEFT]:

@@ -93,6 +93,7 @@ class Inventory:
         from sprite_objects import SpriteObject
         x = Item(item).item
         self.sprites.list_of_objects.append(SpriteObject(x, (self.player.x // TILE + 0.6, self.player.y // TILE - 0.6), name=item))
+        self.sprites.list_of_objects[-1].object_locate(self.player)
 
 
     def get_click(self, mouse_pos):

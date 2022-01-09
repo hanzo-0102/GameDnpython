@@ -58,6 +58,8 @@ was_quests = []
 can_miss = True
 avaliable_bottle = False
 plot_num = {'oldtree': 0, 'ogr': 0, 'blacksmith': 0}
+anable_saddle = False
+anable_ride = False
 while True:
     pygame.mixer.music.set_volume(VOLUME / 100)
     interaction.player = player
@@ -234,8 +236,28 @@ while True:
                     for j in range(len(inventory.invent[0])):
                         if inventory.invent[i][j] == 'bottle':
                             inventory.invent[i][j] = 'waterbottle'
+            elif event.key == pygame.K_f and anable_saddle:
+                obji = [objic.pos for objic in sprites.list_of_objects].index(anable_saddle)
+                del_sad = True
+                for i in range(len(inventory.invent)):
+                    for j in range(len(inventory.invent[0])):
+                        if inventory.invent[i][j] == 'saddle' and del_sad:
+                            inventory.invent[i][j] = False
+                            del_sad = False
+                sprites.list_of_objects[obji].object = pygame.image.load('sprites/horse/1/base/0.png').convert_alpha()
+                sprites.list_of_objects[obji].obj_action = deque([pygame.image.load(f'sprites/horse/1/anim/{i}.png')
+                                    .convert_alpha() for i in range(4)])
+                sprites.list_of_objects[obji].flag = 'horse1'
+            if event.key == pygame.K_f and anable_ride:
+                obji = [objic.pos for objic in sprites.list_of_objects].index(anable_ride)
+                player.horsespeed = 2.5
+                del sprites.list_of_objects[obji]
             elif event.key == pygame.K_f:
                 take = True
+            if event.key == pygame.K_q and player.horsespeed == 2.5:
+                player.horsespeed = 0
+                sprites.spawn('npc_horse1', (player.x / TILE + 2, player.y / TILE - 1), 0, 5, 0.4, is_animal=True)
+                sprites.list_of_objects[-1].object_locate(player)
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_f:
                 take = False
@@ -263,6 +285,24 @@ while True:
                 if (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) < i.distance):
                     player.dmg(i.damag)
                     del sprites.list_of_objects[sprites.list_of_objects.index(i)]
+            if i.flag == 'horse0' and (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) < 300):
+                for aa in range(len(inventory.invent)):
+                    for bb in range(len(inventory.invent[0])):
+                        if inventory.invent[aa][bb] == 'saddle':
+                            anable_saddle = i.pos
+                if anable_saddle:
+                    render = fontBigger.render('press [F] to interract', 0, DARKORANGE)
+                    sc.blit(render, (HALF_WIDTH - 220, HALF_HEIGHT + 80))
+            elif i.flag == 'horse0' and (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) >= 300):
+                if anable_saddle == i.pos:
+                    anable_saddle = False
+            if i.flag == 'horse1' and (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) < 300):
+                anable_ride = i.pos
+                render = fontBigger.render('press [F] to interract', 0, DARKORANGE)
+                sc.blit(render, (HALF_WIDTH - 220, HALF_HEIGHT + 80))
+            elif i.flag == 'horse1' and (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) >= 300):
+                if anable_ride == i.pos:
+                    anable_ride = False
             if i.flag == 'trader' and plot_num['oldtree'] == 1 and (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) >= 1000) and i.dialog_list == [
                 "T Hello my human-firend. I'm old tree living there.",
                 'T Pleas, return my friend to me.',
