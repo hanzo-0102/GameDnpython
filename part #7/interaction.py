@@ -74,7 +74,7 @@ class Interaction:
 
     def npc_action(self):
         for obj in self.sprites.list_of_objects:
-            if (obj.flag == 'npc' or obj.flag == 'dragon_baby' or obj.flag == 'dragon_young') and not obj.is_dead:
+            if (obj.flag == 'npc' or obj.flag == 'dragon_baby' or obj.flag == 'dragon_young' or obj.flag == 'dragon_old') and not obj.is_dead:
                 if ray_casting_npc_player(obj.x, obj.y,
                                           [],
                                           world_map, self.player.pos):
@@ -146,7 +146,7 @@ class Interaction:
                 'animation_dist': None,
                 'animation_speed': 6,
                 'blocked': False,
-                'flag': 'npc',
+                'flag': 'dragon_old',
                 'obj_action': deque([pygame.image.load(f'sprites/dragon/old/anim/{i}.png')
                                     .convert_alpha() for i in range(3)]),
                 'drop': {}

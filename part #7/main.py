@@ -59,7 +59,7 @@ quests = []
 was_quests = []
 can_miss = True
 avaliable_bottle = False
-plot_num = {'oldtree': 0, 'ogr': 0, 'blacksmith': 0}
+plot_num = {'oldtree': 0, 'ogr': 0, 'blacksmith': 0, 'plot': 0}
 anable_saddle = False
 anable_ride = False
 start_time = time.perf_counter()
@@ -68,6 +68,9 @@ while True:
     pygame.mixer.music.set_volume(VOLUME / 100)
     interaction.player = player
     if player.hp <= 0:
+        end_time = time.perf_counter()
+        break
+    if sprites.dragon_dead:
         end_time = time.perf_counter()
         break
     if 'NatureSheild' in skilltree.learned:
@@ -348,10 +351,52 @@ while True:
                 'Q What is about... 3 water for 1 healsroom ?',
                 'T Good bye my friend !',
                 'R--(3, waterbottle)--(1, healshroom)--Nice deal.',
-                'D'
+                'D oldtree 2'
                 ]
                 i.object = pygame.image.load(f'sprites/oldtree/base/2.png').convert_alpha()
                 i.obj_action = pygame.image.load(f'sprites/oldtree/anim/2.png').convert_alpha()
+                inventory.additem('key')
+            if i.flag == 'trader' and plot_num['blacksmith'] == 1 and (
+                    abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) >= 1000) and i.dialog_list == [
+                "T Hello. I'm blacksmith in this town.",
+                'Q Bring me 3 crashed swords and i will reapir it.',
+                'T Good bye. Be careful !',
+                'R--(3, crashedironsword)--(1, ironsword)--I hope you will like it. Hope to see you again !',
+                'P blacksmith 1'
+            ]:
+                i.dialog_list = [
+                    "T Oh, that you!",
+                    'T Thank you for 3 crashed swords.',
+                    'T I hope iron sword very cool.',
+                    'T But now I need 3 iron spear for experiment.',
+                    'T I hope you will help me.',
+                    'Q Will you ?',
+                    'R--(3, ironspear)--(1, golemgun)--That is what I get.',
+                    'P blacksmith 2'
+                ]
+            elif i.flag == 'trader' and plot_num['blacksmith'] == 2 and (
+                    abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) >= 1000) and i.dialog_list == [
+                    "T Oh, that you!",
+                    'T Thank you for 3 crashed swords.',
+                    'T I hope iron sword very cool.',
+                    'T But now I need 3 iron spear for experiment.',
+                    'T I hope you will help me.',
+                    'Q Will you ?',
+                    'R--(3, ironspear)--(1, golemgun)--That is what I get.',
+                    'P blacksmith 2'
+                ]:
+                i.dialog_list = [
+                    "T That was very cool my friend !",
+                    'T I have never do something like this.',
+                    'T I hope you will like it too.',
+                    'T But I can make not only weapon.',
+                    "T I'm also farmer.",
+                    'T And now I am ready to trade with you.',
+                    'T For example 1 crashed iron sword to 3 carrot',
+                    'R--(1, crashedironsword)--(3, carrot)--Thanks.',
+                    'D blacksmith 2'
+                ]
+                inventory.additem('key')
             if i.flag == 'trader' and plot_num['ogr'] == 1 and (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) >= 1000) and i.dialog_list == [
                 'T Hello. My want bones. You - bones, Me - reward.',
                 'Q Ok ?',
@@ -389,10 +434,82 @@ while True:
                 'Q Healshroom for Alfred to eggs',
                 'T See you.',
                 'R--(1, healshroom)--(3, egg)--Tasty.',
-                'D'
+                'D ogr 2'
                 ]
                 i.object = pygame.image.load(f'sprites/ogr/base/2.png').convert_alpha()
                 i.obj_action = pygame.image.load(f'sprites/ogr/anim/2.png').convert_alpha()
+                inventory.additem('key')
+            if i.flag == 'trader' and plot_num['plot'] == 1 and i.dialog_list == [
+                'T Hello. Thank you for saving me.',
+                'T As I can see, you are traveler.',
+                'T Where my manners ?',
+                'T I am storyteller.',
+                'T That is your story.',
+                'T I will help you in this adventure.',
+                'T And what now ? Let me see...',
+                'T Oh, yes of course !',
+                'T Now adventurer will go in city...',
+                'T And talk with soothsayer.',
+                'T Ok, good luck. Hope to see you later.',
+                "T And don't forget, that you must kill dragon.",
+                'T Good bye',
+                'P plot 1'
+            ]:
+                i.dialog_list = [
+                "T Hello, adventurer. I know why you come to me.",
+                "T Ok, ok. There is no time to talk.",
+                'T Dragon become stronger with every second !',
+                'T But his cave closed for now.',
+                'T If you want to open it...',
+                'T You should collect 3 keys :',
+                'T 1-st keys you will get if you will help ogr.',
+                'T 2-nd for helping old tree.',
+                'T And 3-rd for helping blacksmith',
+                'P plot 2'
+                ]
+                i.object = pygame.image.load(f'sprites/plot/soothsayer/base/0.png').convert_alpha()
+                i.obj_action = deque([pygame.image.load(f'sprites/plot/soothsayer/anim/{i}.png')
+                                    .convert_alpha() for i in range(2)])
+                i.pos = (28 * TILE, 16 * TILE)
+            elif i.flag == 'trader' and plot_num['plot'] == 2 and i.dialog_list == [
+                "T Hello, adventurer. I know why you come to me.",
+                "T Ok, ok. There is no time to talk.",
+                'T Dragon become stronger with every second !',
+                'T But his cave closed for now.',
+                'T If you want to open it...',
+                'T You should collect 3 keys :',
+                'T 1-st keys you will get if you will help ogr.',
+                'T 2-nd for helping old tree.',
+                'T And 3-rd for helping blacksmith',
+                'P plot 2'
+                ]:
+                i.dialog_list = [
+                'T Hello again.'
+                "Q Are you ready ?",
+                "R--(3, key)--(1, magickey)--...",
+                'T That was quick, but dragon already grow.',
+                'T Be carefuler, my friend.',
+                'T If you want you can train by killing monsters.',
+                'T Take this magic key as a memory of me.'
+                'T I hope to see you again later. Bye',
+                'P plot 3'
+                ]
+            elif i.flag == 'trader' and plot_num['plot'] == 3 and i.dialog_list == [
+                'T Hello again.'
+                "Q Are you ready ?",
+                "R--(3, key)--(1, magickey)--...",
+                'T That was quick, but dragon already grow.',
+                'T Be carefuler, my friend.',
+                'T If you want you can train by killing monsters.',
+                'T I hope to see you again later. Bye',
+                'P plot 3'
+                ]:
+                i.flag = 'easteregg'
+                i.pos = (0, 0)
+                i.object = pygame.image.load('sprites/plot/easteregg/0.png').convert_alpha()
+                del world_map[(10 * TILE, 21 * TILE)]
+                del world_map[(10 * TILE, 20 * TILE)]
+                del world_map[(10 * TILE, 22 * TILE)]
             if i.flag == 'lake' and (abs(i.pos[0] - player.x) + abs(i.pos[1] - player.y) < 350):
                 render = fontBigger.render('press [F] to interract', 0, DARKORANGE)
                 avaliable_bottle = True
@@ -520,9 +637,10 @@ while True:
 
     pygame.display.flip()
     clock.tick(FPS)
+x = 'WIN ' if sprites.dragon_dead else 'LOSE'
 if end_time:
     pygame.mouse.set_visible(True)
-    drawing.end('LOSE', int(start_time - end_time))
+    drawing.end(x, int(start_time - end_time))
     while drawing.menu_trigger:
-        drawing.end('LOSE', int(start_time - end_time))
+        drawing.end(x, int(start_time - end_time))
 pygame.quit()

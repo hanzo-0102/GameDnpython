@@ -10,6 +10,7 @@ from inventory_test import Item
 
 class Sprites:
     def __init__(self):
+        self.dragon_dead = False
         self.sprite_parameters = {
             'sprite_vase': {
                 'sprite': pygame.image.load('sprites/vase/base/0.png').convert_alpha(),
@@ -243,7 +244,7 @@ class Sprites:
                 'animation_dist': None,
                 'animation_speed': 6,
                 'blocked': False,
-                'flag': 'npc',
+                'flag': 'dragon_old',
                 'obj_action': deque([pygame.image.load(f'sprites/dragon/old/anim/{i}.png')
                                     .convert_alpha() for i in range(3)]),
                 'drop': {}
@@ -378,6 +379,24 @@ class Sprites:
                                     .convert_alpha() for i in range(4)]),
                 'drop': {}
             },
+            'plot': {
+                'sprite': pygame.image.load('sprites/plot/storyteller/base/0.png').convert_alpha(),
+                'viewing_angles': None,
+                'shift': 0.8,
+                'scale': (0.8, 0.8),
+                'side': 30,
+                'animation': [],
+                'death_animation': [],
+                'is_dead': 'immortal',
+                'dead_shift': 0,
+                'animation_dist': None,
+                'animation_speed': 6,
+                'blocked': True,
+                'flag': 'trader',
+                'obj_action': deque([pygame.image.load(f'sprites/plot/storyteller/anim/{i}.png')
+                                    .convert_alpha() for i in range(9)]),
+                'drop': {}
+            },
         }
 
         self.list_of_objects = [
@@ -385,6 +404,22 @@ class Sprites:
             SpriteObject(self.sprite_parameters['sprite_vase'], (5.9, 2.1)),
             SpriteObject(self.sprite_parameters['lake'], (14.9, 13.1)),
             SpriteObject(self.sprite_parameters['npc_orc'], (7, 4), 0.01, 10, 1),
+            SpriteObject(self.sprite_parameters['plot'], (7.2, 3.8), dialog_list=[
+                'T Hello. Thank you for saving me.',
+                'T As I can see, you are traveler.',
+                'T Where my manners ?',
+                'T I am storyteller.',
+                'T That is your story.',
+                'T I will help you in this adventure.',
+                'T And what now ? Let me see...',
+                'T Oh, yes of course !',
+                'T Now adventurer will go in city...',
+                'T And talk with soothsayer.',
+                'T Ok, good luck. Hope to see you later.',
+                "T And don't forget, that you must kill dragon.",
+                'T Good bye',
+                'P plot 1'
+            ]),
             SpriteObject(self.sprite_parameters['npc_skeleton'], (7.68, 1.47), 0.005, 2, 2),
             SpriteObject(self.sprite_parameters['npc_skeleton'], (8.75, 3.65), 0.005, 2, 2),
             SpriteObject(self.sprite_parameters['npc_skeleton'], (7, 1.47), 0.005, 2, 2),
@@ -409,7 +444,7 @@ class Sprites:
                 'Q Bring me 3 crashed swords and i will reapir it.',
                 'T Good bye. Be careful !',
                 'R--(3, crashedironsword)--(1, ironsword)--I hope you will like it. Hope to see you again !',
-                'D blacksmith 1'
+                'P blacksmith 1'
             ]),
             SpriteObject(self.sprite_parameters['oldtree_trader'], (34.5, 1.5), dialog_list=[
                 "T Hello my human-firend. I'm old tree living there.",
@@ -443,6 +478,8 @@ class Sprites:
                             )
                             self.list_of_objects[-1].object_locate(player)
                     player.xp += i.max_health // 2
+                    if i.flag in ['dragon_baby', 'dragon_young', 'dragon_old']:
+                        self.dragon_dead = True
                     del self.list_of_objects[self.list_of_objects.index(i)]
                     chance = random.randint(1, 100)
                     x, y = random.randint(1, 33), random.randint(1, 21)

@@ -79,12 +79,15 @@ class Drawing:
         for x, y in mini_map:
             pygame.draw.rect(self.sc_map, DARKBROWN, (x, y, MAP_TILE, MAP_TILE))
         for i in sprites.list_of_objects:
-            if (i.flag == 'npc' or i.flag == 'dragon_baby' or i.flag == 'dragon_young' or i.flag == 'human' or i.flag == 'horse0') and i.is_dead != 'immortal':
+            if (i.flag == 'npc' or i.flag == 'human' or i.flag == 'horse0') and i.is_dead != 'immortal':
                 x, y = i.pos
                 pygame.draw.circle(self.sc_map, WHITE, (x // MAP_SCALE, y // MAP_SCALE), 1.5)
             elif i.flag == 'trader':
                 x, y = i.pos
                 pygame.draw.circle(self.sc_map, SKYBLUE, (x // MAP_SCALE, y // MAP_SCALE), 1.5)
+            elif i.flag == 'dragon_old' or i.flag == 'dragon_baby' or i.flag == 'dragon_young':
+                x, y = i.pos
+                pygame.draw.circle(self.sc_map, RED, (x // MAP_SCALE, y // MAP_SCALE), 1.5)
             elif i.flag == 'horse1':
                 x, y = i.pos
                 pygame.draw.circle(self.sc_map, PURPLE, (x // MAP_SCALE, y // MAP_SCALE), 1.5)
