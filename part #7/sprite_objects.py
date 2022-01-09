@@ -412,22 +412,23 @@ class Sprites:
                             if chance <= 50:
                                 self.spawn('npc_guard', (x, y), 0.008, 8, 0.8, distance=340)
                             elif chance > 50:
-                                self.spawn('npc_chiken', (x, y), 0, 3, 0)
+                                self.spawn('npc_chiken', (x, y), 0, 3, 0.2, is_animal=True)
                     else:
                         self.spawn('npc_irongolem', (x, y), 0.02, 60, 0.5, '', True)
                     self.list_of_objects[-1].object_locate(player)
                 elif i.is_dead != 'immortal' and i.is_dead:
                     i.time_dead += 1
 
-    def spawn(self, type, pos, dmg, health, speed, name='', shooting=False, distance=170):
-        self.list_of_objects.append(SpriteObject(self.sprite_parameters[type], pos, dmg, health, speed, name, shooting, distance=distance))
+    def spawn(self, type, pos, dmg, health, speed, name='', shooting=False, distance=170, is_animal=False):
+        self.list_of_objects.append(SpriteObject(self.sprite_parameters[type], pos, dmg, health, speed, name, shooting, distance=distance, is_animal=is_animal))
 
 
 
 
 class SpriteObject:
-    def __init__(self, parameters, pos, damag=0, health=0, speed=0, name='', shooting=False, distance=170, dialog_list=[], shootdamag=1):
+    def __init__(self, parameters, pos, damag=0, health=0, speed=0, name='', shooting=False, distance=170, dialog_list=[], shootdamag=1, is_animal=False):
         self.shooting = shooting
+        self.is_animal = is_animal
         self.max_health = health
         self.dialog_list = dialog_list
         self.name = name

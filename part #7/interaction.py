@@ -154,13 +154,21 @@ class Interaction:
                     self.sprites.list_of_objects[-1].object_locate(self.player)
 
     def npc_move(self, obj):
-        if (abs(obj.distance_to_sprite) > TILE):
-            dx = obj.x - self.player.pos[0]
-            dy = obj.y - self.player.pos[1]
-            obj.x = obj.x + obj.speed if dx < 0 else obj.x - obj.speed
-            obj.y = obj.y + obj.speed if dy < 0 else obj.y - obj.speed
-            if obj.x < 0 or obj.x > 24 or obj.y < 0 or obj.y > 15:
-                del obj
+        if not obj.is_animal:
+            if (abs(obj.distance_to_sprite) > TILE):
+                dx = obj.x - self.player.pos[0]
+                dy = obj.y - self.player.pos[1]
+                obj.x = obj.x + obj.speed if dx < 0 else obj.x - obj.speed
+                obj.y = obj.y + obj.speed if dy < 0 else obj.y - obj.speed
+        else:
+            dx = obj.speed * random.randint(-1, 1)
+            dy = obj.speed * random.randint(-1, 1)
+            stepx = obj.x + obj.speed + 1 if dx < 0 else obj.x - obj.speed - 1
+            stepy = obj.y + obj.speed + 1 if dy < 0 else obj.y - obj.speed - 1
+            if (int(stepx / TILE), int(stepy / TILE)) not in world_map.keys():
+                obj.x = obj.x + obj.speed if dx < 0 else obj.x - obj.speed
+                obj.y = obj.y + obj.speed if dy < 0 else obj.y - obj.speed
+
 
     def clear_world(self):
         deleted_objects = self.sprites.list_of_objects[:]
