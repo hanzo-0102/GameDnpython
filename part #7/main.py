@@ -237,17 +237,20 @@ while True:
                         if inventory.invent[i][j] == 'bottle':
                             inventory.invent[i][j] = 'waterbottle'
             elif event.key == pygame.K_f and anable_saddle:
-                obji = [objic.pos for objic in sprites.list_of_objects].index(anable_saddle)
-                del_sad = True
-                for i in range(len(inventory.invent)):
-                    for j in range(len(inventory.invent[0])):
-                        if inventory.invent[i][j] == 'saddle' and del_sad:
-                            inventory.invent[i][j] = False
-                            del_sad = False
-                sprites.list_of_objects[obji].object = pygame.image.load('sprites/horse/1/base/0.png').convert_alpha()
-                sprites.list_of_objects[obji].obj_action = deque([pygame.image.load(f'sprites/horse/1/anim/{i}.png')
-                                    .convert_alpha() for i in range(4)])
-                sprites.list_of_objects[obji].flag = 'horse1'
+                try:
+                    obji = [objic.pos for objic in sprites.list_of_objects].index(anable_saddle)
+                    del_sad = True
+                    for i in range(len(inventory.invent)):
+                        for j in range(len(inventory.invent[0])):
+                            if inventory.invent[i][j] == 'saddle' and del_sad:
+                                inventory.invent[i][j] = False
+                                del_sad = False
+                    sprites.list_of_objects[obji].object = pygame.image.load('sprites/horse/1/base/0.png').convert_alpha()
+                    sprites.list_of_objects[obji].obj_action = deque([pygame.image.load(f'sprites/horse/1/anim/{i}.png')
+                                        .convert_alpha() for i in range(4)])
+                    sprites.list_of_objects[obji].flag = 'horse1'
+                except Exception:
+                    pass
             if event.key == pygame.K_f and anable_ride:
                 obji = [objic.pos for objic in sprites.list_of_objects].index(anable_ride)
                 player.horsespeed = 2.5
@@ -256,7 +259,7 @@ while True:
                 take = True
             if event.key == pygame.K_q and player.horsespeed == 2.5:
                 player.horsespeed = 0
-                sprites.spawn('npc_horse1', (player.x / TILE + 2, player.y / TILE - 1), 0, 5, 0.4, is_animal=True)
+                sprites.spawn('npc_horse1', (player.x / TILE + 0.6, player.y / TILE - 0.6), 0, 5, 0.4, is_animal=True)
                 sprites.list_of_objects[-1].object_locate(player)
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_f:
