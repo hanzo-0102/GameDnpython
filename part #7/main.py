@@ -635,6 +635,8 @@ while True:
                     quests.append([int(need[0]), need[1], int(reward[0]), reward[1]])
                 mode = 'game'
         elif dialog_list[num_of_dialog].split()[0] in ['P', 'D']:
+            if dialog_list[num_of_dialog].split()[0] == 'P':
+                plot_num[dialog_list[-1].split()[1]] = int(dialog_list[-1].split()[2])
             mode = 'game'
 
     pygame.display.flip()
